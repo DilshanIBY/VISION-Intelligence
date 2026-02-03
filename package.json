@@ -12,7 +12,8 @@
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\"",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:workflows": "powershell -ExecutionPolicy Bypass -File ./scripts/test-workflows.ps1"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",

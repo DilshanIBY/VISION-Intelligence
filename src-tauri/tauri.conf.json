@@ -50,28 +50,16 @@
       "wix": null,
       "nsis": {
         "installerIcon": "icons/icon.ico",
-        "headerImage": null,
-        "sidebarImage": null,
         "installMode": "currentUser",
         "languages": [
           "English"
         ],
-        "displayLanguageSelector": false,
-        "compression": "lzma"
+        "displayLanguageSelector": false
       }
     },
     "macOS": {
       "entitlements": null,
-      "exceptionDomain": null,
-      "frameworks": [],
-      "minimumSystemVersion": "10.13",
-      "signingIdentity": null
-    },
-    "linux": {
-      "appname": "apparel",
-      "section": "utils",
-      "priority": "optional",
-      "files": {}
+      "minimumSystemVersion": "10.13"
     }
   }
 }
