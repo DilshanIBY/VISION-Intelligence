@@ -1,0 +1,26 @@
+# APPAREL Docker Compose Configuration
+# One-click development setup
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1420:1420" # Vite dev server
+      - "1421:1421" # HMR websocket
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/src-tauri/target
+    environment:
+      - VITE_SUPABASE_URL=${VITE_SUPABASE_URL:-}
+      - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY:-}
+      - VITE_APP_ENV=${VITE_APP_ENV:-development}
+      - VITE_LOG_LEVEL=${VITE_LOG_LEVEL:-debug}
+    stdin_open: true
+    tty: true
+
+# Note: For full Tauri development with native window,
+# run `npm run tauri dev` directly on your host machine.
+# Docker is primarily for web development and CI/CD.

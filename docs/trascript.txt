@@ -1,0 +1,398 @@
+[Consultant]
+we need, uh, we need to develop a program 
+
+[Consultant]
+to find the machinery farmer. We need, uh, to calculate the machinery requirements in the sense that, uh, in apparel, you get different kind of machines. 
+
+[Me]
+Mm. 
+
+[Consultant]
+It's like starting from normal single-needle lockstitch machine- 
+
+[Me]
+Mm. 
+
+[Consultant]
+-uh, to, uh, like, um, the bigger twenty-one heads automator, uh, Barudan, uh- 
+
+[Me]
+Yeah, machines 
+
+[Consultant]
+-machines, right? It's a huge machine. It's an embroidery machine, right? So much complicated one. So like, uh, now, recently I went to India, uh, and, um, uh, we were discussing about the project, the, the, the project that they are issue- It's called the Gray, uh, Heather Gray Group. So they were- they're the one who
+
+[Consultant]
+ making all these, uh, uh, Barista, KFC, uh, all these, uh, uniforms, and they export in, um, Japan and other countries. So they wanted to, uh, establish their own brand, right? So they wanted us, they wanted us to come and help them as a consultants. 
+
+[Me]
+Right. 
+
+[Consultant]
+So, so we, um, with my, uh, managing director team, myself and another colleague- 
+
+[Me]
+Mm. 
+
+[Consultant]
+-so we went to India, uh, that is in Mumbai. It was Mumbai, and it's created some discussions. So during those discussions, I was realized that, um, when we wanted to calculate the machine requirements and all, quickly, there's no way to do it. Like, if you do it manually, it takes time. And like, uh, for those embroidery machines, like any of these work, you can embroider on the, on the, on the, um, material. 
+
+[Me]
+Oh, right. 
+
+[Consultant]
+It's like kind of a stitching, right? Not the print. 
+
+[Me]
+Mm. 
+
+[Consultant]
+Physically, you feel it like you're stitching- 
+
+[Me]
+Yeah, yeah 
+
+[Consultant]
+... right? So that is what I told you, like, it's twenty-one head, or when it's a bigger machine- 
+
+[Me]
+Yeah 
+
+[Consultant]
+... right? So those targets depends on the number of, uh, punch. Like they say, the one stitch counts as a one punch, right? So number of punch will decide the quality of the embroidery, and the same time, it calculates, uh, the, the time it takes to complete the embroidery, right? If you get more stitching on here- 
+
+[Me]
+Mm 
+
+[Consultant]
+... it takes more time. 
+
+[Me]
+Mm. 
+
+[Consultant]
+And the number of, uh, the thread co- uh, the number of colors that you're using. So if you're using only one color- 
+
+[Me]
+Mm 
+
+[Consultant]
+... it's like straightforward. 
+
+[Me]
+Mm. Like, uh- 
+
+[Consultant]
+Using- 
+
+[Me]
+Different color 
+
+[Consultant]
+... colors for the same embroidery, so you have to stitch first one color and then move to the second, and then switch another color likewise, right? So it takes time. 
+
+[Me]
+Yeah. 
+
+[Consultant]
+So, uh, I basically wanted to calculate this, uh, uh, complicated machine requirements. 
+
+[Me]
+Mm-hmm. 
+
+[Consultant]
+Right? Uh, in a one go, like you put the data and you get the results, something like that. 
+
+[Me]
+It's like- 
+
+[Consultant]
+Right? You put like, uh, how many, uh, punches for the stitching- 
+
+[Me]
+Mm 
+
+[Consultant]
+... right, how many colors? 
+
+[Me]
+Mm-hmm. 
+
+[Consultant]
+And then, uh, and how many pieces you need, and within a, a, within a, a specific timeline, let's say, per day or the, uh, for five hours or one hour, likewise. 
+
+[Me]
+Oh. 
+
+[Consultant]
+So if you give the time duration and, and the details- 
+
+[Me]
+No 
+
+[Consultant]
+... I want you to make a system that tabulates the requirements automatically. Even it can be done with the Excel also, with some- 
+
+[Me]
+Yeah, some, yeah 
+
+[Consultant]
+... programmable, but better if you can have a software, uh, much better. 
+
+[Me]
+Yeah. 
+
+[Consultant]
+Much better, more convenient. 
+
+[Me]
+Mm. 
+
+[Consultant]
+And it's easy for us also to show the numbers when you, like, when you have a discussion, you can put onto the screen that and then discuss, no? 
+
+[Me]
+Yeah. 
+
+[Consultant]
+If you get this product mix- 
+
+[Me]
+Yeah 
+
+[Consultant]
+... if you get this quantity variation- 
+
+[Me]
+Mm 
+
+[Consultant]
+... what will be the machine requirement? 
+
+[Me]
+No. 
+
+[Consultant]
+If your product mix changes, and then your embi-- uh, uh, embellishments also get changed, then what would be the machine requirement? This is the basic thing, uh, what I wanted of. What do you think about that? Because we were talking about the integration, uh, Industrial 4.0 and all these things to real-time data, and even I told her also. 
+
+[Me]
+Yeah. 
+
+[Consultant]
+Right? The real-time data about the dashboard and about the, uh, uh, uh, data analytics and all. So we were, we were talking about that, and, uh, we were, uh, trying to implement those things to the top companies. 
+
+[Consultant]
+We need to have a proper system as a company. 
+
+[Me]
+Yeah, first of all. 
+
+[Consultant]
+So if you're doing all these calculations using Excel sheet, and we are talking about the- 
+
+[Me]
+Next level, 4.0 
+
+[Consultant]
+... Yeah. You know? 
+
+[Me]
+Right. 
+
+[Consultant]
+So the, you can't set that software. So this is where I thought, like, it's better to have a, a proper one, good one, right? Realistic- 
+
+[Me]
+One 
+
+[Consultant]
+... You can ask any question from me. 
+
+[Me]
+Yeah. 
+
+[Consultant]
+Right? What sort of a data, the information, or the, this thing you need- 
+
+[Me]
+Yeah 
+
+[Consultant]
+... right, I will, I will provide you. Right? And then you can study on that. The thing that is, that is the one thing- 
+
+[Me]
+Yeah 
+
+[Consultant]
+... on the requirement. The other one is like, uh, we do the layout development, the floor layouts. 
+
+[Me]
+Mm. 
+
+[Consultant]
+Right? Floor layout in the sense, if you take, uh, uh, the industrial, uh, entity, it consists with the different departments. Uh, in, in, in, in apparel sector, it, it starts from the, um, fini- uh, sorry, uh, the stores, warehousing stores, formatted warehouse stores. 
+
+[Me]
+Yeah. 
+
+[Consultant]
+And then come to the, uh, cutting section, where you get the material and cut it, and then move on to the, uh, sewing section. Uh, and like, uh, the certain, uh, instance, like, uh, once you complete with the half, then it will be sent for the embellishment, like embroidery, printing, or whatever, so and so. 
+
+[Me]
+Mm. 
+
+[Consultant]
+And then once done with, again, it will come to the, uh, sewing section and complete the assembly, and then finishing, and then packing. 
+
+[Me]
+Mm-hmm. 
+
+[Consultant]
+Right? These are the very basic, uh, uh, layout of this actually. So the problem is, like, uh-... the certain factories in India and Bangladesh, they make like vertical, which means, like, uh, horizontally, they have limited space- 
+
+[Speaker 2]
+Mm. 
+
+[Consultant]
+-right? So they find detail, they find space vertically. 
+
+[Speaker 2]
+Uh. 
+
+[Consultant]
+So, right? And then you have to develop the floor layouts accordingly. So in that case, let's say, now they might say, uh, uh, "We need a flow, sewing flow for thousand operators," right? So we can calculate easily for thousand machine operators, how, how long, like, uh, how much the bigger, uh, requirement you need. 
+
+[Speaker 2]
+Okay. 
+
+[Consultant]
+Square meters, whatever. But the same time, you have to design the cutting, the embroidery, the finishing, like everything- 
+
+[Speaker 2]
+Mm. 
+
+[Consultant]
+-you need to prepare. That, of course, we don't have... We can add the equation for that. 
+
+[Speaker 2]
+Mm-hmm. 
+
+[Consultant]
+Right? The finishing operator. For one machine operator, how many 
+
+[Consultant]
+square feet or the, or the, uh, square meters you need, right? But to bring that eq-equation, uh, sometimes we won't be able to calculate all this embellishment and all these sections, uh, exactly. 
+
+[Speaker 2]
+Mm. 
+
+[Consultant]
+So I, I want you to develop, if possible, a program- 
+
+[Speaker 2]
+Yes 
+
+[Consultant]
+... like, once you give me all this detail, data, the basis data I need, and number of machine operators, and all this data, so to calculate, uh, and, and products also, right? If it is an inner wear, uh, the one way; if it is outer wear, one way; if it is a, a casual and wash, it's another way, right? So based on the product type, based on number of operators- 
+
+[Speaker 2]
+Mm 
+
+[Consultant]
+... based on working hours, I want the programs to tell me, "Okay, your sewing section should be this much bigger. Your cutting section be, should be this much," like this. So again- 
+
+[Speaker 2]
+Mm 
+
+[Consultant]
+... if you put it to the screen and discuss this, right? 
+
+[Speaker 2]
+Mm. 
+
+[Consultant]
+And then you get the opportunity of changing the, you know, multiple settings- 
+
+[Speaker 2]
+Okay 
+
+[Consultant]
+... multiple mixer, right? And see the requirement. More than the urgency, I need the quality, right? 
+
+[Speaker 2]
+Yes, sir. 
+
+[Consultant]
+So we can go through it, uh, you associate this, uh, research on that, right? Find some data. If you want me to give you some data, I will definitely give you. Go through the data, right? 
+
+[Speaker 2]
+Yeah. 
+
+[Consultant]
+And then you can sketch it out, and how it comes and how it would be looks like, and all this, right? Like, I'll give you a classic example to... If you fill out a credit card application online- 
+
+[Speaker 2]
+Mm-hmm 
+
+[Consultant]
+... there are some compulsory fields, right? Even you can't put one digit less your phone number or the ID number. 
+
+[Speaker 2]
+Right, yes. 
+
+[Consultant]
+If you put such incorrect thing, you can't move on from there. 
+
+[Speaker 2]
+Yeah, we have to- 
+
+[Consultant]
+That's- 
+
+[Speaker 2]
+Verification. 
+
+[Consultant]
+You have with the integrated system. 
+
+[Speaker 2]
+No. 
+
+[Consultant]
+This is what I'm talking about. 
+
+[Speaker 2]
+Yeah. 
+
+[Consultant]
+See, this is what we- 
+
+[Speaker 2]
+Expect 
+
+[Consultant]
+... we see to address to our clients, that this, the level of, uh, integration we are expecting. 
+
+[Speaker 2]
+Yeah. 
+
+[Consultant]
+And the next thing is data analytics, et cetera. 
+
+[Speaker 2]
+Yeah, sure. 
+
+[Consultant]
+Right. Because you get so much of data about history data, about the production, the public affairs. So if you're, um, you are, uh, if you're asking some... If you, you are to be make a decision, a business decision- 
+
+[Speaker 2]
+Mm 
+
+[Consultant]
+... you need to have a proper analysis about it. 
+
+[Speaker 2]
+Yeah. Yes. 
+
+[Consultant]
+In order to make a business. So we can talk on these things later, friends. So, let us start on from beginning?
