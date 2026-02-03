@@ -72,7 +72,7 @@ export const DashboardWidgetWrapper = forwardRef<HTMLDivElement, DashboardWidget
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 p-4 overflow-hidden">
+                <div className="flex-1 p-4 overflow-auto custom-scrollbar">
                     {children}
                 </div>
             </motion.div>

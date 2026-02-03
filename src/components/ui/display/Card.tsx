@@ -7,7 +7,7 @@ export interface CardProps {
     subtitle?: string;
     headerActions?: ReactNode;
     footer?: ReactNode;
-    variant?: 'default' | 'glass' | 'elevated';
+    variant?: 'default' | 'glass' | 'elevated' | 'outline';
     padding?: 'none' | 'sm' | 'md' | 'lg';
     hoverable?: boolean;
     className?: string;
@@ -31,9 +31,10 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         ref
     ) => {
         const variantStyles = {
-            default: 'bg-[var(--color-surface)] border border-[var(--color-glass-border)]',
+            default: 'bg-surface/80 border border-glass-border shadow-sm backdrop-blur-md',
             glass: 'glass',
-            elevated: 'bg-[var(--color-surface)] shadow-[var(--shadow-float)]',
+            elevated: 'card-float',
+            outline: 'border border-glass-border bg-transparent',
         };
 
         const paddingStyles = {
@@ -45,8 +46,9 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 
         const containerClass = `
       rounded-[var(--radius-xl)] overflow-hidden
+      transition-all duration-300
       ${variantStyles[variant]}
-      ${hoverable ? 'cursor-pointer' : ''}
+      ${hoverable ? 'cursor-pointer hover:shadow-float-hover hover:-translate-y-1' : ''}
       ${className}
     `;
 
@@ -57,12 +59,12 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
                     <div
                         className={`
               flex items-center justify-between gap-4
-              ${padding !== 'none' ? `px-5 py-4 border-b border-[var(--color-glass-border)]` : ''}
+              ${padding !== 'none' ? `px-5 py-4 border-b border-glass-border` : ''}
             `}
                     >
                         <div>
-                            {title && <h3 className="font-semibold text-[var(--color-text-primary)]">{title}</h3>}
-                            {subtitle && <p className="text-sm text-[var(--color-text-muted)] mt-0.5">{subtitle}</p>}
+                            {title && <h3 className="font-semibold text-text-primary text-lg">{title}</h3>}
+                            {subtitle && <p className="text-sm text-text-muted mt-0.5">{subtitle}</p>}
                         </div>
                         {headerActions && <div className="flex items-center gap-2">{headerActions}</div>}
                     </div>
@@ -75,8 +77,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
                 {footer && (
                     <div
                         className={`
-              border-t border-[var(--color-glass-border)]
-              ${padding !== 'none' ? 'px-5 py-3' : ''}
+              border-t border-glass-border
+              ${padding !== 'none' ? 'px-5 py-3 bg-surface/30' : ''}
             `}
                     >
                         {footer}
@@ -90,9 +92,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
                 <motion.div
                     ref={ref}
                     className={containerClass}
-                    whileHover={{ y: -4, boxShadow: 'var(--shadow-float-hover)' }}
-                    transition={{ duration: 0.2 }}
                     onClick={onClick}
+                    whileHover={{ y: -4 }}
                 >
                     {content}
                 </motion.div>
@@ -108,4 +109,3 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 );
 
 Card.displayName = 'Card';
-
