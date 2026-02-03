@@ -26,7 +26,7 @@ import type {
 /**
  * Request body for POST /api/scenarios
  */
-export interface CreateScenarioRequest extends CreateScenarioInput { }
+export type CreateScenarioRequest = CreateScenarioInput;
 
 /**
  * Response for scenario creation
@@ -83,7 +83,7 @@ export interface UpdateScenarioParams {
 /**
  * Request body for PUT /api/scenarios/:id
  */
-export interface UpdateScenarioRequest extends UpdateScenarioInput { }
+export type UpdateScenarioRequest = UpdateScenarioInput;
 
 /**
  * Response for scenario update
@@ -132,7 +132,7 @@ export type DeleteScenarioApiResponse = ApiResponse<DeleteScenarioResponse>;
 /**
  * Request body for POST /api/scenarios/compare
  */
-export interface CompareScenarioRequest extends CompareScenarioInput { }
+export type CompareScenarioRequest = CompareScenarioInput;
 
 /**
  * Response for scenario comparison

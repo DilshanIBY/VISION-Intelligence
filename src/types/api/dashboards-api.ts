@@ -45,7 +45,7 @@ export type ListDashboardsResponse = PaginatedResponse<Dashboard>;
 /**
  * Request body for POST /api/dashboards
  */
-export interface CreateDashboardRequest extends CreateDashboardInput { }
+export type CreateDashboardRequest = CreateDashboardInput;
 
 /**
  * Response for dashboard creation
@@ -100,7 +100,7 @@ export interface UpdateDashboardParams {
 /**
  * Request body for PUT /api/dashboards/:id
  */
-export interface UpdateDashboardRequest extends UpdateDashboardInput { }
+export type UpdateDashboardRequest = UpdateDashboardInput;
 
 /**
  * Response for dashboard update

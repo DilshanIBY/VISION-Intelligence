@@ -53,7 +53,7 @@ export type ListProjectsWithStatsResponse = PaginatedResponse<ProjectWithStats>;
 /**
  * Request body for POST /api/projects
  */
-export interface CreateProjectRequest extends CreateProjectInput { }
+export type CreateProjectRequest = CreateProjectInput;
 
 /**
  * Response for project creation
@@ -113,7 +113,7 @@ export interface UpdateProjectParams {
 /**
  * Request body for PUT /api/projects/:id
  */
-export interface UpdateProjectRequest extends UpdateProjectInput { }
+export type UpdateProjectRequest = UpdateProjectInput;
 
 /**
  * Response for project update

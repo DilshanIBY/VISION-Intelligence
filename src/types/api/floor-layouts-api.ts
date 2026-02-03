@@ -28,7 +28,7 @@ import type { ValidationStatus } from '../enums';
 /**
  * Request body for POST /api/layouts
  */
-export interface CreateFloorLayoutRequest extends CreateFloorLayoutInput { }
+export type CreateFloorLayoutRequest = CreateFloorLayoutInput;
 
 /**
  * Response for layout creation
@@ -75,7 +75,7 @@ export interface UpdateFloorLayoutParams {
 /**
  * Request body for PUT /api/layouts/:id
  */
-export interface UpdateFloorLayoutRequest extends UpdateFloorLayoutInput { }
+export type UpdateFloorLayoutRequest = UpdateFloorLayoutInput;
 
 /**
  * Response for layout update
@@ -157,7 +157,7 @@ export interface ExportFloorLayoutParams {
 /**
  * Request body for POST /api/layouts/:id/export
  */
-export interface ExportFloorLayoutRequest extends ExportLayoutOptions { }
+export type ExportFloorLayoutRequest = ExportLayoutOptions;
 
 /**
  * Response for layout export
