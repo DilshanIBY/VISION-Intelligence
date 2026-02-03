@@ -1,10 +1,11 @@
 
-import { Search, Sun, Moon, Bell, Aperture } from 'lucide-react';
+import { Search, Sun, Moon, Bell, Aperture, Mic } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useUI } from '../../contexts/UIContext';
 
 
 export function TopBar() {
-
+  const { toggleSidebar, isSidebarExpanded } = useUI();
 
   const [isDark, setIsDark] = useState(false);
 
@@ -40,47 +41,61 @@ export function TopBar() {
 
   return (
     <header className="
-      glass-heavy rounded-full px-6 py-3
+      glass-heavy rounded-full px-5 py-3
       flex items-center justify-between gap-6
       shadow-float hover:shadow-float-hover
       transition-all duration-300
-      w-full max-w-[98%] mx-auto
+      w-full mx-auto
     ">
-      {/* Left: App Branding */}
-      <div className="flex items-center gap-3 min-w-[200px]">
-        <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary text-white shadow-glow-primary">
-          <Aperture size={20} />
+      {/* Left: App Branding (Sidebar Toggle) */}
+      <div
+        className="flex items-center gap-5 min-w-[240px] cursor-pointer group select-none"
+        onClick={toggleSidebar}
+      >
+        <div className={`
+          flex items-center justify-center w-12 h-12 rounded-2xl 
+          bg-primary text-white shadow-glow-primary 
+          transition-all duration-300 group-hover:scale-105 group-active:scale-95
+          ${isSidebarExpanded ? 'rotate-90' : 'rotate-0'}
+        `}>
+          <Aperture size={28} />
         </div>
-        <div className="flex flex-col">
-          <h1 className="text-base font-bold text-text-primary tracking-tight leading-none">APPAREL</h1>
-          <span className="text-[10px] text-text-muted font-medium tracking-wide">INTELLIGENCE</span>
+        <div className="flex flex-col justify-center">
+          <h1 className="text-xl font-black text-text-primary tracking-[0.35em] leading-none ml-1">APPAREL</h1>
+          <span className="text-[10px] text-text-muted font-bold tracking-[0.2em] self-start ml-1.5 mt-1.5 text-opacity-80">INTELLIGENCE</span>
         </div>
       </div>
 
       {/* Center Actions - Search & Tools */}
-      <div className="flex-1 flex justify-center items-center gap-4 max-w-2xl">
+      <div className="flex-1 flex justify-center items-center px-8 relative">
         {/* Search */}
-        <div className="relative w-full max-w-sm hidden md:block group">
-          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-            <Search size={16} className="text-text-muted group-hover:text-primary transition-colors" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="
-              w-full py-2 pl-10 pr-4 rounded-full
-              bg-surface/50 border border-glass-border
-              text-sm text-text-primary
-              focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface
-              transition-all placeholder:text-text-muted/70
-            "
-          />
-          <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-            <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-glass text-text-muted border border-glass-border">⌘K</kbd>
+        <div className="w-full max-w-4xl hidden md:block group">
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+              <Search size={18} className="text-text-muted group-hover:text-primary transition-colors" />
+            </div>
+            <input
+              type="text"
+              placeholder="Good Morning Joe, what's in your mind?"
+              className="
+                w-full py-3.5 pl-14 pr-6 rounded-full
+                bg-surface/60 border border-glass-border
+                text-sm font-medium text-text-primary
+                focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface
+                transition-all placeholder:text-text-muted/60
+                shadow-inner
+              "
+            />
+            <div className="absolute inset-y-0 right-5 flex items-center">
+              <button
+                className="p-1.5 rounded-full hover:bg-glass-border/50 text-text-muted hover:text-primary transition-colors"
+                title="Voice Search"
+              >
+                <Mic size={18} />
+              </button>
+            </div>
           </div>
         </div>
-
-
       </div>
 
       {/* Right Actions */}
@@ -107,15 +122,11 @@ export function TopBar() {
 
         {/* User Profile */}
         <button
-          className="flex items-center gap-3 pl-1 pr-4 py-1 rounded-full hover:bg-surface/50 border border-transparent hover:border-glass-border transition-all group"
+          className="flex items-center gap-3 pl-1 pr-1 py-1 rounded-full hover:bg-surface/50 border border-transparent hover:border-glass-border transition-all group"
           title="Profile"
         >
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform ring-2 ring-surface">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform ring-2 ring-surface">
             <span className="font-semibold text-sm">JD</span>
-          </div>
-          <div className="hidden xl:flex flex-col items-start">
-            <span className="text-sm font-medium text-text-primary leading-none">John Doe</span>
-            <span className="text-[10px] text-text-muted mt-0.5">Consultant</span>
           </div>
         </button>
       </div>

@@ -117,94 +117,88 @@ export function DashboardPage() {
         animate={isPresentationMode ? { padding: 24 } : { padding: 0 }}
       >
         {/* Editing Action Bar - Visible when Editing */}
-        {/* Dashboard Header */}
-        <div className="flex flex-none items-center justify-between mb-6 px-1">
-          <div className="flex flex-col">
-            <h2 className="text-2xl font-bold text-text-primary tracking-tight">Dashboard</h2>
-            <span className="text-xs text-text-muted mt-1 font-medium flex items-center gap-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full ${isEditing ? 'bg-warning animate-pulse' : 'bg-success'}`}></span>
-              {widgets.length} widgets • {isEditing ? 'Editing Layout' : 'View mode'}
-            </span>
+        {/* Dashboard Header - Hidden in Presentation Mode */}
+        {!isPresentationMode && (
+          <div className="flex flex-none items-center justify-between mb-6 px-1">
+            <div className="flex flex-col">
+              <h2 className="text-2xl font-bold text-text-primary tracking-tight">Dashboard</h2>
+              <span className="text-xs text-text-muted mt-1 font-medium flex items-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full ${isEditing ? 'bg-warning animate-pulse' : 'bg-success'}`}></span>
+                {widgets.length} widgets • {isEditing ? 'Editing Layout' : 'View mode'}
+              </span>
+            </div>
+
+            {/* Header Actions */}
+            <div className="flex items-center gap-2">
+              {isEditing && (
+                <>
+                  <button
+                    onClick={() => setIsPaletteOpen(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium
+                            bg-primary text-white hover:bg-primary-hover shadow-glow-primary transition-all mr-2"
+                  >
+                    <Plus size={16} />
+                    Add Widget
+                  </button>
+
+                  <button
+                    onClick={handleReset}
+                    className="p-2 rounded-full bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border transition-all"
+                    title="Reset Layout"
+                  >
+                    <RotateCcw size={18} />
+                  </button>
+
+                  <button
+                    onClick={handleSave}
+                    className={`p-2 rounded-full transition-all border border-transparent ${hasChanges ? 'bg-surface text-success hover:bg-white' : 'text-text-muted opacity-50'}`}
+                    title="Save Layout"
+                  >
+                    <Save size={18} />
+                  </button>
+
+                  <div className="w-px h-6 bg-glass-border mx-1" />
+                </>
+              )}
+
+              <button
+                onClick={() => setIsEditing(!isEditing)}
+                className={`
+                      w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
+                      ${isEditing
+                    ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  }
+                    `}
+                title={isEditing ? "Done Editing" : "Edit Layout"}
+              >
+                {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
+              </button>
+
+              <button
+                onClick={() => setIsPresentationMode(true)}
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
+                title="Presentation Mode"
+              >
+                <Presentation size={18} />
+              </button>
+            </div>
           </div>
+        )}
 
-          {/* Header Actions */}
-          <div className="flex items-center gap-2">
-            {isEditing && (
-              <>
-                <button
-                  onClick={() => setIsPaletteOpen(true)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium
-                          bg-primary text-white hover:bg-primary-hover shadow-glow-primary transition-all mr-2"
-                >
-                  <Plus size={16} />
-                  Add Widget
-                </button>
-
-                <button
-                  onClick={handleReset}
-                  className="p-2 rounded-full bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border transition-all"
-                  title="Reset Layout"
-                >
-                  <RotateCcw size={18} />
-                </button>
-
-                <button
-                  onClick={handleSave}
-                  className={`p-2 rounded-full transition-all border border-transparent ${hasChanges ? 'bg-surface text-success hover:bg-white' : 'text-text-muted opacity-50'}`}
-                  title="Save Layout"
-                >
-                  <Save size={18} />
-                </button>
-
-                <div className="w-px h-6 bg-glass-border mx-1" />
-              </>
-            )}
-
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              className={`
-                    w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                    ${isEditing
-                  ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                  : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                }
-                  `}
-              title={isEditing ? "Done Editing" : "Edit Layout"}
-            >
-              {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
-            </button>
-
-            <button
-              onClick={() => setIsPresentationMode(true)}
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
-              title="Presentation Mode"
-            >
-              <Presentation size={18} />
-            </button>
-          </div>
-        </div>
-
-        {/* Presentation mode header */}
+        {/* Presentation mode header - Simplified for Full Screen */}
         {isPresentationMode && (
           <motion.div
-            className="flex items-center justify-between mb-6"
+            className="absolute top-6 right-6 z-[60]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <div>
-              <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">
-                APPAREL Dashboard
-              </h1>
-              <p className="text-[var(--color-text-muted)]">
-                Press <kbd className="px-2 py-0.5 rounded bg-[var(--color-glass)] text-xs">Esc</kbd> to exit presentation mode
-              </p>
-            </div>
             <button
               onClick={() => setIsPresentationMode(false)}
-              className="px-4 py-2 rounded-[var(--radius-lg)] text-sm font-medium
-                bg-[var(--color-glass)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium
+                bg-glass-heavy text-text-primary hover:bg-surface border border-glass-border shadow-float transition-all backdrop-blur-md"
             >
-              Exit
+              Exit Presentation
             </button>
           </motion.div>
         )}

@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard,
   Calculator,
   Grid3X3,
   BarChart3,
   Settings,
-  Aperture,
 } from 'lucide-react';
+import { useUI } from '../../contexts/UIContext';
 
 interface NavItem {
   path: string;
@@ -24,65 +24,61 @@ const navItems: NavItem[] = [
 ];
 
 export function Sidebar() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { isSidebarExpanded } = useUI();
 
   return (
-    <aside
-      onMouseLeave={() => setIsExpanded(false)}
+    <motion.aside
+      layout
+      transition={{ type: 'spring', stiffness: 200, damping: 25, mass: 1 }}
       className={`
-        glass-heavy rounded-[2rem] p-3
-        flex flex-col gap-2
-        transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
-        ${isExpanded ? 'w-[240px]' : 'w-[76px]'}
-        z-50
-        shadow-float hover:shadow-float-hover
+        glass-heavy py-6 px-4
+        flex flex-col gap-2 items-center
+        z-50 shadow-float hover:shadow-float-hover
+        ${isSidebarExpanded
+          ? 'w-[240px] h-full items-start px-6 rounded-3xl'
+          : 'w-[88px] h-auto rounded-[44px]' // 44px is geometric match for 88px width
+        }
       `}
     >
-      {/* Brand Icon (Toggle Trigger) */}
-      <div
-        onMouseEnter={() => setIsExpanded(true)}
-        className="flex items-center h-14 w-full mb-2 overflow-hidden cursor-pointer"
-      >
-        <div className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center rounded-[1.5rem] bg-primary text-white shadow-glow-primary ml-0.5 transition-transform duration-300 hover:scale-105">
-          <Aperture size={26} />
-        </div>
-        <div className={`ml-3 flex flex-col transition-opacity duration-300 whitespace-nowrap overflow-hidden ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
-          <span className="font-bold text-lg text-text-primary tracking-tight">APPAREL</span>
-          <span className="text-xs text-text-muted">Intelligence</span>
-        </div>
-      </div>
-
-      <div className="h-px w-full bg-glass-border my-1 rounded-full opacity-50" />
-
       {/* Navigation Items */}
       <nav className="flex flex-col gap-1 w-full">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) => `
-              relative flex items-center h-12 rounded-[1.25rem] px-3.5
-              transition-all duration-300 overflow-hidden
-              ${isActive
-                ? 'bg-primary text-white shadow-glow-primary'
-                : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
-              }
-            `}
-          >
-            <div className="flex-shrink-0 flex items-center justify-center w-6 h-6">
-              {item.icon}
-            </div>
+        <AnimatePresence mode='popLayout'>
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) => `
+                relative flex items-center h-12 rounded-full px-3.5
+                transition-colors duration-300 overflow-hidden w-full
+                ${isActive
+                  ? 'bg-primary text-white shadow-glow-primary'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
+                }
+                ${!isSidebarExpanded && 'justify-center'}
+              `}
+            >
+              <motion.div
+                layout
+                className={`flex-shrink-0 flex items-center justify-center w-6 h-6 ${isSidebarExpanded ? 'mr-3' : ''}`}
+              >
+                {item.icon}
+              </motion.div>
 
-            <span className={`
-              absolute left-[60px] font-medium whitespace-nowrap 
-              transition-opacity duration-300
-              ${isExpanded ? 'opacity-100 delay-100' : 'opacity-0'}
-            `}>
-              {item.label}
-            </span>
-          </NavLink>
-        ))}
+              {isSidebarExpanded && (
+                <motion.span
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  className="font-medium whitespace-nowrap"
+                >
+                  {item.label}
+                </motion.span>
+              )}
+            </NavLink>
+          ))}
+        </AnimatePresence>
       </nav>
-    </aside>
+    </motion.aside>
   );
 }
