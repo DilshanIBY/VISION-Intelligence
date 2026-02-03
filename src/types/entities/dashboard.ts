@@ -13,27 +13,27 @@
  * Dashboard layout configuration
  */
 export interface DashboardLayout {
-    /** Grid columns */
-    columns: number;
+  /** Grid columns */
+  columns: number;
 
-    /** Grid rows */
-    rows: number;
+  /** Grid rows */
+  rows: number;
 
-    /** Gap between widgets in pixels */
-    gap: number;
+  /** Gap between widgets in pixels */
+  gap: number;
 
-    /** Padding around the dashboard */
-    padding: number;
+  /** Padding around the dashboard */
+  padding: number;
 }
 
 /**
  * Default dashboard layout
  */
 export const DEFAULT_DASHBOARD_LAYOUT: DashboardLayout = {
-    columns: 12,
-    rows: 8,
-    gap: 16,
-    padding: 24,
+  columns: 12,
+  rows: 8,
+  gap: 16,
+  padding: 24,
 };
 
 // ============================================================================
@@ -44,41 +44,41 @@ export const DEFAULT_DASHBOARD_LAYOUT: DashboardLayout = {
  * Dashboard theme configuration
  */
 export interface DashboardTheme {
-    /** Theme name */
-    name: string;
+  /** Theme name */
+  name: string;
 
-    /** Primary color */
-    primaryColor: string;
+  /** Primary color */
+  primaryColor: string;
 
-    /** Background style */
-    background: 'solid' | 'gradient' | 'blur';
+  /** Background style */
+  background: 'solid' | 'gradient' | 'blur';
 
-    /** Widget style */
-    widgetStyle: 'glass' | 'solid' | 'outline';
+  /** Widget style */
+  widgetStyle: 'glass' | 'solid' | 'outline';
 }
 
 /**
  * Preset themes
  */
 export const DASHBOARD_THEMES: DashboardTheme[] = [
-    {
-        name: 'Default',
-        primaryColor: '#1E40AF',
-        background: 'solid',
-        widgetStyle: 'glass',
-    },
-    {
-        name: 'Dark Professional',
-        primaryColor: '#60A5FA',
-        background: 'gradient',
-        widgetStyle: 'glass',
-    },
-    {
-        name: 'Light Minimal',
-        primaryColor: '#0D9488',
-        background: 'solid',
-        widgetStyle: 'outline',
-    },
+  {
+    name: 'Default',
+    primaryColor: '#1E40AF',
+    background: 'solid',
+    widgetStyle: 'glass',
+  },
+  {
+    name: 'Dark Professional',
+    primaryColor: '#60A5FA',
+    background: 'gradient',
+    widgetStyle: 'glass',
+  },
+  {
+    name: 'Light Minimal',
+    primaryColor: '#0D9488',
+    background: 'solid',
+    widgetStyle: 'outline',
+  },
 ];
 
 // ============================================================================
@@ -89,32 +89,32 @@ export const DASHBOARD_THEMES: DashboardTheme[] = [
  * Dashboard - Customizable analytics dashboard
  */
 export interface Dashboard {
-    /** Unique identifier (UUID) */
-    id: string;
+  /** Unique identifier (UUID) */
+  id: string;
 
-    /** Optional parent project (null for global dashboards) */
-    projectId?: string;
+  /** Optional parent project (null for global dashboards) */
+  projectId?: string;
 
-    /** Owner user */
-    userId: string;
+  /** Owner user */
+  userId: string;
 
-    /** Dashboard display name */
-    name: string;
+  /** Dashboard display name */
+  name: string;
 
-    /** Layout configuration */
-    layout: DashboardLayout;
+  /** Layout configuration */
+  layout: DashboardLayout;
 
-    /** Theme configuration */
-    theme?: DashboardTheme;
+  /** Theme configuration */
+  theme?: DashboardTheme;
 
-    /** Whether this is a template */
-    isTemplate: boolean;
+  /** Whether this is a template */
+  isTemplate: boolean;
 
-    /** Creation timestamp */
-    createdAt: Date;
+  /** Creation timestamp */
+  createdAt: Date;
 
-    /** Last update timestamp */
-    updatedAt?: Date;
+  /** Last update timestamp */
+  updatedAt?: Date;
 }
 
 // ============================================================================
@@ -125,31 +125,31 @@ export interface Dashboard {
  * Create dashboard input
  */
 export interface CreateDashboardInput {
-    name: string;
-    projectId?: string;
-    layout?: Partial<DashboardLayout>;
-    theme?: DashboardTheme;
-    isTemplate?: boolean;
+  name: string;
+  projectId?: string;
+  layout?: Partial<DashboardLayout>;
+  theme?: DashboardTheme;
+  isTemplate?: boolean;
 }
 
 /**
  * Update dashboard input
  */
 export interface UpdateDashboardInput {
-    name?: string;
-    layout?: Partial<DashboardLayout>;
-    theme?: DashboardTheme;
-    isTemplate?: boolean;
+  name?: string;
+  layout?: Partial<DashboardLayout>;
+  theme?: DashboardTheme;
+  isTemplate?: boolean;
 }
 
 /**
  * Duplicate dashboard input
  */
 export interface DuplicateDashboardInput {
-    /** Source dashboard ID */
-    sourceId: string;
-    /** New dashboard name */
-    name: string;
-    /** Target project (optional) */
-    projectId?: string;
+  /** Source dashboard ID */
+  sourceId: string;
+  /** New dashboard name */
+  name: string;
+  /** Target project (optional) */
+  projectId?: string;
 }

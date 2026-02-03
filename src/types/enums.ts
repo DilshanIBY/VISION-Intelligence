@@ -66,13 +66,13 @@ export type ProductType = 'innerwear' | 'outerwear' | 'casual' | 'wash_casual' |
  * @see PRD §5.2
  */
 export type DepartmentType =
-    | 'warehouse'
-    | 'cutting'
-    | 'sewing'
-    | 'embroidery'
-    | 'finishing'
-    | 'packing'
-    | 'utilities';
+  | 'warehouse'
+  | 'cutting'
+  | 'sewing'
+  | 'embroidery'
+  | 'finishing'
+  | 'packing'
+  | 'utilities';
 
 // ============================================================================
 // Machines
@@ -93,14 +93,14 @@ export type MachineCategory = 'sewing' | 'embroidery' | 'cutting' | 'finishing';
  * @see PRD §3.3.2
  */
 export type WidgetType =
-    | 'kpi_card'
-    | 'gauge_chart'
-    | 'bar_chart'
-    | 'line_chart'
-    | 'timeline'
-    | 'floor_map'
-    | 'cost_breakdown'
-    | 'comparison_table';
+  | 'kpi_card'
+  | 'gauge_chart'
+  | 'bar_chart'
+  | 'line_chart'
+  | 'timeline'
+  | 'floor_map'
+  | 'cost_breakdown'
+  | 'comparison_table';
 
 /**
  * Widget size options

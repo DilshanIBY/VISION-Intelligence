@@ -13,32 +13,32 @@
  * Event source identifiers
  */
 export type EventSource =
-    | 'client'      // Originated from user action
-    | 'server'      // Originated from server/backend
-    | 'realtime'    // Originated from Supabase Realtime
-    | 'system';     // Originated from system process
+  | 'client' // Originated from user action
+  | 'server' // Originated from server/backend
+  | 'realtime' // Originated from Supabase Realtime
+  | 'system'; // Originated from system process
 
 /**
  * Metadata attached to all events
  */
 export interface EventMetadata {
-    /** Event creation timestamp */
-    timestamp: Date;
+  /** Event creation timestamp */
+  timestamp: Date;
 
-    /** User who triggered the event (if applicable) */
-    userId?: string;
+  /** User who triggered the event (if applicable) */
+  userId?: string;
 
-    /** Organization context */
-    organizationId?: string;
+  /** Organization context */
+  organizationId?: string;
 
-    /** Event source */
-    source: EventSource;
+  /** Event source */
+  source: EventSource;
 
-    /** Correlation ID for tracking related events */
-    correlationId?: string;
+  /** Correlation ID for tracking related events */
+  correlationId?: string;
 
-    /** Session ID for tracking user session */
-    sessionId?: string;
+  /** Session ID for tracking user session */
+  sessionId?: string;
 }
 
 // ============================================================================
@@ -51,17 +51,17 @@ export interface EventMetadata {
  * @template P - Event payload type
  */
 export interface BaseEvent<T extends string, P = unknown> {
-    /** Unique event identifier */
-    id: string;
+  /** Unique event identifier */
+  id: string;
 
-    /** Event type identifier */
-    type: T;
+  /** Event type identifier */
+  type: T;
 
-    /** Event payload data */
-    payload: P;
+  /** Event payload data */
+  payload: P;
 
-    /** Event metadata */
-    metadata: EventMetadata;
+  /** Event metadata */
+  metadata: EventMetadata;
 }
 
 // ============================================================================
@@ -72,13 +72,13 @@ export interface BaseEvent<T extends string, P = unknown> {
  * Entity types that can have events
  */
 export type EntityType =
-    | 'project'
-    | 'calculation'
-    | 'scenario'
-    | 'floor_layout'
-    | 'dashboard'
-    | 'dashboard_widget'
-    | 'user';
+  | 'project'
+  | 'calculation'
+  | 'scenario'
+  | 'floor_layout'
+  | 'dashboard'
+  | 'dashboard_widget'
+  | 'user';
 
 /**
  * Standard CRUD event types
@@ -89,14 +89,14 @@ export type CrudEventType = 'created' | 'updated' | 'deleted';
  * Entity reference in event payloads
  */
 export interface EntityReference {
-    /** Entity type */
-    entityType: EntityType;
+  /** Entity type */
+  entityType: EntityType;
 
-    /** Entity ID */
-    entityId: string;
+  /** Entity ID */
+  entityId: string;
 
-    /** Optional entity name/label */
-    entityName?: string;
+  /** Optional entity name/label */
+  entityName?: string;
 }
 
 // ============================================================================
@@ -112,17 +112,17 @@ export type EventHandler<E extends BaseEvent<string, unknown>> = (event: E) => v
  * Event subscription
  */
 export interface EventSubscription {
-    /** Unique subscription ID */
-    id: string;
+  /** Unique subscription ID */
+  id: string;
 
-    /** Event type(s) subscribed to */
-    eventTypes: string[];
+  /** Event type(s) subscribed to */
+  eventTypes: string[];
 
-    /** Handler function */
-    handler: EventHandler<BaseEvent<string, unknown>>;
+  /** Handler function */
+  handler: EventHandler<BaseEvent<string, unknown>>;
 
-    /** Unsubscribe function */
-    unsubscribe: () => void;
+  /** Unsubscribe function */
+  unsubscribe: () => void;
 }
 
 // ============================================================================
@@ -143,14 +143,14 @@ export type EventType<E extends BaseEvent<string, unknown>> = E['type'];
  * Create event metadata factory
  */
 export function createEventMetadata(
-    source: EventSource,
-    userId?: string,
-    organizationId?: string
+  source: EventSource,
+  userId?: string,
+  organizationId?: string
 ): EventMetadata {
-    return {
-        timestamp: new Date(),
-        source,
-        userId,
-        organizationId
-    };
+  return {
+    timestamp: new Date(),
+    source,
+    userId,
+    organizationId,
+  };
 }

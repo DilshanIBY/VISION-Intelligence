@@ -5,17 +5,9 @@
  * @requirement P2-API-004
  */
 
-import type {
-    ApiResponse,
-    PaginatedResponse,
-    ListQueryParams
-} from './common';
+import type { ApiResponse, PaginatedResponse, ListQueryParams } from './common';
 
-import type {
-    Dashboard,
-    CreateDashboardInput,
-    UpdateDashboardInput
-} from '../entities/dashboard';
+import type { Dashboard, CreateDashboardInput, UpdateDashboardInput } from '../entities/dashboard';
 
 import type { DashboardWidget } from '../entities/dashboard-widget';
 
@@ -27,10 +19,10 @@ import type { DashboardWidget } from '../entities/dashboard-widget';
  * Query parameters for listing dashboards
  */
 export interface ListDashboardsQuery extends ListQueryParams {
-    /** Filter by project ID (null for global) */
-    projectId?: string | null;
-    /** Filter by template status */
-    isTemplate?: boolean;
+  /** Filter by project ID (null for global) */
+  projectId?: string | null;
+  /** Filter by template status */
+  isTemplate?: boolean;
 }
 
 /**
@@ -51,8 +43,8 @@ export type CreateDashboardRequest = CreateDashboardInput;
  * Response for dashboard creation
  */
 export interface CreateDashboardResponse {
-    /** Created dashboard */
-    dashboard: Dashboard;
+  /** Created dashboard */
+  dashboard: Dashboard;
 }
 
 /**
@@ -68,16 +60,16 @@ export type CreateDashboardApiResponse = ApiResponse<CreateDashboardResponse>;
  * Path parameters for getting dashboard
  */
 export interface GetDashboardParams {
-    /** Dashboard ID */
-    id: string;
+  /** Dashboard ID */
+  id: string;
 }
 
 /**
  * Full dashboard with widgets
  */
 export interface DashboardWithWidgets extends Dashboard {
-    /** Dashboard widgets */
-    widgets: DashboardWidget[];
+  /** Dashboard widgets */
+  widgets: DashboardWidget[];
 }
 
 /**
@@ -93,8 +85,8 @@ export type GetDashboardResponse = ApiResponse<DashboardWithWidgets>;
  * Path parameters for updating dashboard
  */
 export interface UpdateDashboardParams {
-    /** Dashboard ID */
-    id: string;
+  /** Dashboard ID */
+  id: string;
 }
 
 /**
@@ -106,8 +98,8 @@ export type UpdateDashboardRequest = UpdateDashboardInput;
  * Response for dashboard update
  */
 export interface UpdateDashboardResponse {
-    /** Updated dashboard */
-    dashboard: Dashboard;
+  /** Updated dashboard */
+  dashboard: Dashboard;
 }
 
 /**
@@ -123,16 +115,16 @@ export type UpdateDashboardApiResponse = ApiResponse<UpdateDashboardResponse>;
  * Path parameters for deleting dashboard
  */
 export interface DeleteDashboardParams {
-    /** Dashboard ID */
-    id: string;
+  /** Dashboard ID */
+  id: string;
 }
 
 /**
  * Response for dashboard deletion
  */
 export interface DeleteDashboardResponse {
-    /** Deleted dashboard ID */
-    deletedId: string;
+  /** Deleted dashboard ID */
+  deletedId: string;
 }
 
 /**
@@ -148,28 +140,28 @@ export type DeleteDashboardApiResponse = ApiResponse<DeleteDashboardResponse>;
  * Path parameters for duplicating dashboard
  */
 export interface DuplicateDashboardParams {
-    /** Source dashboard ID */
-    id: string;
+  /** Source dashboard ID */
+  id: string;
 }
 
 /**
  * Request body for POST /api/dashboards/:id/duplicate
  */
 export interface DuplicateDashboardRequest {
-    /** New dashboard name */
-    name: string;
-    /** Target project (optional) */
-    projectId?: string;
+  /** New dashboard name */
+  name: string;
+  /** Target project (optional) */
+  projectId?: string;
 }
 
 /**
  * Response for dashboard duplication
  */
 export interface DuplicateDashboardResponse {
-    /** Newly created dashboard copy */
-    dashboard: DashboardWithWidgets;
-    /** Source dashboard ID */
-    sourceId: string;
+  /** Newly created dashboard copy */
+  dashboard: DashboardWithWidgets;
+  /** Source dashboard ID */
+  sourceId: string;
 }
 
 /**

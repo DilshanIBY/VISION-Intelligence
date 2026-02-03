@@ -5,18 +5,14 @@
  * @requirement P2-API-003
  */
 
-import type {
-    ApiResponse,
-    PaginatedResponse,
-    ListQueryParams
-} from './common';
+import type { ApiResponse, PaginatedResponse, ListQueryParams } from './common';
 
 import type {
-    FloorLayout,
-    LayoutValidation,
-    CreateFloorLayoutInput,
-    UpdateFloorLayoutInput,
-    ExportLayoutOptions
+  FloorLayout,
+  LayoutValidation,
+  CreateFloorLayoutInput,
+  UpdateFloorLayoutInput,
+  ExportLayoutOptions,
 } from '../entities/floor-layout';
 
 import type { ValidationStatus } from '../enums';
@@ -34,8 +30,8 @@ export type CreateFloorLayoutRequest = CreateFloorLayoutInput;
  * Response for layout creation
  */
 export interface CreateFloorLayoutResponse {
-    /** Created layout */
-    layout: FloorLayout;
+  /** Created layout */
+  layout: FloorLayout;
 }
 
 /**
@@ -51,8 +47,8 @@ export type CreateFloorLayoutApiResponse = ApiResponse<CreateFloorLayoutResponse
  * Path parameters for getting layout
  */
 export interface GetFloorLayoutParams {
-    /** Layout ID */
-    id: string;
+  /** Layout ID */
+  id: string;
 }
 
 /**
@@ -68,8 +64,8 @@ export type GetFloorLayoutResponse = ApiResponse<FloorLayout>;
  * Path parameters for updating layout
  */
 export interface UpdateFloorLayoutParams {
-    /** Layout ID */
-    id: string;
+  /** Layout ID */
+  id: string;
 }
 
 /**
@@ -81,8 +77,8 @@ export type UpdateFloorLayoutRequest = UpdateFloorLayoutInput;
  * Response for layout update
  */
 export interface UpdateFloorLayoutResponse {
-    /** Updated layout */
-    layout: FloorLayout;
+  /** Updated layout */
+  layout: FloorLayout;
 }
 
 /**
@@ -98,16 +94,16 @@ export type UpdateFloorLayoutApiResponse = ApiResponse<UpdateFloorLayoutResponse
  * Path parameters for deleting layout
  */
 export interface DeleteFloorLayoutParams {
-    /** Layout ID */
-    id: string;
+  /** Layout ID */
+  id: string;
 }
 
 /**
  * Response for layout deletion
  */
 export interface DeleteFloorLayoutResponse {
-    /** Deleted layout ID */
-    deletedId: string;
+  /** Deleted layout ID */
+  deletedId: string;
 }
 
 /**
@@ -123,18 +119,18 @@ export type DeleteFloorLayoutApiResponse = ApiResponse<DeleteFloorLayoutResponse
  * Path parameters for validating layout
  */
 export interface ValidateFloorLayoutParams {
-    /** Layout ID */
-    id: string;
+  /** Layout ID */
+  id: string;
 }
 
 /**
  * Response for layout validation
  */
 export interface ValidateFloorLayoutResponse {
-    /** Validation results */
-    validation: LayoutValidation;
-    /** Updated layout with validation status */
-    layout: FloorLayout;
+  /** Validation results */
+  validation: LayoutValidation;
+  /** Updated layout with validation status */
+  layout: FloorLayout;
 }
 
 /**
@@ -150,8 +146,8 @@ export type ValidateFloorLayoutApiResponse = ApiResponse<ValidateFloorLayoutResp
  * Path parameters for exporting layout
  */
 export interface ExportFloorLayoutParams {
-    /** Layout ID */
-    id: string;
+  /** Layout ID */
+  id: string;
 }
 
 /**
@@ -163,15 +159,15 @@ export type ExportFloorLayoutRequest = ExportLayoutOptions;
  * Response for layout export
  */
 export interface ExportFloorLayoutResponse {
-    /** Export file URL or base64 data */
-    exportUrl?: string;
-    exportData?: string;
-    /** Export format */
-    format: 'png' | 'pdf';
-    /** File size in bytes */
-    size: number;
-    /** Export timestamp */
-    exportedAt: string;
+  /** Export file URL or base64 data */
+  exportUrl?: string;
+  exportData?: string;
+  /** Export format */
+  format: 'png' | 'pdf';
+  /** File size in bytes */
+  size: number;
+  /** Export timestamp */
+  exportedAt: string;
 }
 
 /**
@@ -187,10 +183,10 @@ export type ExportFloorLayoutApiResponse = ApiResponse<ExportFloorLayoutResponse
  * Query parameters for listing layouts
  */
 export interface ListFloorLayoutsQuery extends ListQueryParams {
-    /** Filter by project ID */
-    projectId?: string;
-    /** Filter by validation status */
-    validationStatus?: ValidationStatus;
+  /** Filter by project ID */
+  projectId?: string;
+  /** Filter by validation status */
+  validationStatus?: ValidationStatus;
 }
 
 /**

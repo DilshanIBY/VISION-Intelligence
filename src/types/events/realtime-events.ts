@@ -16,29 +16,26 @@ import type { ProjectStatus, CalculationStatus, LayoutStatus } from '../enums';
  * Payload for entity update events
  */
 export interface EntityUpdatePayload<T = unknown> {
-    /** Entity type */
-    entityType: EntityType;
+  /** Entity type */
+  entityType: EntityType;
 
-    /** Entity ID */
-    entityId: string;
+  /** Entity ID */
+  entityId: string;
 
-    /** CRUD operation type */
-    operation: CrudEventType;
+  /** CRUD operation type */
+  operation: CrudEventType;
 
-    /** Updated entity data (partial for updates) */
-    data?: Partial<T>;
+  /** Updated entity data (partial for updates) */
+  data?: Partial<T>;
 
-    /** Changed fields (for updates) */
-    changedFields?: string[];
+  /** Changed fields (for updates) */
+  changedFields?: string[];
 }
 
 /**
  * Generic entity update event
  */
-export type EntityUpdateEvent<T = unknown> = BaseEvent<
-    'entity:update',
-    EntityUpdatePayload<T>
->;
+export type EntityUpdateEvent<T = unknown> = BaseEvent<'entity:update', EntityUpdatePayload<T>>;
 
 // ============================================================================
 // Project Events
@@ -48,21 +45,24 @@ export type EntityUpdateEvent<T = unknown> = BaseEvent<
  * Project update payload
  */
 export interface ProjectUpdatePayload {
-    projectId: string;
-    operation: CrudEventType;
-    name?: string;
-    status?: ProjectStatus;
-    changedFields?: string[];
+  projectId: string;
+  operation: CrudEventType;
+  name?: string;
+  status?: ProjectStatus;
+  changedFields?: string[];
 }
 
 /**
  * Project created event
  */
-export type ProjectCreatedEvent = BaseEvent<'project:created', {
+export type ProjectCreatedEvent = BaseEvent<
+  'project:created',
+  {
     projectId: string;
     name: string;
     organizationId: string;
-}>;
+  }
+>;
 
 /**
  * Project updated event
@@ -72,18 +72,24 @@ export type ProjectUpdatedEvent = BaseEvent<'project:updated', ProjectUpdatePayl
 /**
  * Project deleted event
  */
-export type ProjectDeletedEvent = BaseEvent<'project:deleted', {
+export type ProjectDeletedEvent = BaseEvent<
+  'project:deleted',
+  {
     projectId: string;
-}>;
+  }
+>;
 
 /**
  * Project status changed event
  */
-export type ProjectStatusChangedEvent = BaseEvent<'project:status_changed', {
+export type ProjectStatusChangedEvent = BaseEvent<
+  'project:status_changed',
+  {
     projectId: string;
     fromStatus: ProjectStatus;
     toStatus: ProjectStatus;
-}>;
+  }
+>;
 
 // ============================================================================
 // Calculation Events (Real-time)
@@ -93,21 +99,24 @@ export type ProjectStatusChangedEvent = BaseEvent<'project:status_changed', {
  * Calculation update payload
  */
 export interface CalculationUpdatePayload {
-    calculationId: string;
-    projectId: string;
-    operation: CrudEventType;
-    status?: CalculationStatus;
-    changedFields?: string[];
+  calculationId: string;
+  projectId: string;
+  operation: CrudEventType;
+  status?: CalculationStatus;
+  changedFields?: string[];
 }
 
 /**
  * Calculation created event
  */
-export type CalculationCreatedEvent = BaseEvent<'calculation:created', {
+export type CalculationCreatedEvent = BaseEvent<
+  'calculation:created',
+  {
     calculationId: string;
     projectId: string;
     type: 'machinery' | 'embroidery' | 'layout';
-}>;
+  }
+>;
 
 /**
  * Calculation updated event (general update)
@@ -117,10 +126,13 @@ export type CalculationUpdatedEvent = BaseEvent<'calculation:updated', Calculati
 /**
  * Calculation deleted event
  */
-export type CalculationDeletedEvent = BaseEvent<'calculation:deleted', {
+export type CalculationDeletedEvent = BaseEvent<
+  'calculation:deleted',
+  {
     calculationId: string;
     projectId: string;
-}>;
+  }
+>;
 
 // ============================================================================
 // Floor Layout Events (Real-time)
@@ -130,21 +142,24 @@ export type CalculationDeletedEvent = BaseEvent<'calculation:deleted', {
  * Layout update payload
  */
 export interface LayoutUpdatePayload {
-    layoutId: string;
-    projectId: string;
-    operation: CrudEventType;
-    status?: LayoutStatus;
-    changedFields?: string[];
+  layoutId: string;
+  projectId: string;
+  operation: CrudEventType;
+  status?: LayoutStatus;
+  changedFields?: string[];
 }
 
 /**
  * Layout created event
  */
-export type LayoutCreatedEvent = BaseEvent<'layout:created', {
+export type LayoutCreatedEvent = BaseEvent<
+  'layout:created',
+  {
     layoutId: string;
     projectId: string;
     name?: string;
-}>;
+  }
+>;
 
 /**
  * Layout updated event
@@ -154,10 +169,13 @@ export type LayoutUpdatedEvent = BaseEvent<'layout:updated', LayoutUpdatePayload
 /**
  * Layout deleted event
  */
-export type LayoutDeletedEvent = BaseEvent<'layout:deleted', {
+export type LayoutDeletedEvent = BaseEvent<
+  'layout:deleted',
+  {
     layoutId: string;
     projectId: string;
-}>;
+  }
+>;
 
 // ============================================================================
 // Dashboard Events (Real-time)
@@ -167,20 +185,23 @@ export type LayoutDeletedEvent = BaseEvent<'layout:deleted', {
  * Dashboard update payload
  */
 export interface DashboardUpdatePayload {
-    dashboardId: string;
-    projectId?: string;
-    operation: CrudEventType;
-    changedFields?: string[];
+  dashboardId: string;
+  projectId?: string;
+  operation: CrudEventType;
+  changedFields?: string[];
 }
 
 /**
  * Dashboard created event
  */
-export type DashboardCreatedEvent = BaseEvent<'dashboard:created', {
+export type DashboardCreatedEvent = BaseEvent<
+  'dashboard:created',
+  {
     dashboardId: string;
     projectId?: string;
     name: string;
-}>;
+  }
+>;
 
 /**
  * Dashboard updated event
@@ -190,9 +211,12 @@ export type DashboardUpdatedEvent = BaseEvent<'dashboard:updated', DashboardUpda
 /**
  * Dashboard deleted event
  */
-export type DashboardDeletedEvent = BaseEvent<'dashboard:deleted', {
+export type DashboardDeletedEvent = BaseEvent<
+  'dashboard:deleted',
+  {
     dashboardId: string;
-}>;
+  }
+>;
 
 // ============================================================================
 // Union Types
@@ -202,44 +226,41 @@ export type DashboardDeletedEvent = BaseEvent<'dashboard:deleted', {
  * All project-related real-time events
  */
 export type ProjectRealtimeEvent =
-    | ProjectCreatedEvent
-    | ProjectUpdatedEvent
-    | ProjectDeletedEvent
-    | ProjectStatusChangedEvent;
+  | ProjectCreatedEvent
+  | ProjectUpdatedEvent
+  | ProjectDeletedEvent
+  | ProjectStatusChangedEvent;
 
 /**
  * All calculation-related real-time events
  */
 export type CalculationRealtimeEvent =
-    | CalculationCreatedEvent
-    | CalculationUpdatedEvent
-    | CalculationDeletedEvent;
+  | CalculationCreatedEvent
+  | CalculationUpdatedEvent
+  | CalculationDeletedEvent;
 
 /**
  * All layout-related real-time events
  */
-export type LayoutRealtimeEvent =
-    | LayoutCreatedEvent
-    | LayoutUpdatedEvent
-    | LayoutDeletedEvent;
+export type LayoutRealtimeEvent = LayoutCreatedEvent | LayoutUpdatedEvent | LayoutDeletedEvent;
 
 /**
  * All dashboard-related real-time events
  */
 export type DashboardRealtimeEvent =
-    | DashboardCreatedEvent
-    | DashboardUpdatedEvent
-    | DashboardDeletedEvent;
+  | DashboardCreatedEvent
+  | DashboardUpdatedEvent
+  | DashboardDeletedEvent;
 
 /**
  * All real-time events
  */
 export type RealtimeEvent =
-    | EntityUpdateEvent
-    | ProjectRealtimeEvent
-    | CalculationRealtimeEvent
-    | LayoutRealtimeEvent
-    | DashboardRealtimeEvent;
+  | EntityUpdateEvent
+  | ProjectRealtimeEvent
+  | CalculationRealtimeEvent
+  | LayoutRealtimeEvent
+  | DashboardRealtimeEvent;
 
 /**
  * Real-time event type strings

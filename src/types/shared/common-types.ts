@@ -32,9 +32,7 @@ export type Timestamp = Date | ISODateString;
 /**
  * Makes all properties of T deeply partial
  */
-export type DeepPartial<T> = T extends object
-    ? { [P in keyof T]?: DeepPartial<T[P]> }
-    : T;
+export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
 
 /**
  * Makes type T accept null values
@@ -60,15 +58,15 @@ export type OptionalKeys<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>
  * Extracts keys of T that have values of type V
  */
 export type KeysOfType<T, V> = {
-    [K in keyof T]: T[K] extends V ? K : never;
+  [K in keyof T]: T[K] extends V ? K : never;
 }[keyof T];
 
 /**
  * Makes type readonly recursively
  */
 export type DeepReadonly<T> = T extends (infer R)[]
-    ? DeepReadonlyArray<R>
-    : T extends object
+  ? DeepReadonlyArray<R>
+  : T extends object
     ? DeepReadonlyObject<T>
     : T;
 
@@ -88,19 +86,19 @@ export type Dictionary<T = unknown> = Record<string, T>;
  * Record with optional values
  */
 export type PartialRecord<K extends string | number | symbol, V> = {
-    [P in K]?: V;
+  [P in K]?: V;
 };
 
 /**
  * JSON-serializable value type
  */
 export type JsonValue =
-    | string
-    | number
-    | boolean
-    | null
-    | JsonValue[]
-    | { [key: string]: JsonValue };
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
 
 /**
  * JSON object type
@@ -115,7 +113,7 @@ export type JsonObject = { [key: string]: JsonValue };
  * Generic async function type
  */
 export type AsyncFunction<TArgs extends unknown[] = unknown[], TReturn = unknown> = (
-    ...args: TArgs
+  ...args: TArgs
 ) => Promise<TReturn>;
 
 /**
@@ -136,16 +134,16 @@ export type ErrorCallback<T = void> = (error: Error | null, value?: T) => void;
  * Success result
  */
 export interface Success<T> {
-    success: true;
-    data: T;
+  success: true;
+  data: T;
 }
 
 /**
  * Failure result
  */
 export interface Failure<E = Error> {
-    success: false;
-    error: E;
+  success: false;
+  error: E;
 }
 
 /**
@@ -157,28 +155,28 @@ export type Result<T, E = Error> = Success<T> | Failure<E>;
  * Create a success result
  */
 export function success<T>(data: T): Success<T> {
-    return { success: true, data };
+  return { success: true, data };
 }
 
 /**
  * Create a failure result
  */
 export function failure<E = Error>(error: E): Failure<E> {
-    return { success: false, error };
+  return { success: false, error };
 }
 
 /**
  * Check if result is success
  */
 export function isSuccess<T, E>(result: Result<T, E>): result is Success<T> {
-    return result.success === true;
+  return result.success === true;
 }
 
 /**
  * Check if result is failure
  */
 export function isFailure<T, E>(result: Result<T, E>): result is Failure<E> {
-    return result.success === false;
+  return result.success === false;
 }
 
 // ============================================================================

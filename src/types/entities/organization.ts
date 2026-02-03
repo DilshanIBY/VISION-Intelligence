@@ -13,17 +13,17 @@
  * Organization-level settings
  */
 export interface OrganizationSettings {
-    /** Default currency for cost calculations */
-    currency?: string;
-    /** Default timezone */
-    timezone?: string;
-    /** Custom branding colors */
-    branding?: {
-        primaryColor?: string;
-        logoUrl?: string;
-    };
-    /** Feature flags */
-    features?: Record<string, boolean>;
+  /** Default currency for cost calculations */
+  currency?: string;
+  /** Default timezone */
+  timezone?: string;
+  /** Custom branding colors */
+  branding?: {
+    primaryColor?: string;
+    logoUrl?: string;
+  };
+  /** Feature flags */
+  features?: Record<string, boolean>;
 }
 
 // ============================================================================
@@ -35,17 +35,17 @@ export interface OrganizationSettings {
  * Represents a consulting firm or manufacturing company
  */
 export interface Organization {
-    /** Unique identifier (UUID) */
-    id: string;
+  /** Unique identifier (UUID) */
+  id: string;
 
-    /** Organization display name */
-    name: string;
+  /** Organization display name */
+  name: string;
 
-    /** Creation timestamp */
-    createdAt: Date;
+  /** Creation timestamp */
+  createdAt: Date;
 
-    /** Organization-level settings */
-    settings: OrganizationSettings;
+  /** Organization-level settings */
+  settings: OrganizationSettings;
 }
 
 // ============================================================================
@@ -56,14 +56,14 @@ export interface Organization {
  * Create organization input
  */
 export interface CreateOrganizationInput {
-    name: string;
-    settings?: Partial<OrganizationSettings>;
+  name: string;
+  settings?: Partial<OrganizationSettings>;
 }
 
 /**
  * Update organization input
  */
 export interface UpdateOrganizationInput {
-    name?: string;
-    settings?: Partial<OrganizationSettings>;
+  name?: string;
+  settings?: Partial<OrganizationSettings>;
 }

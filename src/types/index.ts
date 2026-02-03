@@ -1,7 +1,7 @@
 /**
  * APPAREL Type Definitions
  * @module types
- * 
+ *
  * Central export for all TypeScript types used across the application.
  * Organized by domain following clean architecture principles.
  */

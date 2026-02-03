@@ -5,17 +5,13 @@
  * @requirement P2-API-005
  */
 
-import type {
-    ApiResponse,
-    PaginatedResponse,
-    ListQueryParams
-} from './common';
+import type { ApiResponse, PaginatedResponse, ListQueryParams } from './common';
 
 import type {
-    Project,
-    ProjectWithStats,
-    CreateProjectInput,
-    UpdateProjectInput
+  Project,
+  ProjectWithStats,
+  CreateProjectInput,
+  UpdateProjectInput,
 } from '../entities/project';
 
 import type { ProjectStatus } from '../enums';
@@ -28,12 +24,12 @@ import type { ProjectStatus } from '../enums';
  * Query parameters for listing projects
  */
 export interface ListProjectsQuery extends ListQueryParams {
-    /** Filter by status */
-    status?: ProjectStatus;
-    /** Filter by client name */
-    clientName?: string;
-    /** Include statistics */
-    includeStats?: boolean;
+  /** Filter by status */
+  status?: ProjectStatus;
+  /** Filter by client name */
+  clientName?: string;
+  /** Include statistics */
+  includeStats?: boolean;
 }
 
 /**
@@ -59,8 +55,8 @@ export type CreateProjectRequest = CreateProjectInput;
  * Response for project creation
  */
 export interface CreateProjectResponse {
-    /** Created project */
-    project: Project;
+  /** Created project */
+  project: Project;
 }
 
 /**
@@ -76,16 +72,16 @@ export type CreateProjectApiResponse = ApiResponse<CreateProjectResponse>;
  * Path parameters for getting project
  */
 export interface GetProjectParams {
-    /** Project ID */
-    id: string;
+  /** Project ID */
+  id: string;
 }
 
 /**
  * Query parameters for getting project
  */
 export interface GetProjectQuery {
-    /** Include statistics */
-    includeStats?: boolean;
+  /** Include statistics */
+  includeStats?: boolean;
 }
 
 /**
@@ -106,8 +102,8 @@ export type GetProjectWithStatsResponse = ApiResponse<ProjectWithStats>;
  * Path parameters for updating project
  */
 export interface UpdateProjectParams {
-    /** Project ID */
-    id: string;
+  /** Project ID */
+  id: string;
 }
 
 /**
@@ -119,8 +115,8 @@ export type UpdateProjectRequest = UpdateProjectInput;
  * Response for project update
  */
 export interface UpdateProjectResponse {
-    /** Updated project */
-    project: Project;
+  /** Updated project */
+  project: Project;
 }
 
 /**
@@ -136,16 +132,16 @@ export type UpdateProjectApiResponse = ApiResponse<UpdateProjectResponse>;
  * Path parameters for deleting project
  */
 export interface DeleteProjectParams {
-    /** Project ID */
-    id: string;
+  /** Project ID */
+  id: string;
 }
 
 /**
  * Response for project deletion
  */
 export interface DeleteProjectResponse {
-    /** Deleted project ID */
-    deletedId: string;
+  /** Deleted project ID */
+  deletedId: string;
 }
 
 /**
@@ -161,18 +157,18 @@ export type DeleteProjectApiResponse = ApiResponse<DeleteProjectResponse>;
  * Request body for PATCH /api/projects/:id/status
  */
 export interface UpdateProjectStatusRequest {
-    /** New status */
-    status: ProjectStatus;
+  /** New status */
+  status: ProjectStatus;
 }
 
 /**
  * Response for status update
  */
 export interface UpdateProjectStatusResponse {
-    /** Updated project */
-    project: Project;
-    /** Previous status */
-    previousStatus: ProjectStatus;
+  /** Updated project */
+  project: Project;
+  /** Previous status */
+  previousStatus: ProjectStatus;
 }
 
 /**

@@ -5,18 +5,14 @@
  * @requirement P2-API-002
  */
 
-import type {
-    ApiResponse,
-    PaginatedResponse,
-    ListQueryParams
-} from './common';
+import type { ApiResponse, PaginatedResponse, ListQueryParams } from './common';
 
 import type {
-    Scenario,
-    ScenarioComparison,
-    CreateScenarioInput,
-    UpdateScenarioInput,
-    CompareScenarioInput
+  Scenario,
+  ScenarioComparison,
+  CreateScenarioInput,
+  UpdateScenarioInput,
+  CompareScenarioInput,
 } from '../entities/scenario';
 
 // ============================================================================
@@ -32,10 +28,10 @@ export type CreateScenarioRequest = CreateScenarioInput;
  * Response for scenario creation
  */
 export interface CreateScenarioResponse {
-    /** Created scenario */
-    scenario: Scenario;
-    /** Computed results based on parameters */
-    results: Record<string, unknown>;
+  /** Created scenario */
+  scenario: Scenario;
+  /** Computed results based on parameters */
+  results: Record<string, unknown>;
 }
 
 /**
@@ -51,16 +47,16 @@ export type CreateScenarioApiResponse = ApiResponse<CreateScenarioResponse>;
  * Path parameters for listing scenarios
  */
 export interface ListScenariosParams {
-    /** Parent calculation ID */
-    calculationId: string;
+  /** Parent calculation ID */
+  calculationId: string;
 }
 
 /**
  * Query parameters for listing scenarios
  */
 export interface ListScenariosQuery extends ListQueryParams {
-    /** Include only baseline scenarios */
-    isBaseline?: boolean;
+  /** Include only baseline scenarios */
+  isBaseline?: boolean;
 }
 
 /**
@@ -76,8 +72,8 @@ export type ListScenariosResponse = PaginatedResponse<Scenario>;
  * Path parameters for updating scenario
  */
 export interface UpdateScenarioParams {
-    /** Scenario ID */
-    id: string;
+  /** Scenario ID */
+  id: string;
 }
 
 /**
@@ -89,10 +85,10 @@ export type UpdateScenarioRequest = UpdateScenarioInput;
  * Response for scenario update
  */
 export interface UpdateScenarioResponse {
-    /** Updated scenario */
-    scenario: Scenario;
-    /** Recomputed results */
-    results: Record<string, unknown>;
+  /** Updated scenario */
+  scenario: Scenario;
+  /** Recomputed results */
+  results: Record<string, unknown>;
 }
 
 /**
@@ -108,16 +104,16 @@ export type UpdateScenarioApiResponse = ApiResponse<UpdateScenarioResponse>;
  * Path parameters for deleting scenario
  */
 export interface DeleteScenarioParams {
-    /** Scenario ID */
-    id: string;
+  /** Scenario ID */
+  id: string;
 }
 
 /**
  * Response for scenario deletion
  */
 export interface DeleteScenarioResponse {
-    /** Deleted scenario ID */
-    deletedId: string;
+  /** Deleted scenario ID */
+  deletedId: string;
 }
 
 /**
@@ -138,17 +134,17 @@ export type CompareScenarioRequest = CompareScenarioInput;
  * Response for scenario comparison
  */
 export interface CompareScenarioResponse {
-    /** Comparison results */
-    comparison: ScenarioComparison;
-    /** Summary statistics */
-    summary: {
-        /** Number of scenarios compared */
-        scenarioCount: number;
-        /** Fields with differences */
-        changedFields: string[];
-        /** Best scenario per metric */
-        bestPerMetric: Record<string, string>;
-    };
+  /** Comparison results */
+  comparison: ScenarioComparison;
+  /** Summary statistics */
+  summary: {
+    /** Number of scenarios compared */
+    scenarioCount: number;
+    /** Fields with differences */
+    changedFields: string[];
+    /** Best scenario per metric */
+    bestPerMetric: Record<string, string>;
+  };
 }
 
 /**

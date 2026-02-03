@@ -7,16 +7,16 @@
 
 // Re-export commonly used API types for convenience
 export type {
-    ApiResponse,
-    ApiError,
-    PaginatedResponse,
-    PaginationParams,
-    PaginationMeta,
-    SortParams,
-    SortDirection,
-    ListQueryParams,
-    HttpMethod,
-    HttpStatusCode,
+  ApiResponse,
+  ApiError,
+  PaginatedResponse,
+  PaginationParams,
+  PaginationMeta,
+  SortParams,
+  SortDirection,
+  ListQueryParams,
+  HttpMethod,
+  HttpStatusCode,
 } from '../api/common';
 
 // Re-export HttpStatus constant (not a type)
@@ -40,14 +40,14 @@ export type ExtractPaginatedItem<T> = T extends { data: Array<infer I> } ? I : n
  * API endpoint definition
  */
 export interface ApiEndpoint<TRequest = unknown, TResponse = unknown> {
-    /** HTTP method */
-    method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-    /** URL path (can include :params) */
-    path: string;
-    /** Request body type (for POST/PUT/PATCH) */
-    request?: TRequest;
-    /** Response type */
-    response: TResponse;
+  /** HTTP method */
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  /** URL path (can include :params) */
+  path: string;
+  /** Request body type (for POST/PUT/PATCH) */
+  request?: TRequest;
+  /** Response type */
+  response: TResponse;
 }
 
 /**
@@ -68,40 +68,40 @@ export type PathParams = Record<string, string>;
  * Standard request headers
  */
 export interface RequestHeaders {
-    'Content-Type'?: string;
-    'Authorization'?: string;
-    'Accept'?: string;
-    'X-Request-Id'?: string;
+  'Content-Type'?: string;
+  Authorization?: string;
+  Accept?: string;
+  'X-Request-Id'?: string;
 }
 
 /**
  * Request configuration
  */
 export interface RequestConfig<T = unknown> {
-    /** Request body */
-    data?: T;
-    /** Query parameters */
-    params?: QueryParams;
-    /** Request headers */
-    headers?: RequestHeaders;
-    /** Request timeout in ms */
-    timeout?: number;
-    /** Abort signal for cancellation */
-    signal?: AbortSignal;
+  /** Request body */
+  data?: T;
+  /** Query parameters */
+  params?: QueryParams;
+  /** Request headers */
+  headers?: RequestHeaders;
+  /** Request timeout in ms */
+  timeout?: number;
+  /** Abort signal for cancellation */
+  signal?: AbortSignal;
 }
 
 /**
  * Response wrapper with metadata
  */
 export interface ResponseWrapper<T> {
-    /** Response data */
-    data: T;
-    /** HTTP status code */
-    status: number;
-    /** Response headers */
-    headers: Record<string, string>;
-    /** Request duration in ms */
-    duration: number;
+  /** Response data */
+  data: T;
+  /** HTTP status code */
+  status: number;
+  /** Response headers */
+  headers: Record<string, string>;
+  /** Request duration in ms */
+  duration: number;
 }
 
 // ============================================================================
@@ -112,50 +112,50 @@ export interface ResponseWrapper<T> {
  * Validation error detail
  */
 export interface ValidationErrorDetail {
-    /** Field path that failed validation */
-    path: string[];
-    /** Error message */
-    message: string;
-    /** Error code */
-    code?: string;
+  /** Field path that failed validation */
+  path: string[];
+  /** Error message */
+  message: string;
+  /** Error code */
+  code?: string;
 }
 
 /**
  * Extended API error with validation details
  */
 export interface ApiValidationError {
-    /** Error code */
-    code: 'VALIDATION_ERROR';
-    /** Error message */
-    message: string;
-    /** Field-level validation errors */
-    errors: ValidationErrorDetail[];
+  /** Error code */
+  code: 'VALIDATION_ERROR';
+  /** Error message */
+  message: string;
+  /** Field-level validation errors */
+  errors: ValidationErrorDetail[];
 }
 
 /**
  * Common API error codes
  */
 export const API_ERROR_CODES = {
-    // Authentication
-    UNAUTHORIZED: 'UNAUTHORIZED',
-    FORBIDDEN: 'FORBIDDEN',
-    TOKEN_EXPIRED: 'TOKEN_EXPIRED',
+  // Authentication
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  FORBIDDEN: 'FORBIDDEN',
+  TOKEN_EXPIRED: 'TOKEN_EXPIRED',
 
-    // Validation
-    VALIDATION_ERROR: 'VALIDATION_ERROR',
-    INVALID_INPUT: 'INVALID_INPUT',
+  // Validation
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  INVALID_INPUT: 'INVALID_INPUT',
 
-    // Resources
-    NOT_FOUND: 'NOT_FOUND',
-    ALREADY_EXISTS: 'ALREADY_EXISTS',
-    CONFLICT: 'CONFLICT',
+  // Resources
+  NOT_FOUND: 'NOT_FOUND',
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+  CONFLICT: 'CONFLICT',
 
-    // Server
-    INTERNAL_ERROR: 'INTERNAL_ERROR',
-    SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+  // Server
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
 
-    // Rate limiting
-    RATE_LIMITED: 'RATE_LIMITED',
+  // Rate limiting
+  RATE_LIMITED: 'RATE_LIMITED',
 } as const;
 
-export type ApiErrorCode = typeof API_ERROR_CODES[keyof typeof API_ERROR_CODES];
+export type ApiErrorCode = (typeof API_ERROR_CODES)[keyof typeof API_ERROR_CODES];

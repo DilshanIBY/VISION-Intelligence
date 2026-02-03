@@ -18,26 +18,26 @@ import type { UserRole } from '../enums';
  * Login request body
  */
 export interface LoginRequest {
-    /** User email */
-    email: string;
-    /** User password */
-    password: string;
+  /** User email */
+  email: string;
+  /** User password */
+  password: string;
 }
 
 /**
  * Login response with session data
  */
 export interface LoginResponse {
-    /** Authenticated user */
-    user: User;
-    /** User's organization */
-    organization: Organization;
-    /** Access token */
-    accessToken: string;
-    /** Refresh token */
-    refreshToken: string;
-    /** Token expiration timestamp */
-    expiresAt: string;
+  /** Authenticated user */
+  user: User;
+  /** User's organization */
+  organization: Organization;
+  /** Access token */
+  accessToken: string;
+  /** Refresh token */
+  refreshToken: string;
+  /** Token expiration timestamp */
+  expiresAt: string;
 }
 
 /**
@@ -53,8 +53,8 @@ export type LoginApiResponse = ApiResponse<LoginResponse>;
  * Logout response
  */
 export interface LogoutResponse {
-    /** Whether logout was successful */
-    success: boolean;
+  /** Whether logout was successful */
+  success: boolean;
 }
 
 /**
@@ -70,20 +70,20 @@ export type LogoutApiResponse = ApiResponse<LogoutResponse>;
  * Token refresh request
  */
 export interface RefreshTokenRequest {
-    /** Refresh token */
-    refreshToken: string;
+  /** Refresh token */
+  refreshToken: string;
 }
 
 /**
  * Token refresh response
  */
 export interface RefreshTokenResponse {
-    /** New access token */
-    accessToken: string;
-    /** New refresh token */
-    refreshToken: string;
-    /** Token expiration timestamp */
-    expiresAt: string;
+  /** New access token */
+  accessToken: string;
+  /** New refresh token */
+  refreshToken: string;
+  /** Token expiration timestamp */
+  expiresAt: string;
 }
 
 /**
@@ -99,10 +99,10 @@ export type RefreshTokenApiResponse = ApiResponse<RefreshTokenResponse>;
  * Get current user profile response
  */
 export interface GetProfileResponse {
-    /** Current user */
-    user: User;
-    /** User's organization */
-    organization: Organization;
+  /** Current user */
+  user: User;
+  /** User's organization */
+  organization: Organization;
 }
 
 /**
@@ -114,16 +114,16 @@ export type GetProfileApiResponse = ApiResponse<GetProfileResponse>;
  * Update user profile request
  */
 export interface UpdateProfileRequest {
-    /** User preferences */
-    preferences?: Record<string, unknown>;
+  /** User preferences */
+  preferences?: Record<string, unknown>;
 }
 
 /**
  * Update profile response
  */
 export interface UpdateProfileResponse {
-    /** Updated user */
-    user: User;
+  /** Updated user */
+  user: User;
 }
 
 /**
@@ -139,22 +139,22 @@ export type UpdateProfileApiResponse = ApiResponse<UpdateProfileResponse>;
  * Create user request (admin only)
  */
 export interface CreateUserRequest {
-    /** User email */
-    email: string;
-    /** User role */
-    role: UserRole;
-    /** Initial password (optional, can be set via invite) */
-    password?: string;
+  /** User email */
+  email: string;
+  /** User role */
+  role: UserRole;
+  /** Initial password (optional, can be set via invite) */
+  password?: string;
 }
 
 /**
  * Create user response
  */
 export interface CreateUserResponse {
-    /** Created user */
-    user: User;
-    /** Invite link (if password not provided) */
-    inviteLink?: string;
+  /** Created user */
+  user: User;
+  /** Invite link (if password not provided) */
+  inviteLink?: string;
 }
 
 /**
@@ -166,18 +166,18 @@ export type CreateUserApiResponse = ApiResponse<CreateUserResponse>;
  * Update user request
  */
 export interface UpdateUserRequest {
-    /** User role */
-    role?: UserRole;
-    /** User preferences */
-    preferences?: Record<string, unknown>;
+  /** User role */
+  role?: UserRole;
+  /** User preferences */
+  preferences?: Record<string, unknown>;
 }
 
 /**
  * Update user response
  */
 export interface UpdateUserResponse {
-    /** Updated user */
-    user: User;
+  /** Updated user */
+  user: User;
 }
 
 /**
@@ -189,8 +189,8 @@ export type UpdateUserApiResponse = ApiResponse<UpdateUserResponse>;
  * Delete user response
  */
 export interface DeleteUserResponse {
-    /** Deleted user ID */
-    deletedId: string;
+  /** Deleted user ID */
+  deletedId: string;
 }
 
 /**
@@ -206,18 +206,18 @@ export type DeleteUserApiResponse = ApiResponse<DeleteUserResponse>;
  * Change password request
  */
 export interface ChangePasswordRequest {
-    /** Current password */
-    currentPassword: string;
-    /** New password */
-    newPassword: string;
+  /** Current password */
+  currentPassword: string;
+  /** New password */
+  newPassword: string;
 }
 
 /**
  * Change password response
  */
 export interface ChangePasswordResponse {
-    /** Success indicator */
-    success: boolean;
+  /** Success indicator */
+  success: boolean;
 }
 
 /**
@@ -229,18 +229,18 @@ export type ChangePasswordApiResponse = ApiResponse<ChangePasswordResponse>;
  * Request password reset
  */
 export interface RequestPasswordResetRequest {
-    /** User email */
-    email: string;
+  /** User email */
+  email: string;
 }
 
 /**
  * Request password reset response
  */
 export interface RequestPasswordResetResponse {
-    /** Success indicator (always true for security) */
-    success: boolean;
-    /** Message to display */
-    message: string;
+  /** Success indicator (always true for security) */
+  success: boolean;
+  /** Message to display */
+  message: string;
 }
 
 /**
@@ -252,18 +252,18 @@ export type RequestPasswordResetApiResponse = ApiResponse<RequestPasswordResetRe
  * Reset password with token
  */
 export interface ResetPasswordRequest {
-    /** Reset token */
-    token: string;
-    /** New password */
-    newPassword: string;
+  /** Reset token */
+  token: string;
+  /** New password */
+  newPassword: string;
 }
 
 /**
  * Reset password response
  */
 export interface ResetPasswordResponse {
-    /** Success indicator */
-    success: boolean;
+  /** Success indicator */
+  success: boolean;
 }
 
 /**

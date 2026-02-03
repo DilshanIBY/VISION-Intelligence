@@ -15,19 +15,19 @@ import type { UserRole } from '../enums';
  * User preference settings
  */
 export interface UserPreferences {
-    /** Preferred theme */
-    theme?: 'light' | 'dark' | 'system';
-    /** Preferred language */
-    language?: string;
-    /** Default dashboard layout */
-    defaultDashboardId?: string;
-    /** Notification settings */
-    notifications?: {
-        email?: boolean;
-        inApp?: boolean;
-    };
-    /** UI density preference */
-    density?: 'compact' | 'normal' | 'comfortable';
+  /** Preferred theme */
+  theme?: 'light' | 'dark' | 'system';
+  /** Preferred language */
+  language?: string;
+  /** Default dashboard layout */
+  defaultDashboardId?: string;
+  /** Notification settings */
+  notifications?: {
+    email?: boolean;
+    inApp?: boolean;
+  };
+  /** UI density preference */
+  density?: 'compact' | 'normal' | 'comfortable';
 }
 
 // ============================================================================
@@ -38,29 +38,29 @@ export interface UserPreferences {
  * User - Application user within an organization
  */
 export interface User {
-    /** Unique identifier (UUID, linked to auth.users) */
-    id: string;
+  /** Unique identifier (UUID, linked to auth.users) */
+  id: string;
 
-    /** Associated organization */
-    organizationId: string;
+  /** Associated organization */
+  organizationId: string;
 
-    /** User role for access control */
-    role: UserRole;
+  /** User role for access control */
+  role: UserRole;
 
-    /** User preferences */
-    preferences: UserPreferences;
+  /** User preferences */
+  preferences: UserPreferences;
 
-    /** Account creation timestamp */
-    createdAt: Date;
+  /** Account creation timestamp */
+  createdAt: Date;
 
-    /** User email (from auth) */
-    email?: string;
+  /** User email (from auth) */
+  email?: string;
 
-    /** Display name */
-    displayName?: string;
+  /** Display name */
+  displayName?: string;
 
-    /** Avatar URL */
-    avatarUrl?: string;
+  /** Avatar URL */
+  avatarUrl?: string;
 }
 
 // ============================================================================
@@ -71,15 +71,15 @@ export interface User {
  * Update user profile input
  */
 export interface UpdateUserInput {
-    displayName?: string;
-    avatarUrl?: string;
-    preferences?: Partial<UserPreferences>;
+  displayName?: string;
+  avatarUrl?: string;
+  preferences?: Partial<UserPreferences>;
 }
 
 /**
  * Update user role input (admin only)
  */
 export interface UpdateUserRoleInput {
-    userId: string;
-    role: UserRole;
+  userId: string;
+  role: UserRole;
 }
