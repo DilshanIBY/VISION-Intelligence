@@ -39,11 +39,15 @@
 | **P1-005** | Empty page shells with routing | §11, Phase 1 | UI | ✅ Done |
 | **P1-006** | Design system file structure | §4, §11 | UI | ✅ Done |
 | **P1-007** | CI/CD pipeline skeleton (GitHub Actions) | §9.2, §11 | BE | ✅ Done |
+| **P1-008** | Professional installers for all platforms (CR) | §9.2, §11 | BE | ✅ Done |
+
+> **CR Note**: P1-008 added via Change Request (2026-02-03) - Windows .msi/.exe, macOS .dmg, Linux .deb/.AppImage
 
 ### Phase 1 Exit Criteria
 - [x] Project runs in Docker without errors
 - [x] All routes navigate correctly (empty pages)
 - [x] Build pipeline passes
+- [x] Release workflow generates professional installers (CR)
 
 
 ---
@@ -469,12 +473,12 @@
 
 | Phase | Total | ⬜ To Do | 🔄 In Progress | 🧪 Code Test | 🧑‍💻 User Test | ✅ Done | % Complete |
 |-------|-------|---------|----------------|--------------|---------------|--------|------------|
-| Phase 1: Skeleton | 7 | 0 | 0 | - | - | 7 | 100% |
+| Phase 1: Skeleton | 8 | 0 | 0 | - | - | 8 | 100% |
 | Phase 2: Domain | 22 | 22 | 0 | - | - | 0 | 0% |
 | Phase 3: UI/UX | 75 | 75 | 0 | - | 0 | 0 | 0% |
 | Phase 4: Database | 15 | 15 | 0 | - | - | 0 | 0% |
 | Phase 5: Backend | 48 | 48 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **167** | **160** | **0** | **0** | **0** | **7** | **4%** |
+| **TOTAL** | **168** | **160** | **0** | **0** | **0** | **8** | **5%** |
 
 ---
 
@@ -484,6 +488,7 @@
 |------|---------|---------|----| 
 | 2026-02-03 | 1.0 | Initial tracker creation from PRD v1.1 | Agent |
 | 2026-02-03 | 1.1 | Phase 1: System Skeleton completed (P1-001 to P1-007) | Agent |
+| 2026-02-03 | 1.2 | CR: Added P1-008 - Professional installers for all platforms | Agent |
 
 
 ---

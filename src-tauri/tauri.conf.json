@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "apparel-temp",
+  "productName": "APPAREL",
   "version": "0.1.0",
-  "identifier": "com.dilsh.apparel-temp",
+  "identifier": "com.apparel.industry-tools",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -12,9 +12,16 @@
   "app": {
     "windows": [
       {
-        "title": "apparel-temp",
-        "width": 800,
-        "height": 600
+        "title": "APPAREL - Industry Tools",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 1024,
+        "minHeight": 600,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true,
+        "transparent": false
       }
     ],
     "security": {
@@ -30,6 +37,41 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "publisher": "APPAREL Team",
+    "category": "Business",
+    "shortDescription": "Apparel Industry Consulting Tools",
+    "longDescription": "APPAREL is a premium desktop application providing real-time machinery calculation, interactive floor layout planning, and presentation-ready dashboards for apparel industry consultants.",
+    "copyright": "Copyright © 2026 APPAREL Team",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "",
+      "wix": null,
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "headerImage": null,
+        "sidebarImage": null,
+        "installMode": "currentUser",
+        "languages": [
+          "English"
+        ],
+        "displayLanguageSelector": false,
+        "compression": "lzma"
+      }
+    },
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": null,
+      "frameworks": [],
+      "minimumSystemVersion": "10.13",
+      "signingIdentity": null
+    },
+    "linux": {
+      "appname": "apparel",
+      "section": "utils",
+      "priority": "optional",
+      "files": {}
+    }
   }
 }
