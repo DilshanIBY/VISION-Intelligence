@@ -7,34 +7,34 @@ import { AnalyticsPage } from '@pages/Analytics';
 import { SettingsPage } from '@pages/Settings';
 
 export const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <MainLayout />,
-        children: [
-            {
-                index: true,
-                element: <Navigate to="/dashboard" replace />,
-            },
-            {
-                path: 'dashboard',
-                element: <DashboardPage />,
-            },
-            {
-                path: 'calculator',
-                element: <MachineryCalculatorPage />,
-            },
-            {
-                path: 'floor-layout',
-                element: <FloorLayoutPage />,
-            },
-            {
-                path: 'analytics',
-                element: <AnalyticsPage />,
-            },
-            {
-                path: 'settings',
-                element: <SettingsPage />,
-            },
-        ],
-    },
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/dashboard" replace />,
+      },
+      {
+        path: 'dashboard',
+        element: <DashboardPage />,
+      },
+      {
+        path: 'calculator',
+        element: <MachineryCalculatorPage />,
+      },
+      {
+        path: 'floor-layout',
+        element: <FloorLayoutPage />,
+      },
+      {
+        path: 'analytics',
+        element: <AnalyticsPage />,
+      },
+      {
+        path: 'settings',
+        element: <SettingsPage />,
+      },
+    ],
+  },
 ]);
