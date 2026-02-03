@@ -57,36 +57,7 @@ jobs:
               repo: context.repo.repo,
               tag_name: `v${{ steps.get-version.outputs.version }}`,
               name: `APPAREL v${{ steps.get-version.outputs.version }}`,
-              body: `## APPAREL v${{ steps.get-version.outputs.version }}
-
-### Downloads
-
-| Platform | Installer | Type |
-|----------|-----------|------|
-| Windows | \`.msi\` | MSI Installer (Recommended) |
-| Windows | \`.exe\` | NSIS Installer |
-| macOS | \`.dmg\` | Disk Image |
-| Linux | \`.deb\` | Debian Package |
-| Linux | \`.AppImage\` | Universal Linux |
-
-### Installation
-
-#### Windows
-1. Download the \`.msi\` or \`.exe\` installer
-2. Run the installer and follow the prompts
-3. Launch APPAREL from the Start Menu
-
-#### macOS
-1. Download the \`.dmg\` file
-2. Open the DMG and drag APPAREL to Applications
-3. Launch APPAREL from Applications
-
-#### Linux
-- **Debian/Ubuntu**: \`sudo dpkg -i apparel_*.deb\`
-- **AppImage**: Make executable and run: \`chmod +x APPAREL_*.AppImage && ./APPAREL_*.AppImage\`
-
----
-See [CHANGELOG](CHANGELOG.md) for detailed changes.`,
+              body: '## APPAREL v${{ steps.get-version.outputs.version }}\n\n### Downloads\n\n**Windows:** `.msi` (MSI Installer) or `.exe` (NSIS Installer)\n\n**macOS:** `.dmg` (Disk Image)\n\n**Linux:** `.deb` (Debian Package) or `.AppImage` (Universal)\n\n### Installation\n\n**Windows:** Download the `.msi` or `.exe` installer, run it, and follow the prompts.\n\n**macOS:** Download the `.dmg` file, open it, and drag APPAREL to Applications.\n\n**Linux (Debian/Ubuntu):** `sudo dpkg -i apparel_*.deb`\n\n**Linux (AppImage):** `chmod +x APPAREL_*.AppImage && ./APPAREL_*.AppImage`',
               draft: true,
               prerelease: false
             });
@@ -99,17 +70,14 @@ See [CHANGELOG](CHANGELOG.md) for detailed changes.`,
       fail-fast: false
       matrix:
         settings:
-          # Windows builds
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             bundles: msi,nsis
 
-          # macOS builds (Universal binary for Intel + Apple Silicon)
           - os: macos-latest
             target: universal-apple-darwin
             bundles: dmg
 
-          # Linux builds
           - os: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
             bundles: deb,appimage
@@ -177,4 +145,4 @@ See [CHANGELOG](CHANGELOG.md) for detailed changes.`,
               release_id: ${{ needs.create-release.outputs.release_id }},
               draft: false
             });
-            console.log('✅ Release published successfully!');
+            console.log('Release published successfully!');
