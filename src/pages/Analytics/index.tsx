@@ -30,8 +30,8 @@ export function AnalyticsPage() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 flex flex-col items-center justify-center text-center">
-        <div className="card-float p-12 max-w-md">
+      <div className="flex-1 p-4 min-h-0 overflow-hidden">
+        <div className="card-float w-full h-full flex flex-col items-center justify-center text-center">
           <div className="w-16 h-16 mx-auto mb-6 rounded-[var(--radius-2xl)] bg-[var(--color-success)] flex items-center justify-center text-white">
             <BarChart3 size={32} />
           </div>

@@ -265,15 +265,15 @@ export const mockScenarioComparison: ScenarioComparison = {
 // =====================================================
 
 export const defaultDashboardWidgets: DashboardWidget[] = [
-    { id: 'w-1', type: 'kpi', title: 'Active Projects', x: 0, y: 0, w: 1, h: 1, config: { kpiId: 'kpi-1' } },
-    { id: 'w-2', type: 'kpi', title: 'Machines Required', x: 1, y: 0, w: 1, h: 1, config: { kpiId: 'kpi-2' } },
-    { id: 'w-3', type: 'kpi', title: 'Utilization Rate', x: 2, y: 0, w: 1, h: 1, config: { kpiId: 'kpi-3' } },
-    { id: 'w-4', type: 'kpi', title: 'Cost Savings', x: 3, y: 0, w: 1, h: 1, config: { kpiId: 'kpi-4' } },
-    { id: 'w-5', type: 'gauge', title: 'Machine Utilization', x: 0, y: 1, w: 1, h: 2, config: { gaugeKey: 'machineUtilization' } },
-    { id: 'w-6', type: 'bar-chart', title: 'Capacity Analysis', x: 1, y: 1, w: 2, h: 2, config: { chartKey: 'capacity' } },
-    { id: 'w-7', type: 'timeline', title: 'Production Schedule', x: 3, y: 1, w: 1, h: 2, config: {} },
-    { id: 'w-8', type: 'floor-map', title: 'Floor Layout', x: 0, y: 3, w: 2, h: 2, config: { layoutId: 'floor-1' } },
-    { id: 'w-9', type: 'comparison', title: 'Scenario Comparison', x: 2, y: 3, w: 2, h: 2, config: {} },
+    { id: 'w-1', type: 'kpi', title: 'Active Projects', x: 0, y: 0, w: 1, h: 8, config: { kpiId: 'kpi-1' } },
+    { id: 'w-2', type: 'kpi', title: 'Machines Required', x: 1, y: 0, w: 1, h: 8, config: { kpiId: 'kpi-2' } },
+    { id: 'w-3', type: 'kpi', title: 'Utilization Rate', x: 2, y: 0, w: 1, h: 8, config: { kpiId: 'kpi-3' } },
+    { id: 'w-4', type: 'kpi', title: 'Cost Savings', x: 3, y: 0, w: 1, h: 8, config: { kpiId: 'kpi-4' } },
+    { id: 'w-5', type: 'gauge', title: 'Machine Utilization', x: 0, y: 9, w: 1, h: 14.5, config: { gaugeKey: 'machineUtilization' } },
+    { id: 'w-6', type: 'bar-chart', title: 'Capacity Analysis', x: 1, y: 9, w: 2, h: 14.5, config: { chartKey: 'capacity' } },
+    { id: 'w-7', type: 'timeline', title: 'Production Schedule', x: 3, y: 9, w: 1, h: 14.5, config: {} },
+    { id: 'w-8', type: 'floor-map', title: 'Floor Layout', x: 0, y: 24, w: 2, h: 17, config: { layoutId: 'floor-1' } },
+    { id: 'w-9', type: 'comparison', title: 'Scenario Comparison', x: 2, y: 24, w: 2, h: 17, config: {} },
 ];
 
 export const mockDashboardConfig: DashboardConfig = {
@@ -282,5 +282,5 @@ export const mockDashboardConfig: DashboardConfig = {
     widgets: defaultDashboardWidgets,
     theme: 'auto',
     columns: 4,
-    rowHeight: 120,
+    rowHeight: 10,
 };

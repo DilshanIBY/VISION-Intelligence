@@ -1,18 +1,17 @@
 /**
- * Bar Chart Widget Component
- * Displays a bar chart for comparative data
+ * Line Chart Widget Component
+ * Displays a line chart for trend data
  */
 
-import { BarChartComponent, BarChartData } from '../../ui/display';
+import { LineChartComponent, LineChartData } from '../../ui/display';
 import { ChartData } from '../../../types/dashboard';
 
-interface BarChartWidgetProps {
+interface LineChartWidgetProps {
     data: ChartData;
     showLegend?: boolean;
-    horizontal?: boolean;
 }
 
-export function BarChartWidget({ data, showLegend = true, horizontal = false }: BarChartWidgetProps) {
+export function LineChartWidget({ data, showLegend = true }: LineChartWidgetProps) {
     // Map color names to CSS variable values
     const colorMap: Record<string, string> = {
         primary: 'var(--color-primary)',
@@ -23,9 +22,9 @@ export function BarChartWidget({ data, showLegend = true, horizontal = false }: 
         error: 'var(--color-error)',
     };
 
-    // Transform to BarChartData format with explicit name property
-    const chartData: BarChartData[] = data.labels.map((label, index) => {
-        const item: BarChartData = { name: label };
+    // Transform to LineChartData format with explicit name property
+    const chartData: LineChartData[] = data.labels.map((label, index) => {
+        const item: LineChartData = { name: label };
         data.datasets.forEach((dataset) => {
             item[dataset.label] = dataset.data[index];
         });
@@ -40,12 +39,14 @@ export function BarChartWidget({ data, showLegend = true, horizontal = false }: 
 
     return (
         <div className="h-full w-full">
-            <BarChartComponent
+            <LineChartComponent
                 data={chartData}
                 dataKeys={dataKeys}
-                layout={horizontal ? 'vertical' : 'horizontal'}
                 showLegend={showLegend}
                 showGrid
+                showTooltip
+                curved
+                showArea
                 height="100%"
                 className="h-full"
             />

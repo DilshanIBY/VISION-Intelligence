@@ -209,7 +209,7 @@ export function DashboardPage() {
             <DashboardGrid
               widgets={widgets}
               columns={4}
-              rowHeight={120}
+              rowHeight={10}
               isEditing={isEditing}
               onLayoutChange={handleLayoutChange}
               onRemoveWidget={handleRemoveWidget}

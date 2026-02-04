@@ -24,7 +24,7 @@ export interface LineChartProps {
     showTooltip?: boolean;
     showArea?: boolean;
     curved?: boolean;
-    height?: number;
+    height?: number | string;
     className?: string;
 }
 

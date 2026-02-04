@@ -24,7 +24,7 @@ export interface BarChartProps {
     showLegend?: boolean;
     showTooltip?: boolean;
     stacked?: boolean;
-    height?: number;
+    height?: number | string;
     className?: string;
 }
 

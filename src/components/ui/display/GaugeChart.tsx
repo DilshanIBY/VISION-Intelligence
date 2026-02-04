@@ -11,6 +11,7 @@ export interface GaugeChartProps {
     color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'auto';
     showValue?: boolean;
     thresholds?: { warning: number; error: number };
+    responsive?: boolean;
     className?: string;
 }
 
@@ -26,6 +27,7 @@ export const GaugeChart = forwardRef<HTMLDivElement, GaugeChartProps>(
             color = 'auto',
             showValue = true,
             thresholds = { warning: 70, error: 90 },
+            responsive = false,
             className = '',
         },
         ref
@@ -63,14 +65,19 @@ export const GaugeChart = forwardRef<HTMLDivElement, GaugeChartProps>(
 
         const currentColor = getColor();
 
+        const containerStyle = responsive
+            ? { width: '100%', height: '100%' }
+            : { width, height: width / 2 + 20 };
+
         return (
-            <div ref={ref} className={`flex flex-col items-center ${className}`}>
-                <div className="relative" style={{ width, height: width / 2 + 20 }}>
+            <div ref={ref} className={`flex flex-col items-center ${className}`} style={responsive ? { height: '100%', width: '100%' } : undefined}>
+                <div className="relative" style={containerStyle}>
                     <svg
-                        width={width}
-                        height={width / 2 + strokeWidth}
+                        width={responsive ? '100%' : width}
+                        height={responsive ? '100%' : width / 2 + strokeWidth}
                         viewBox={`0 0 ${width} ${width / 2 + strokeWidth}`}
                         className="overflow-visible"
+                        preserveAspectRatio="xMidYMid meet"
                     >
                         {/* Background Arc */}
                         <path

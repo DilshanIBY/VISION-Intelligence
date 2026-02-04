@@ -18,6 +18,7 @@ import {
     FloorMapWidget,
     CostBreakdownWidget,
     ComparisonWidget,
+    LineChartWidget,
 } from './widgets';
 import {
     mockKPIData,
@@ -42,7 +43,7 @@ interface DashboardGridProps {
 export function DashboardGrid({
     widgets,
     columns = 4,
-    rowHeight = 120,
+    rowHeight = 10,
     isEditing = false,
     onLayoutChange,
     onRemoveWidget,
@@ -123,7 +124,7 @@ export function DashboardGrid({
                 return <BarChartWidget data={mockBarChartData} showLegend />;
 
             case 'line-chart':
-                return <BarChartWidget data={mockBarChartData} showLegend />;
+                return <LineChartWidget data={mockBarChartData} showLegend />;
 
             case 'timeline':
                 return <TimelineWidget data={mockTimelineData} />;
