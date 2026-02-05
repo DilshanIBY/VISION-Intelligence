@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 
@@ -53,8 +53,6 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         },
         ref
     ) => {
-        const [hoveredColor, setHoveredColor] = useState<string | null>(null);
-
         const sizes = {
             sm: { swatch: 'w-6 h-6', gap: 'gap-1' },
             md: { swatch: 'w-8 h-8', gap: 'gap-2' },
@@ -112,8 +110,6 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                                 whileHover={{ scale: disabled || atLimit ? 1 : 1.15 }}
                                 whileTap={{ scale: disabled || atLimit ? 1 : 0.95 }}
                                 onClick={() => handleColorClick(color.value)}
-                                onMouseEnter={() => setHoveredColor(color.value)}
-                                onMouseLeave={() => setHoveredColor(null)}
                                 disabled={disabled || atLimit}
                                 className={`
                   relative rounded-[var(--radius-lg)] border-2
@@ -149,16 +145,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                     })}
                 </div>
 
-                {/* Hovered Color Label */}
-                {hoveredColor && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mt-2 text-xs text-[var(--color-text-muted)]"
-                    >
-                        {colors.find((c) => c.value === hoveredColor)?.label || hoveredColor}
-                    </motion.div>
-                )}
+
 
                 {/* Selected Colors Display */}
                 {value.length > 0 && (

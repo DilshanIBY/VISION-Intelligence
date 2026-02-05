@@ -211,25 +211,25 @@
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
-| **P3-PG-CALC-001** | Machinery calculator page layout | §3.1 | UI | ⬜ To Do |
-| **P3-PG-CALC-002** | Machine Type searchable dropdown | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-003** | Target Quantity input + slider | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-004** | Working Hours/Day time picker | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-005** | Deadline calendar picker | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-006** | Efficiency Factor slider with tooltip | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-007** | Punch Count input + visual scale (embroidery) | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-008** | Thread Colors picker grid (embroidery) | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-009** | Head Count visual selector (embroidery) | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-010** | Machine Speed SPM preset + custom (embroidery) | §3.1.2 | UI | ⬜ To Do |
-| **P3-PG-CALC-011** | Machines Required output (large number + icons) | §3.1.3 | UI | ⬜ To Do |
-| **P3-PG-CALC-012** | Production Timeline output (Gantt bar) | §3.1.3 | UI | ⬜ To Do |
-| **P3-PG-CALC-013** | Daily Output Rate output (progress arc) | §3.1.3 | UI | ⬜ To Do |
-| **P3-PG-CALC-014** | Utilization Rate output (gauge chart) | §3.1.3 | UI | ⬜ To Do |
-| **P3-PG-CALC-015** | Cost Estimate output (currency + breakdown) | §3.1.3 | UI | ⬜ To Do |
-| **P3-PG-CALC-016** | What-If dynamic sliders (real-time update) | §3.1.4, §5.1 | UI | ⬜ To Do |
-| **P3-PG-CALC-017** | Comparison cards (up to 4 scenarios) | §3.1.4, §5.1 | UI | ⬜ To Do |
-| **P3-PG-CALC-018** | Impact indicators (+/- color coding) | §3.1.4, §5.1 | UI | ⬜ To Do |
-| **P3-PG-CALC-019** | Validation warnings display | §3.1.5 | UI | ⬜ To Do |
+| **P3-PG-CALC-001** | Machinery calculator page layout | §3.1 | UI | ✅ Done |
+| **P3-PG-CALC-002** | Machine Type searchable dropdown | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-003** | Target Quantity input + slider | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-004** | Working Hours/Day time picker | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-005** | Deadline calendar picker | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-006** | Efficiency Factor slider with tooltip | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-007** | Punch Count input + visual scale (embroidery) | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-008** | Thread Colors picker grid (embroidery) | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-009** | Head Count visual selector (embroidery) | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-010** | Machine Speed SPM preset + custom (embroidery) | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-011** | Machines Required output (large number + icons) | §3.1.3 | UI | ✅ Done |
+| **P3-PG-CALC-012** | Production Timeline output (Gantt bar) | §3.1.3 | UI | ✅ Done |
+| **P3-PG-CALC-013** | Daily Output Rate output (progress arc) | §3.1.3 | UI | ✅ Done |
+| **P3-PG-CALC-014** | Utilization Rate output (gauge chart) | §3.1.3 | UI | ✅ Done |
+| **P3-PG-CALC-015** | Cost Estimate output (currency + breakdown) | §3.1.3 | UI | ✅ Done |
+| **P3-PG-CALC-016** | What-If dynamic sliders (real-time update) | §3.1.4, §5.1 | UI | ✅ Done |
+| **P3-PG-CALC-017** | Comparison cards (up to 4 scenarios) | §3.1.4, §5.1 | UI | ✅ Done |
+| **P3-PG-CALC-018** | Impact indicators (+/- color coding) | §3.1.4, §5.1 | UI | ✅ Done |
+| **P3-PG-CALC-019** | Validation warnings display | §3.1.5 | UI | ✅ Done |
 
 ### 3.2.3 Floor Layout Planner
 

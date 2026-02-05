@@ -125,8 +125,8 @@ export function TopBar() {
           className="flex items-center gap-3 pl-1 pr-1 py-1 rounded-full hover:bg-surface/50 border border-transparent hover:border-glass-border transition-all group"
           title="Profile"
         >
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform ring-2 ring-surface">
-            <span className="font-semibold text-sm">JD</span>
+          <div className="w-9 h-9 rounded-full shadow-lg group-hover:scale-105 transition-transform ring-2 ring-surface overflow-hidden">
+            <img src="/src/assets/placeholder-avatar.png" alt="User Profile" className="w-full h-full object-cover scale-105" />
           </div>
         </button>
       </div>
