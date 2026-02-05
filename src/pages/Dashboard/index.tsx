@@ -182,6 +182,13 @@ export function DashboardPage() {
               >
                 <Presentation size={18} />
               </button>
+
+              <button
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
+                title="Export"
+              >
+                <Download size={18} />
+              </button>
             </div>
           </div>
         )}

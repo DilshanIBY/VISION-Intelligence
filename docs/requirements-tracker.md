@@ -235,25 +235,25 @@
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
-| **P3-PG-FLOOR-001** | Floor layout planner page layout | §3.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-002** | Total Operators slider + input | §3.2.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-003** | Product Type visual card select | §3.2.2, §3.2.3 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-004** | Working Hours time picker | §3.2.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-005** | Building Floors stack visual | §3.2.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-006** | Floor Dimensions input | §3.2.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-007** | Grid canvas (zoomable, pannable) | §5.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-008** | Department palette (drag blocks) | §5.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-009** | Department blocks with icons/colors | §5.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-010** | Auto-snap to grid | §3.2.5 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-011** | Flow arrows (material flow) | §3.2.5 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-012** | Collision detection (overlap prevention) | §3.2.5 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-013** | Multi-floor view (tabs or 3D isometric) | §3.2.5, §5.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-014** | Zoom & pan canvas controls | §3.2.5 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-015** | Export layout (PNG/PDF) | §3.2.5 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-016** | Templates (pre-built layouts) | §5.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-017** | Measurement tool | §5.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-018** | Bottleneck detection overlay | §3.2.6, §5.2 | UI | ⬜ To Do |
-| **P3-PG-FLOOR-019** | Validation warnings display | §3.2.6 | UI | ⬜ To Do |
+| **P3-PG-FLOOR-001** | Floor layout planner page layout | §3.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-002** | Total Operators slider + input | §3.2.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-003** | Product Type visual card select | §3.2.2, §3.2.3 | UI | ✅ Done |
+| **P3-PG-FLOOR-004** | Working Hours time picker | §3.2.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-005** | Building Floors stack visual | §3.2.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-006** | Floor Dimensions input | §3.2.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-007** | Grid canvas (zoomable, pannable) | §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-008** | Department palette (drag blocks) | §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-009** | Department blocks with icons/colors | §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-010** | Auto-snap to grid | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-011** | Flow arrows (material flow) | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-012** | Collision detection (overlap prevention) | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-013** | Multi-floor view (tabs or 3D isometric) | §3.2.5, §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-014** | Zoom & pan canvas controls | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-015** | Export layout (PNG/PDF) | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-016** | Templates (pre-built layouts) | §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-017** | Measurement tool | §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-018** | Bottleneck detection overlay | §3.2.6, §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-019** | Validation warnings display | §3.2.6 | UI | ✅ Done |
 
 ### 3.2.4 Analytics Dashboard
 

@@ -13,6 +13,7 @@ export interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElem
     showSlider?: boolean;
     error?: string;
     helperText?: string;
+    suffix?: string;
 }
 
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
@@ -30,6 +31,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             helperText,
             className = '',
             disabled,
+            suffix,
             ...props
         },
         ref
@@ -125,6 +127,13 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             `}
                         {...props}
                     />
+
+                    {/* Suffix */}
+                    {suffix && (
+                        <span className="text-xs text-[var(--color-text-muted)] mr-1 select-none">
+                            {suffix}
+                        </span>
+                    )}
 
                     {/* Increment Button */}
                     <motion.button

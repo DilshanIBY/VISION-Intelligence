@@ -201,8 +201,6 @@ export function MachineryCalculatorPage() {
                 <Presentation size={18} />
               </motion.button>
 
-              <div className="w-px h-6 bg-glass-border mx-1" />
-
               <motion.button
                 className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
                 whileHover={{ scale: 1.05 }}
@@ -210,14 +208,6 @@ export function MachineryCalculatorPage() {
                 title="Export"
               >
                 <Download size={18} />
-              </motion.button>
-              <motion.button
-                className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                title="Share"
-              >
-                <Share2 size={18} />
               </motion.button>
             </div>
           </motion.div>
