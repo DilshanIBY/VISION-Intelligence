@@ -75,9 +75,9 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 {/* Input Container */}
                 <div
                     className={`
-            flex items-center gap-2 px-2 rounded-[var(--radius-xl)]
+            flex items-center gap-2 px-1 rounded-[var(--radius-xl)]
             bg-[var(--color-surface)] border-2
-            transition-all duration-200
+            transition-all duration-200 overflow-visible
             ${sizeStyles[size]}
             ${error
                             ? 'border-[var(--color-error)]'

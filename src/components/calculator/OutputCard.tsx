@@ -26,9 +26,8 @@ export const OutputCard = forwardRef<HTMLDivElement, OutputCardProps>(
             <motion.div
                 ref={ref}
                 className={`
-          bg-[var(--color-glass)] backdrop-blur-md
-          border border-[var(--color-glass-border)]
-          rounded-[var(--radius-xl)] 
+          bg-[var(--color-surface)]
+          rounded-[var(--radius-xl)] shadow-[var(--shadow-float)]
           ${sizeStyles[size]}
           ${className}
         `}

@@ -31,10 +31,10 @@ import { useUI } from '@/contexts/UIContext';
 // Floor Layout Components
 import {
   ParametersPanel,
-  DepartmentPalette,
+  ToolsPanel,
+  FloatingPalette,
   DepartmentBlock,
   GridCanvas,
-  CanvasControls,
   FloorTabs,
   FlowArrows,
   ValidationOverlay,
@@ -51,13 +51,13 @@ import {
   calculateDepartmentAreas,
   validateLayout,
   departmentTypes,
-  mockPlacedDepartments,
   type FloorLayoutInputs,
   type PlacedDepartment,
   type CalculatedDepartmentArea,
   type ValidationWarning,
   type LayoutTemplate as LayoutTemplateType,
 } from '@mocks/floor-layout';
+import type { CanvasObject } from '@/types/canvas';
 
 
 export function FloorLayoutPage() {
@@ -73,8 +73,12 @@ export function FloorLayoutPage() {
   const [inputs, setInputs] = useState<FloorLayoutInputs>(defaultFloorLayoutInputs);
 
   // Placed Departments State
-  const [departments, setDepartments] = useState<PlacedDepartment[]>(mockPlacedDepartments);
+  const [departments, setDepartments] = useState<PlacedDepartment[]>([]);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<string | null>(null);
+
+  // Canvas Objects (Shapes, Text)
+  const [canvasObjects, setCanvasObjects] = useState<CanvasObject[]>([]);
+  const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
 
   // Canvas State
   const [activeFloorIndex, setActiveFloorIndex] = useState(0);
@@ -87,6 +91,7 @@ export function FloorLayoutPage() {
   const [showTemplates, setShowTemplates] = useState(false);
   const [activeSidebar, setActiveSidebar] = useState<'none' | 'export' | 'validation'>('none');
   const [isMeasuring, setIsMeasuring] = useState(false);
+  const [activeTool, setActiveTool] = useState<'select' | 'pan' | 'shape-rect' | 'shape-circle' | 'text' | 'note' | 'arrow' | 'curved-arrow'>('select');
 
   // Drag State
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
@@ -112,6 +117,32 @@ export function FloorLayoutPage() {
     () => calculatedAreas.reduce((sum, d) => sum + d.calculatedArea, 0),
     [calculatedAreas]
   );
+
+  // Initial Fit to Screen
+  useEffect(() => {
+    // Estimate container width (approximate or use ResizeObserver for precision)
+    // Sidebar 320px + padding etc. -> Window Width - 340px?
+    // Let's just set a reasonable default zoom based on floor width for now.
+    // If floor is 250m wide -> 2000px. If screen is 1920, available is ~1500. Zoom ~0.75.
+    const containerWidth = window.innerWidth - 380; // Minus sidebar and padding
+    const floorWidthPx = inputs.floorWidth * (40 / 5); // 8px per meter
+    const initialZoom = Math.min(Math.max(containerWidth / floorWidthPx, 0.2), 1.5);
+    setZoom(initialZoom);
+    // Center it horizontally? Pan defaulting to 20, 20 is okay.
+  }, []); // Run once on mount
+
+  // Calculate Actual Operators from Placed Departments
+  const actualTotalOperators = useMemo(() => {
+    return departments.reduce((sum, dept) => {
+      // Simplified density assumption (matching GridCanvas logic)
+      let density = 10;
+      if (dept.departmentTypeId === 'sewing') density = 6;
+      if (dept.departmentTypeId === 'warehouse') density = 100;
+      if (dept.departmentTypeId === 'cutting') density = 15;
+      if (dept.departmentTypeId === 'packing') density = 12;
+      return sum + Math.round(dept.calculatedArea / density);
+    }, 0);
+  }, [departments]);
 
   // Get placed department type IDs
   const placedDepartmentIds = useMemo(
@@ -163,6 +194,137 @@ export function FloorLayoutPage() {
     if (selectedDepartmentId === id) setSelectedDepartmentId(null);
   }, [selectedDepartmentId]);
 
+  // Update department (resize/move)
+  const handleUpdateDepartment = useCallback((id: string, updates: Partial<PlacedDepartment>) => {
+    // 1. Update Departments
+    let updatedDept: PlacedDepartment | undefined;
+
+    setDepartments(prev => prev.map(d => {
+      if (d.id !== id) return d;
+      const updated = { ...d, ...updates };
+      // Recalculate area if dimensions changed
+      if (updates.width || updates.height) {
+        updated.calculatedArea = updated.width * updated.height * 25; // 5x5m = 25m2 per cell
+      }
+      updatedDept = updated;
+      return updated;
+    }));
+
+    // 2. Update Connected Arrows (in CanvasObjects)
+    if (updatedDept && (updates.x !== undefined || updates.y !== undefined || updates.width !== undefined || updates.height !== undefined)) {
+      const GRID_CELL_SIZE = 40; // Hardcoded matches GridCanvas
+      const center = {
+        x: (updatedDept.x * GRID_CELL_SIZE) + (updatedDept.width * GRID_CELL_SIZE) / 2,
+        y: (updatedDept.y * GRID_CELL_SIZE) + (updatedDept.height * GRID_CELL_SIZE) / 2
+      };
+
+      setCanvasObjects(prev => prev.map(obj => {
+        if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && (obj.startObjectId === id || obj.endObjectId === id)) {
+          let startPoint = obj.startPoint;
+          let endPoint = obj.endPoint;
+
+          if (obj.startObjectId === id) startPoint = center;
+          if (obj.endObjectId === id) endPoint = center;
+
+          if (startPoint && endPoint) {
+            const minX = Math.min(startPoint.x, endPoint.x) - 20;
+            const minY = Math.min(startPoint.y, endPoint.y) - 20;
+            const maxX = Math.max(startPoint.x, endPoint.x) + 20;
+            const maxY = Math.max(startPoint.y, endPoint.y) + 20;
+
+            return {
+              ...obj,
+              x: minX,
+              y: minY,
+              width: maxX - minX,
+              height: maxY - minY,
+              startPoint,
+              endPoint
+            };
+          }
+        }
+        return obj;
+      }));
+    }
+  }, []);
+
+  // Canvas Object Handlers
+  const handleAddObject = useCallback((obj: CanvasObject) => {
+    setCanvasObjects(prev => [...prev, obj]);
+    setSelectedObjectId(obj.id);
+    setActiveTool('select'); // Switch back to select after creation
+  }, []);
+
+  const handleUpdateObject = useCallback((id: string, updates: Partial<CanvasObject>) => {
+    setCanvasObjects(prev => {
+      const nextObjects = prev.map(o => o.id === id ? { ...o, ...updates } : o);
+      const target = nextObjects.find(o => o.id === id);
+
+      // Update connected arrows if position/dimensions changed
+      if (target && (updates.x !== undefined || updates.y !== undefined || updates.width !== undefined || updates.height !== undefined)) {
+        return nextObjects.map(obj => {
+          if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && (obj.startObjectId === id || obj.endObjectId === id)) {
+            let startPoint = obj.startPoint;
+            let endPoint = obj.endPoint;
+
+            const targetCenter = {
+              x: target.x + target.width / 2,
+              y: target.y + target.height / 2
+            };
+
+            if (obj.startObjectId === id) startPoint = targetCenter;
+            if (obj.endObjectId === id) endPoint = targetCenter;
+
+            if (startPoint && endPoint) {
+              const minX = Math.min(startPoint.x, endPoint.x) - 20;
+              const minY = Math.min(startPoint.y, endPoint.y) - 20;
+              const maxX = Math.max(startPoint.x, endPoint.x) + 20;
+              const maxY = Math.max(startPoint.y, endPoint.y) + 20;
+
+              return {
+                ...obj,
+                x: minX,
+                y: minY,
+                width: maxX - minX,
+                height: maxY - minY,
+                startPoint,
+                endPoint
+              };
+            }
+          }
+          return obj;
+        });
+      }
+      return nextObjects;
+    });
+  }, []);
+
+  const handleRemoveObject = useCallback((id: string) => {
+    setCanvasObjects(prev => prev.filter(o => o.id !== id));
+    if (selectedObjectId === id) setSelectedObjectId(null);
+  }, [selectedObjectId]);
+
+  const onDragEndObject = useCallback((obj: CanvasObject, dx: number, dy: number) => {
+    const updates: Partial<CanvasObject> = {
+      x: Math.round(obj.x + dx),
+      y: Math.round(obj.y + dy)
+    };
+
+    // If arrow, also shift endpoints
+    if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && obj.startPoint && obj.endPoint) {
+      updates.startPoint = {
+        x: obj.startPoint.x + dx,
+        y: obj.startPoint.y + dy
+      };
+      updates.endPoint = {
+        x: obj.endPoint.x + dx,
+        y: obj.endPoint.y + dy
+      };
+    }
+
+    handleUpdateObject(obj.id, updates);
+  }, [handleUpdateObject]);
+
   // Zoom controls
   const handleZoomIn = useCallback(() => setZoom(z => Math.min(2, z + 0.25)), []);
   const handleZoomOut = useCallback(() => setZoom(z => Math.max(0.25, z - 0.25)), []);
@@ -170,9 +332,15 @@ export function FloorLayoutPage() {
     setZoom(0.8);
     setPan({ x: 20, y: 20 });
   }, []);
-  const handleResetView = useCallback(() => {
-    setZoom(1);
-    setPan({ x: 20, y: 20 });
+
+  const handleFullScreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
   }, []);
 
   // Floor management
@@ -237,7 +405,7 @@ export function FloorLayoutPage() {
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+    const { active, over, delta } = event;
     setActiveDragId(null);
     setActiveDragData(null);
 
@@ -266,9 +434,105 @@ export function FloorLayoutPage() {
     }
 
     // Handle moving placed department
+    // Handle Canvas Object Move
+    if (active.data.current?.type === 'canvas-object') {
+      const result = active.data.current.object as CanvasObject; // Need to ensure data structure match
+
+      const floorWidthPx = inputs.floorWidth * (40 / 5); // 8px per meter -> 40px / 5m
+      const floorHeightPx = inputs.floorHeight * (40 / 5);
+
+      const newX = Math.round(result.x + delta.x / zoom);
+      const newY = Math.round(result.y + delta.y / zoom);
+
+      const maxX = floorWidthPx - result.width;
+      const maxY = floorHeightPx - result.height;
+
+      onDragEndObject(result,
+        Math.max(0, Math.min(newX, maxX)) - result.x,
+        Math.max(0, Math.min(newY, maxY)) - result.y
+      );
+      return;
+    }
+
+    // Handle Placed Department Move
     if (active.data.current?.type === 'placed-department') {
-      // In a full implementation, we'd calculate the new position based on drop coordinates
-      // For this prototype, we keep it simple
+      const dept = active.data.current.department as PlacedDepartment;
+
+      // Calculate delta in grid units, accounting for zoom
+      const deltaGridX = Math.round((delta.x / zoom) / 40);
+      const deltaGridY = Math.round((delta.y / zoom) / 40);
+
+      if (deltaGridX !== 0 || deltaGridY !== 0) {
+        // We need to capture the NEW position to update arrows
+        let movedDeptId = dept.id;
+        let newCenter = { x: 0, y: 0 };
+        let didMove = false;
+
+        setDepartments(prev => prev.map(d => {
+          if (d.id !== dept.id) return d;
+
+          const newX = d.x + deltaGridX;
+          const newY = d.y + deltaGridY;
+
+          // Constrain to positive coordinates (canvas bounds) and Floor Width/Height
+          const deptWidthCells = d.width;
+          const deptHeightCells = d.height;
+          // Grid width in cells = floorWidth / 5
+          const floorWidthCells = Math.round(inputs.floorWidth / 5);
+          const floorHeightCells = Math.round(inputs.floorHeight / 5);
+
+          const maxX = floorWidthCells - deptWidthCells;
+          const maxY = floorHeightCells - deptHeightCells;
+
+          const finalX = Math.max(0, Math.min(newX, maxX));
+          const finalY = Math.max(0, Math.min(newY, maxY));
+
+          // Calculate center for arrow updates
+          const GRID_CELL_SIZE = 40;
+          newCenter = {
+            x: (finalX * GRID_CELL_SIZE) + (d.width * GRID_CELL_SIZE) / 2,
+            y: (finalY * GRID_CELL_SIZE) + (d.height * GRID_CELL_SIZE) / 2
+          };
+          didMove = true;
+
+          return {
+            ...d,
+            x: finalX,
+            y: finalY
+          };
+        }));
+
+        // Update Arrows if department moved
+        if (didMove) {
+          setCanvasObjects(prev => prev.map(obj => {
+            if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && (obj.startObjectId === movedDeptId || obj.endObjectId === movedDeptId)) {
+              let startPoint = obj.startPoint;
+              let endPoint = obj.endPoint;
+
+              if (obj.startObjectId === movedDeptId) startPoint = newCenter;
+              if (obj.endObjectId === movedDeptId) endPoint = newCenter;
+
+              if (startPoint && endPoint) {
+                const minX = Math.min(startPoint.x, endPoint.x) - 20;
+                const minY = Math.min(startPoint.y, endPoint.y) - 20;
+                const maxX = Math.max(startPoint.x, endPoint.x) + 20;
+                const maxY = Math.max(startPoint.y, endPoint.y) + 20;
+
+                return {
+                  ...obj,
+                  x: minX,
+                  y: minY,
+                  width: maxX - minX,
+                  height: maxY - minY,
+                  startPoint,
+                  endPoint
+                };
+              }
+            }
+            return obj;
+          }));
+        }
+      }
     }
   };
 
@@ -391,26 +655,20 @@ export function FloorLayoutPage() {
 
         {/* Main Content */}
         <div className="flex-1 flex gap-4 min-h-0 overflow-hidden">
-          {/* Left Sidebar - Parameters & Palette */}
-          {!isPresentationMode && (
-            <div className="w-80 flex-shrink-0 flex flex-col gap-4 overflow-y-auto pr-1 pb-4 max-h-full scrollbar-thin scrollbar-thumb-glass-border scrollbar-track-transparent">
-              <ParametersPanel
-                inputs={inputs}
-                onInputChange={handleInputChange}
-                totalArea={totalArea}
-              />
-
-              <DepartmentPalette
-                departments={calculatedAreas}
-                placedDepartmentIds={placedDepartmentIds}
-              />
-            </div>
-          )}
+          {/* Left Sidebar - Parameters Only */}
+          <div className="w-44 flex-shrink-0 flex flex-col gap-4 overflow-y-auto overflow-x-hidden pr-1 pb-4 max-h-full scrollbar-thin scrollbar-thumb-glass-border scrollbar-track-transparent z-10">
+            <ParametersPanel
+              inputs={inputs}
+              onInputChange={handleInputChange}
+              totalArea={totalArea}
+              actualTotalOperators={actualTotalOperators}
+            />
+          </div>
 
           {/* Canvas Area */}
-          <div className="flex-1 flex flex-col gap-3 min-w-0">
+          <div className="flex-1 flex flex-col gap-3 min-w-0 relative">
             {/* Floor Tabs & Tools */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between z-10">
               <FloorTabs
                 totalFloors={inputs.buildingFloors}
                 activeFloorIndex={activeFloorIndex}
@@ -447,10 +705,11 @@ export function FloorLayoutPage() {
                     onToggle={() => setIsMeasuring(!isMeasuring)}
                     zoom={zoom}
                     pan={pan}
+                    hiddenControl={true}
                   />
 
                   <motion.button
-                    className="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white shadow-md hover:shadow-lg transition-all"
+                    className="h-9 w-9 rounded-lg flex items-center justify-center bg-primary text-white shadow-md hover:bg-primary/90 transition-all border border-transparent"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     title="Save Layout"
@@ -461,44 +720,70 @@ export function FloorLayoutPage() {
               )}
             </div>
 
-            {/* Canvas Container */}
-            <div className="relative flex-1 min-h-0 rounded-2xl overflow-hidden border border-glass-border bg-dots-pattern">
-              <GridCanvas
-                departments={departments}
-                selectedDepartmentId={selectedDepartmentId}
-                inputs={inputs}
-                activeFloorIndex={activeFloorIndex}
-                zoom={zoom}
-                pan={pan}
-                showGrid={showGrid}
-                onSelectDepartment={setSelectedDepartmentId}
-                onRemoveDepartment={handleRemoveDepartment}
-                onPanChange={setPan}
-                className="absolute inset-0"
-              />
+            {/* 3-COLUMN LAYOUT CONTAINER */}
+            <div className="flex-1 flex min-h-0 bg-surface/50 rounded-2xl overflow-hidden border border-glass-border isolation-isolate transform-gpu">
 
-              {/* Flow Arrows */}
-              <FlowArrows
-                departments={departments}
-                activeFloorIndex={activeFloorIndex}
-                visible={showFlowArrows}
-              />
+              {/* LEFT COLUMN: Department Sidebar */}
+              <div className="w-64 flex-shrink-0 flex flex-col border-r border-glass-border bg-surface/30 backdrop-blur-sm z-10">
+                <FloatingPalette
+                  departments={calculatedAreas}
+                  placedDepartmentIds={placedDepartmentIds}
+                  className="h-full w-full p-2"
+                />
+              </div>
 
-              {/* Canvas Controls */}
-              {!isPresentationMode && (
-                <CanvasControls
+              {/* MIDDLE COLUMN: Canvas area */}
+              <div className="flex-1 relative min-w-0 bg-dots-pattern overflow-hidden">
+                <GridCanvas
+                  departments={departments}
+                  selectedDepartmentId={selectedDepartmentId}
+                  inputs={inputs}
+                  activeFloorIndex={activeFloorIndex}
+                  zoom={zoom}
+                  pan={pan}
+                  showGrid={showGrid}
+                  onSelectDepartment={setSelectedDepartmentId}
+                  onRemoveDepartment={handleRemoveDepartment}
+                  onUpdateDepartment={handleUpdateDepartment}
+                  canvasObjects={canvasObjects}
+                  selectedObjectId={selectedObjectId}
+                  onAddObject={handleAddObject}
+                  onUpdateObject={handleUpdateObject}
+                  onRemoveObject={handleRemoveObject}
+                  onSelectObject={setSelectedObjectId}
+                  onPanChange={setPan}
+                  onZoomChange={setZoom}
+                  activeTool={activeTool}
+                  className="absolute inset-0"
+                />
+
+                {/* Flow Arrows Layer */}
+                <FlowArrows
+                  departments={departments}
+                  activeFloorIndex={activeFloorIndex}
+                  visible={showFlowArrows}
+                />
+              </div>
+
+              {/* RIGHT COLUMN: Tools Sidebar */}
+              <div className="w-24 flex-shrink-0 flex flex-col border-l border-glass-border bg-surface/30 backdrop-blur-sm z-10 p-2 pb-4 items-center">
+                <ToolsPanel
+                  activeTool={activeTool}
+                  onToolChange={setActiveTool}
                   zoom={zoom}
                   showGrid={showGrid}
                   showFlowArrows={showFlowArrows}
                   onZoomIn={handleZoomIn}
                   onZoomOut={handleZoomOut}
                   onFitToScreen={handleFitToScreen}
-                  onResetView={handleResetView}
+                  onToggleFullScreen={handleFullScreen}
                   onToggleGrid={() => setShowGrid(!showGrid)}
                   onToggleFlowArrows={() => setShowFlowArrows(!showFlowArrows)}
-                  className="absolute bottom-4 left-4"
+                  isMeasuring={isMeasuring}
+                  onToggleMeasure={() => setIsMeasuring(!isMeasuring)}
+                  className="static transform-none"
                 />
-              )}
+              </div>
             </div>
           </div>
         </div>

@@ -21,6 +21,7 @@ export interface DepartmentBlockProps {
     onRemove?: () => void;
     className?: string;
     style?: React.CSSProperties;
+    operatorCount?: number;
 }
 
 export function DepartmentBlock({
@@ -36,6 +37,7 @@ export function DepartmentBlock({
     onRemove,
     className = '',
     style,
+    operatorCount,
 }: DepartmentBlockProps) {
     const gridCellSize = 40; // px per grid cell
 
@@ -55,6 +57,7 @@ export function DepartmentBlock({
       `}
             style={{
                 backgroundColor: departmentType.color,
+                filter: isPlaced ? 'saturate(0.6) brightness(1.1)' : 'none', // Low contrast for placed items
                 width: isPlaced ? width * gridCellSize : 'auto',
                 height: isPlaced ? height * gridCellSize : 'auto',
                 minWidth: isPlaced ? undefined : 80,
@@ -96,8 +99,13 @@ export function DepartmentBlock({
             </span>
 
             {/* Area */}
-            <span className="text-[10px] font-semibold text-white/80 drop-shadow-sm">
+            <span className="text-[10px] font-semibold text-white/80 drop-shadow-sm leading-none">
                 {calculatedArea} m²
+                {operatorCount !== undefined && (
+                    <span className="block text-[9px] opacity-75 font-normal mt-0.5">
+                        ~{operatorCount} ops
+                    </span>
+                )}
             </span>
 
             {/* Size indicator for placed blocks */}

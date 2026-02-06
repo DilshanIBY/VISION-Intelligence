@@ -76,7 +76,7 @@ export function TopBar() {
             </div>
             <input
               type="text"
-              placeholder="Good Morning Joe, what's in your mind?"
+              placeholder="Good Morning Mr. Sanjeewa, what's in your mind?"
               className="
                 w-full py-3.5 pl-14 pr-6 rounded-full
                 bg-surface/60 border border-glass-border

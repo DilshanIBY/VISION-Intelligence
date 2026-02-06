@@ -57,7 +57,7 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
         return (
             <div
                 ref={ref}
-                className={`flex flex-col bg-[var(--color-glass)] backdrop-blur-md rounded-[var(--radius-2xl)] border border-[var(--color-glass-border)] ${className}`}
+                className={`flex flex-col bg-[var(--color-glass)] backdrop-blur-md rounded-[var(--radius-2xl)] border border-[var(--color-glass-border)] overflow-hidden ${className}`}
             >
                 {/* Panel Header with Tabs */}
                 <div className="flex-none p-4 border-b border-[var(--color-glass-border)]">
@@ -96,7 +96,7 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                 </div>
 
                 {/* Content */}
-                <div className="p-4 space-y-5">
+                <div className="flex-1 overflow-y-auto p-4 space-y-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[var(--color-text-muted)]/20 hover:scrollbar-thumb-[var(--color-primary)]/50">
                     {/* Validation Warnings */}
                     <ValidationWarnings
                         warnings={warnings}

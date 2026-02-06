@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calculator,
   Download,
-  Share2,
   Plus,
   RotateCcw,
   Presentation,
@@ -231,21 +230,23 @@ export function MachineryCalculatorPage() {
         </motion.div>
       )}
 
-      {/* Main Content - Scrollable container for page content */}
-      <div className="flex-1 overflow-y-auto min-h-0 pr-2 pb-4">
-        {/* Two-panel layout */}
-        <div className="flex gap-4">
-          {/* Left: Inputs Panel (40%) */}
-          <InputsPanel
-            inputs={inputs}
-            onInputChange={handleInputChange}
-            warnings={warnings}
-            onDismissWarning={handleDismissWarning}
-            className="w-[40%] flex-shrink-0 self-start sticky top-0 z-30"
-          />
+      {/* Main Content - Page scrollable with absolute height coupling */}
+      <div className="flex-1 overflow-y-auto pr-2 pb-4">
+        {/* Two-panel layout container */}
+        <div className="relative min-h-[400px]">
+          {/* Left: Inputs Panel (40%) - Absolute to lock height to container/outputs */}
+          <div className="absolute top-0 bottom-0 left-0 w-[40%] z-30 pr-4">
+            <InputsPanel
+              inputs={inputs}
+              onInputChange={handleInputChange}
+              warnings={warnings}
+              onDismissWarning={handleDismissWarning}
+              className="h-full"
+            />
+          </div>
 
-          {/* Right: Outputs Panel (60%) */}
-          <div className="flex-1 flex flex-col gap-4">
+          {/* Right: Outputs Panel (60%) - Dictates the height */}
+          <div className="ml-[40%] flex flex-col gap-4">
             <OutputsPanel
               outputs={outputs}
               deadline={inputs.deadline}

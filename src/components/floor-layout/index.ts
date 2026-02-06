@@ -26,4 +26,6 @@ export type { ExportOptions } from './ExportPanel';
 
 export { MeasurementTool } from './MeasurementTool';
 
-export { RightSidebar } from './RightSidebar';
+export * from './ToolsPanel';
+export * from './FloatingPalette';
+export * from './RightSidebar';

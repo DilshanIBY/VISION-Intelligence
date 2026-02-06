@@ -28,6 +28,7 @@ interface MeasurementToolProps {
     onToggle: () => void;
     zoom: number;
     pan: { x: number; y: number };
+    hiddenControl?: boolean;
     className?: string;
 }
 
@@ -36,6 +37,7 @@ export function MeasurementTool({
     onToggle,
     zoom,
     pan,
+    hiddenControl = false,
     className = '',
 }: MeasurementToolProps) {
     const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -89,22 +91,24 @@ export function MeasurementTool({
     return (
         <>
             {/* Tool Toggle Button */}
-            <motion.button
-                onClick={onToggle}
-                className={`
-          flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm transition-all
-          ${isActive
-                        ? 'bg-accent text-white shadow-lg'
-                        : 'bg-surface text-text-secondary hover:bg-glass-heavy hover:text-primary'
-                    }
-          ${className}
-        `}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-            >
-                <Ruler size={16} />
-                {isActive ? '' : ''}
-            </motion.button>
+            {!hiddenControl && (
+                <motion.button
+                    onClick={onToggle}
+                    className={`
+            flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm transition-all
+            ${isActive
+                            ? 'bg-accent text-white shadow-lg'
+                            : 'bg-surface text-text-secondary hover:bg-glass-heavy hover:text-primary'
+                        }
+            ${className}
+            `}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                >
+                    <Ruler size={16} />
+                    {isActive ? '' : ''}
+                </motion.button>
+            )}
 
             {/* Instructions when active */}
             <AnimatePresence>
