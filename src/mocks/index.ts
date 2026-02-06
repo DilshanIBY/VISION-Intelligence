@@ -1,5 +1,7 @@
 // Mock data for Phase 3 UI prototype
 export * from './dashboard';
+export * from './analytics';
+export * from './settings';
 export {
     mockMachineTypes,
     embroiderySpeedPresets,

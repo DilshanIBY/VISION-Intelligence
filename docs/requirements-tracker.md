@@ -259,17 +259,17 @@
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
-| **P3-PG-ANAL-001** | Analytics dashboard page layout | §3.3 | UI | ⬜ To Do |
-| **P3-PG-ANAL-002** | Presentation mode (full-screen, auto-cycle) | §3.3.3 | UI | ⬜ To Do |
+| **P3-PG-ANAL-001** | Analytics dashboard page layout | §3.3 | UI | 🧑‍💻 In User Test |
+| **P3-PG-ANAL-002** | Presentation mode (full-screen, auto-cycle) | §3.3.3 | UI | 🧑‍💻 In User Test |
 
 ### 3.2.5 Settings & Profile
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
-| **P3-PG-SET-001** | Settings page layout | §11, Phase 3 | UI | ⬜ To Do |
-| **P3-PG-SET-002** | User profile management UI | §11, Phase 3 | UI | ⬜ To Do |
-| **P3-PG-SET-003** | Theme switcher (Dark/Light) | §4.2 | UI | ⬜ To Do |
-| **P3-PG-SET-004** | Organization settings | §11, Phase 5 | UI | ⬜ To Do |
+| **P3-PG-SET-001** | Settings page layout | §11, Phase 3 | UI | 🧑‍💻 In User Test |
+| **P3-PG-SET-002** | User profile management UI | §11, Phase 3 | UI | 🧑‍💻 In User Test |
+| **P3-PG-SET-003** | Theme switcher (Dark/Light) | §4.2 | UI | 🧑‍💻 In User Test |
+| **P3-PG-SET-004** | Organization settings | §11, Phase 5 | UI | 🧑‍💻 In User Test |
 
 ## 3.3 UI States & Themes
 
