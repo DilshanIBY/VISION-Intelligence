@@ -259,6 +259,9 @@ export function calculateDepartmentAreas(inputs: FloorLayoutInputs): CalculatedD
 
         let area: number;
 
+        // Skip utilities for now - it's calculated from total at the end
+        if (deptType.id === 'utilities') continue;
+
         switch (deptType.id) {
             case 'warehouse':
                 area = Math.max(deptType.minArea, inputs.totalOperators * 0.8 * spaceModifier);
@@ -270,17 +273,14 @@ export function calculateDepartmentAreas(inputs: FloorLayoutInputs): CalculatedD
                 area = sewingArea;
                 break;
             case 'embroidery':
-                // Assume 1 embroidery machine per 50 operators
-                area = Math.max(deptType.minArea, Math.ceil(inputs.totalOperators / 50) * 15);
+                // Assume 1 embroidery machine per 50 operators, apply space modifier
+                area = Math.max(deptType.minArea, Math.ceil(inputs.totalOperators / 50) * 15 * spaceModifier);
                 break;
             case 'finishing':
                 area = Math.max(deptType.minArea, sewingArea * 0.18);
                 break;
             case 'packing':
                 area = Math.max(deptType.minArea, sewingArea * 0.12);
-                break;
-            case 'utilities':
-                area = Math.max(deptType.minArea, sewingArea * 0.08);
                 break;
             case 'washing':
                 area = Math.max(deptType.minArea, sewingArea * 0.15);
@@ -305,6 +305,28 @@ export function calculateDepartmentAreas(inputs: FloorLayoutInputs): CalculatedD
             color: deptType.color,
             calculatedArea: Math.round(area),
             minArea: deptType.minArea,
+            gridWidth,
+            gridHeight,
+        });
+    }
+
+    // Calculate utilities from total of all other departments (PRD §3.2.4: total × 0.08)
+    const utilitiesDeptType = departmentTypes.find(dt => dt.id === 'utilities');
+    if (utilitiesDeptType && productType.departments.includes('utilities')) {
+        const totalOtherAreas = results.reduce((sum, d) => sum + d.calculatedArea, 0);
+        const utilitiesArea = Math.max(utilitiesDeptType.minArea, totalOtherAreas * 0.08);
+        const gridCellSize = 5;
+        const totalCells = Math.ceil(utilitiesArea / gridCellSize);
+        const gridWidth = Math.ceil(Math.sqrt(totalCells * 1.5));
+        const gridHeight = Math.ceil(totalCells / gridWidth);
+
+        results.push({
+            departmentTypeId: utilitiesDeptType.id,
+            name: utilitiesDeptType.name,
+            icon: utilitiesDeptType.icon,
+            color: utilitiesDeptType.color,
+            calculatedArea: Math.round(utilitiesArea),
+            minArea: utilitiesDeptType.minArea,
             gridWidth,
             gridHeight,
         });

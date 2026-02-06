@@ -51,6 +51,7 @@ import {
   calculateDepartmentAreas,
   validateLayout,
   departmentTypes,
+  productTypes,
   type FloorLayoutInputs,
   type PlacedDepartment,
   type CalculatedDepartmentArea,
@@ -112,10 +113,16 @@ export function FloorLayoutPage() {
     [inputs]
   );
 
-  // Calculate total area
+  // Calculate total area (target/palette area)
   const totalArea = useMemo(
     () => calculatedAreas.reduce((sum, d) => sum + d.calculatedArea, 0),
     [calculatedAreas]
+  );
+
+  // Calculate actual total area from placed departments (for live updates)
+  const actualTotalArea = useMemo(
+    () => departments.reduce((sum, d) => sum + d.calculatedArea, 0),
+    [departments]
   );
 
   // Initial Fit to Screen
@@ -131,18 +138,33 @@ export function FloorLayoutPage() {
     // Center it horizontally? Pan defaulting to 20, 20 is okay.
   }, []); // Run once on mount
 
-  // Calculate Actual Operators from Placed Departments
+  // Operator density (m² per operator) for each department type
+  // Based on PRD §3.2.4 and typical factory configurations
+  const OPERATOR_DENSITY: Record<string, number> = {
+    sewing: 6,        // PRD: operators × 6 m²
+    warehouse: 100,   // Low operator density, mostly storage
+    cutting: 15,      // Fewer operators, larger equipment
+    finishing: 10,    // Quality check and pressing stations
+    packing: 12,      // Packing stations
+    embroidery: 30,   // Machine operators, 1 per ~30m²
+    utilities: 0,     // No direct operators
+    washing: 20,      // Machine operators
+    sublimation: 25,  // Machine operators
+  };
+
+  // Calculate Actual Operators from ALL Placed Departments
+  // Each department contributes operators based on its area and density
   const actualTotalOperators = useMemo(() => {
+    const productType = productTypes.find(pt => pt.id === inputs.productTypeId);
+    const spaceModifier = productType?.spaceModifier || 1;
+
     return departments.reduce((sum, dept) => {
-      // Simplified density assumption (matching GridCanvas logic)
-      let density = 10;
-      if (dept.departmentTypeId === 'sewing') density = 6;
-      if (dept.departmentTypeId === 'warehouse') density = 100;
-      if (dept.departmentTypeId === 'cutting') density = 15;
-      if (dept.departmentTypeId === 'packing') density = 12;
-      return sum + Math.round(dept.calculatedArea / density);
+      const density = OPERATOR_DENSITY[dept.departmentTypeId] || 10;
+      if (density === 0) return sum; // Skip departments with no operators (utilities)
+      // Reverse calculation: operators = area / (density × spaceModifier)
+      return sum + Math.round(dept.calculatedArea / (density * spaceModifier));
     }, 0);
-  }, [departments]);
+  }, [departments, inputs.productTypeId]);
 
   // Get placed department type IDs
   const placedDepartmentIds = useMemo(
@@ -661,6 +683,7 @@ export function FloorLayoutPage() {
               inputs={inputs}
               onInputChange={handleInputChange}
               totalArea={totalArea}
+              actualTotalArea={actualTotalArea}
               actualTotalOperators={actualTotalOperators}
             />
           </div>

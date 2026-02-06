@@ -18,6 +18,7 @@ interface ParametersPanelProps {
     inputs: FloorLayoutInputs;
     onInputChange: <K extends keyof FloorLayoutInputs>(key: K, value: FloorLayoutInputs[K]) => void;
     totalArea: number;
+    actualTotalArea?: number;
     actualTotalOperators?: number;
     className?: string;
 }
@@ -26,6 +27,7 @@ export function ParametersPanel({
     inputs,
     onInputChange,
     totalArea,
+    actualTotalArea,
     actualTotalOperators,
     className = '',
 }: ParametersPanelProps) {
@@ -51,19 +53,19 @@ export function ParametersPanel({
                         <span className="text-[10px] text-text-muted uppercase font-bold tracking-wider mb-1">Operators</span>
                         <div className="flex items-baseline gap-1">
                             <span className="text-xl font-bold text-text-primary">
-                                {actualTotalOperators !== undefined ? actualTotalOperators : inputs.totalOperators}
+                                {actualTotalOperators ?? 0}
                             </span>
-                            {actualTotalOperators !== undefined && (
-                                <span className="text-xs text-text-muted">/ {inputs.totalOperators}</span>
-                            )}
+                            <span className="text-xs text-text-muted">/ {inputs.totalOperators}</span>
                             <Users size={12} className="text-primary" />
                         </div>
                     </div>
                     <div className="flex flex-col p-3 rounded-2xl bg-surface border border-glass-border">
                         <span className="text-[10px] text-text-muted uppercase font-bold tracking-wider mb-1">Total Area</span>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-xl font-bold text-text-primary">{totalArea.toLocaleString()}</span>
-                            <span className="text-xs text-text-muted">m²</span>
+                            <span className="text-xl font-bold text-text-primary">
+                                {(actualTotalArea ?? 0).toLocaleString()}
+                            </span>
+                            <span className="text-xs text-text-muted">/ {totalArea.toLocaleString()} m²</span>
                         </div>
                     </div>
                 </div>
