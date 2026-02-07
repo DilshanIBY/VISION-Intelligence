@@ -663,10 +663,9 @@ export function FloorLayoutPage() {
                   onClick={() => setIsEditing(!isEditing)}
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                    ${
-                      isEditing
-                        ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                        : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                    ${isEditing
+                      ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                     }
                   `}
                   whileHover={{ scale: 1.05 }}
@@ -674,6 +673,16 @@ export function FloorLayoutPage() {
                   title={isEditing ? 'Done Editing' : 'Edit Layout'}
                 >
                   {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
+                </motion.button>
+
+                <motion.button
+                  onClick={() => setActiveSidebar('export')}
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Export"
+                >
+                  <Download size={18} />
                 </motion.button>
 
                 {/* Presentation Mode */}
@@ -687,15 +696,6 @@ export function FloorLayoutPage() {
                   <Presentation size={18} />
                 </motion.button>
 
-                <motion.button
-                  onClick={() => setActiveSidebar('export')}
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  title="Export"
-                >
-                  <Download size={18} />
-                </motion.button>
               </div>
             </motion.div>
           )}
@@ -750,10 +750,9 @@ export function FloorLayoutPage() {
                     onClick={() => setActiveSidebar('validation')}
                     className={`
                       h-9 px-3 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors border
-                      ${
-                        warnings.length > 0
-                          ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
-                          : 'bg-surface text-text-secondary border-transparent hover:bg-white'
+                      ${warnings.length > 0
+                        ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
+                        : 'bg-surface text-text-secondary border-transparent hover:bg-white'
                       }
                     `}
                     whileHover={{ scale: 1.02 }}

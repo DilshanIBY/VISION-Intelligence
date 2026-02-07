@@ -268,21 +268,21 @@ function CanvasObjectItem({
             object.type === 'arrow' ||
             object.type === 'curved-arrow' ||
             object.type === 'text') && (
-            <div className="flex items-center gap-1 border-r border-slate-200 pr-1 mr-1">
-              {COLORS.map(c => (
-                <button
-                  key={c}
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleColorSelect(c);
-                  }}
-                  className={`w-4 h-4 rounded-full border border-slate-300 transition-transform hover:scale-110 ${object.color === c ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
-                  style={{ backgroundColor: c }}
-                  title={c}
-                />
-              ))}
-            </div>
-          )}
+              <div className="flex items-center gap-1 border-r border-slate-200 pr-1 mr-1">
+                {COLORS.map(c => (
+                  <button
+                    key={c}
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleColorSelect(c);
+                    }}
+                    className={`w-4 h-4 rounded-full border border-slate-300 transition-transform hover:scale-110 ${object.color === c ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
+                    style={{ backgroundColor: c }}
+                    title={c}
+                  />
+                ))}
+              </div>
+            )}
 
           {/* Delete */}
           <button
@@ -466,14 +466,14 @@ interface GridCanvasProps {
   onPanChange: (pan: { x: number; y: number }) => void;
   onZoomChange: (zoom: number, epicenter?: { x: number; y: number }) => void;
   activeTool:
-    | 'select'
-    | 'pan'
-    | 'shape-rect'
-    | 'shape-circle'
-    | 'text'
-    | 'note'
-    | 'arrow'
-    | 'curved-arrow';
+  | 'select'
+  | 'pan'
+  | 'shape-rect'
+  | 'shape-circle'
+  | 'text'
+  | 'note'
+  | 'arrow'
+  | 'curved-arrow';
   className?: string;
 }
 
@@ -845,7 +845,7 @@ export function GridCanvas({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden bg-slate-100 dark:bg-slate-900 rounded-2xl select-none ${className}`}
+      className={`relative overflow-hidden bg-slate-100 dark:bg-slate-900/50 rounded-2xl select-none ${className}`}
       onWheel={handleWheel}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -885,7 +885,7 @@ export function GridCanvas({
                 <path
                   d={`M ${GRID_CELL_SIZE} 0 L 0 0 0 ${GRID_CELL_SIZE}`}
                   fill="none"
-                  stroke="rgba(0,0,0,0.08)"
+                  className="stroke-black/5 dark:stroke-white/5"
                   strokeWidth="1"
                 />
               </pattern>
@@ -903,7 +903,7 @@ export function GridCanvas({
                 <path
                   d={`M ${GRID_CELL_SIZE * 5} 0 L 0 0 0 ${GRID_CELL_SIZE * 5}`}
                   fill="none"
-                  stroke="rgba(0,0,0,0.15)"
+                  className="stroke-black/10 dark:stroke-white/10"
                   strokeWidth="1"
                 />
               </pattern>

@@ -1,17 +1,22 @@
 import { Search, Sun, Moon, Bell, Aperture, Mic } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useUI } from '../../contexts/UIContextDefinition';
+import { useNavigate } from 'react-router-dom';
+import placeholderAvatar from '../../assets/placeholder-avatar.png';
+import { NotificationPopover } from './NotificationPopover';
 
 export function TopBar() {
   const { toggleSidebar, isSidebarExpanded } = useUI();
+  const navigate = useNavigate();
 
   const [isDark, setIsDark] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   // Apply theme on mount and when changed
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    // Default to Light mode if no theme is saved, ignoring system preference for now as per request
+    const shouldBeDark = savedTheme === 'dark';
 
     setIsDark(shouldBeDark);
     if (shouldBeDark) {
@@ -45,6 +50,7 @@ export function TopBar() {
       shadow-float hover:shadow-float-hover
       transition-all duration-300
       w-full mx-auto
+      relative z-30
     "
     >
       {/* Left: App Branding (Sidebar Toggle) */}
@@ -85,7 +91,7 @@ export function TopBar() {
             </div>
             <input
               type="text"
-              placeholder="Good Morning Mr. Sanjeewa, what's in your mind?"
+              placeholder="Good Evening Mr. Sanjeewa, what's in your mind?"
               className="
                 w-full py-3.5 pl-14 pr-6 rounded-full
                 bg-surface/60 border border-glass-border
@@ -108,15 +114,24 @@ export function TopBar() {
       </div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-2 lg:gap-3">
+      <div className="flex items-center gap-2 lg:gap-3 relative">
         {/* Notifications */}
-        <button
-          className="p-2.5 rounded-full text-text-secondary hover:bg-surface hover:text-primary transition-all relative group"
-          title="Notifications"
-        >
-          <Bell size={20} className="group-hover:animate-swing" />
-          <span className="absolute top-2.5 right-3 w-2 h-2 bg-accent rounded-full border border-surface shadow-glow-accent"></span>
-        </button>
+        <div className="relative">
+          <button
+            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            className={`p-2.5 rounded-full text-text-secondary hover:bg-surface hover:text-primary transition-all relative group ${isNotificationsOpen ? 'bg-surface text-primary' : ''}`}
+            title="Notifications"
+          >
+            <Bell size={20} className="group-hover:animate-swing" />
+            <span className="absolute top-2.5 right-3 w-2 h-2 bg-accent rounded-full border border-surface shadow-glow-accent"></span>
+          </button>
+
+          <NotificationPopover
+            isOpen={isNotificationsOpen}
+            onClose={() => setIsNotificationsOpen(false)}
+            onMarkAllRead={() => { }}
+          />
+        </div>
 
         {/* Theme Toggle */}
         <button
@@ -131,12 +146,13 @@ export function TopBar() {
 
         {/* User Profile */}
         <button
+          onClick={() => navigate('/settings')}
           className="flex items-center gap-3 pl-1 pr-1 py-1 rounded-full hover:bg-surface/50 border border-transparent hover:border-glass-border transition-all group"
-          title="Profile"
+          title="Profile - Go to Settings"
         >
           <div className="w-9 h-9 rounded-full shadow-lg group-hover:scale-105 transition-transform ring-2 ring-surface overflow-hidden">
             <img
-              src="/src/assets/placeholder-avatar.png"
+              src={placeholderAvatar}
               alt="User Profile"
               className="w-full h-full object-cover scale-105"
             />

@@ -11,6 +11,7 @@ import { useUI } from '../../contexts/UIContextDefinition';
 import { DashboardGrid, WidgetPalette } from '../../components/dashboard';
 import { defaultDashboardWidgets } from '../../mocks/dashboard';
 import { DashboardWidget, WidgetType, widgetLibrary } from '../../types/dashboard';
+import { RightSidebar, ExportPanel, ExportOptions } from '../../components/floor-layout';
 
 // Local storage key for saving dashboard layout
 const STORAGE_KEY = 'apparel-dashboard-layout';
@@ -28,6 +29,7 @@ export function DashboardPage() {
   const [widgets, setWidgets] = useState<DashboardWidget[]>([]);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [activeSidebar, setActiveSidebar] = useState<'none' | 'export'>('none');
 
   // Load saved layout on mount
   useEffect(() => {
@@ -100,6 +102,12 @@ export function DashboardPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isPresentationMode, setIsPresentationMode]);
 
+  const handleExport = useCallback((format: 'png' | 'pdf', options: ExportOptions) => {
+    console.log('Exporting Dashboard:', format, options);
+    // Mock export logic
+    setActiveSidebar('none');
+  }, []);
+
   return (
     <>
       <motion.div
@@ -153,35 +161,47 @@ export function DashboardPage() {
                 </>
               )}
 
-              <button
+              <motion.button
                 onClick={() => setIsEditing(!isEditing)}
                 className={`
                       w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                      ${
-                        isEditing
-                          ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                          : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                      }
+                      ${isEditing
+                    ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  }
                     `}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 title={isEditing ? 'Done Editing' : 'Edit Layout'}
               >
                 {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
-              </button>
+              </motion.button>
 
-              <button
-                onClick={() => setIsPresentationMode(true)}
-                className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
-                title="Presentation Mode"
-              >
-                <Presentation size={18} />
-              </button>
-
-              <button
-                className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
+              <motion.button
+                onClick={() => setActiveSidebar('export')}
+                className={`
+                  w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
+                  ${activeSidebar === 'export'
+                    ? 'bg-primary text-white shadow-lg'
+                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  }
+                `}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 title="Export"
               >
                 <Download size={18} />
-              </button>
+              </motion.button>
+
+              <motion.button
+                onClick={() => setIsPresentationMode(true)}
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                title="Presentation Mode"
+              >
+                <Presentation size={18} />
+              </motion.button>
             </div>
           </div>
         )}
@@ -251,6 +271,15 @@ export function DashboardPage() {
         onClose={() => setIsPaletteOpen(false)}
         onAddWidget={handleAddWidget}
       />
+
+      {/* Export Sidebar */}
+      <RightSidebar
+        isOpen={activeSidebar === 'export'}
+        onClose={() => setActiveSidebar('none')}
+        title="Export Dashboard"
+      >
+        <ExportPanel onExport={handleExport} />
+      </RightSidebar>
     </>
   );
 }

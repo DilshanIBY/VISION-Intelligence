@@ -37,7 +37,7 @@ export function LayoutTemplates({ isOpen, onClose, onSelectTemplate }: LayoutTem
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="relative w-full max-w-5xl bg-white dark:bg-surface rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-transparent dark:border-glass-border dark:text-text-primary"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}

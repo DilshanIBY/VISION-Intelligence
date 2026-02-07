@@ -37,14 +37,14 @@ export function RightSidebar({
 
           {/* Sidebar */}
           <motion.aside
-            className={`fixed right-0 top-0 bottom-0 w-80 bg-surface shadow-2xl z-50 flex flex-col border-l border-glass-border ${className}`}
+            className={`fixed right-0 top-0 bottom-0 w-80 bg-surface dark:bg-slate-900 shadow-2xl z-50 flex flex-col border-l border-glass-border ${className}`}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-glass-border bg-surface/50">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-glass-border bg-surface/50 dark:bg-white/5">
               <h2 className="font-semibold text-text-primary text-lg">{title}</h2>
               <button
                 onClick={onClose}

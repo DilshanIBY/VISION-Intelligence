@@ -108,7 +108,7 @@ jobs:
           releaseName: 'APPAREL v0.1.${{ github.run_number }}'
           releaseBody: 'Automated release from main branch.'
           releaseDraft: false
-          prerelease: true
+          prerelease: false
           args: --target ${{ matrix.settings.target }} --bundles ${{ matrix.settings.bundles }}
 
       - name: Upload artifacts
