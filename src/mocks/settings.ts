@@ -21,9 +21,9 @@ export interface UserProfile {
 
 export const mockUserProfile: UserProfile = {
     id: 'user-001',
-    firstName: 'John',
-    lastName: 'Anderson',
-    email: 'john.anderson@apparelconsult.com',
+    firstName: 'Sanjeewa',
+    lastName: 'Athapaththu',
+    email: 'sanjeewa@apparelconsult.com',
     role: 'consultant',
     phone: '+1 (555) 123-4567',
     department: 'Strategic Consulting',
@@ -108,8 +108,8 @@ export interface TeamMember {
 export const mockTeamMembers: TeamMember[] = [
     {
         id: 'member-1',
-        name: 'John Anderson',
-        email: 'john.anderson@apparelconsult.com',
+        name: 'Mr. Sanjeewa Athapaththu',
+        email: 'sanjeewa@apparelconsult.com',
         role: 'admin',
         status: 'active',
         lastActive: '2 minutes ago',
