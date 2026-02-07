@@ -1,18 +1,7 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { useState, ReactNode } from 'react';
+import { UIContext } from './UIContextDefinition';
 
-interface UIContextType {
-    isDashboardEditing: boolean;
-    setDashboardEditing: (value: boolean) => void;
-    isPresentationMode: boolean;
-    setPresentationMode: (value: boolean) => void;
-    isSidebarExpanded: boolean;
-    setSidebarExpanded: (value: boolean) => void;
-    toggleDashboardEditing: () => void;
-    togglePresentationMode: () => void;
-    toggleSidebar: () => void;
-}
 
-const UIContext = createContext<UIContextType | undefined>(undefined);
 
 export function UIProvider({ children }: { children: ReactNode }) {
     const [isDashboardEditing, setDashboardEditing] = useState(false);
@@ -40,10 +29,3 @@ export function UIProvider({ children }: { children: ReactNode }) {
     );
 }
 
-export function useUI() {
-    const context = useContext(UIContext);
-    if (context === undefined) {
-        throw new Error('useUI must be used within a UIProvider');
-    }
-    return context;
-}

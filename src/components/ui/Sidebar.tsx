@@ -7,7 +7,7 @@ import {
   BarChart3,
   Settings,
 } from 'lucide-react';
-import { useUI } from '../../contexts/UIContext';
+import { useUI } from '../../contexts/UIContextDefinition';
 
 interface NavItem {
   path: string;

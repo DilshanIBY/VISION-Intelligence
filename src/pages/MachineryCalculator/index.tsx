@@ -15,7 +15,7 @@ import {
   Check,
   Edit3
 } from 'lucide-react';
-import { useUI } from '@/contexts/UIContext';
+import { useUI } from '@/contexts/UIContextDefinition';
 
 // Calculator Components
 import { InputsPanel } from '@components/calculator/InputsPanel';

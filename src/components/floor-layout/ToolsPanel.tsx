@@ -3,7 +3,7 @@ import {
     MousePointer2, Hand, Square, Circle,
     Type, StickyNote, ArrowRight, CornerUpRight,
     Undo2, Redo2,
-    ZoomIn, ZoomOut, Maximize2, Expand,
+    ZoomIn, ZoomOut, Maximize2,
     Grid3X3, Crosshair, Ruler
 } from 'lucide-react';
 
@@ -35,7 +35,7 @@ export function ToolsPanel({
     onZoomIn,
     onZoomOut,
     onFitToScreen,
-    onToggleFullScreen,
+    onToggleFullScreen: _,
     onToggleGrid,
     onToggleFlowArrows,
     onUndo,

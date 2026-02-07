@@ -7,4 +7,5 @@ export { GaugeChart } from './GaugeChart';
 export { BarChartComponent, type BarChartData } from './BarChart';
 export { LineChartComponent, type LineChartData } from './LineChart';
 export { DataTable } from './Table';
-export { Toast, ToastProvider, useToast } from './Toast';
+export { Toast, ToastProvider } from './Toast';
+export { useToast } from './ToastContext';

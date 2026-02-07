@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '@components/ui/Sidebar';
 import { TopBar } from '@components/ui/TopBar';
-import { useUI } from '../contexts/UIContext';
+import { useUI } from '../contexts/UIContextDefinition';
 import { motion } from 'framer-motion';
 
 export function MainLayout() {

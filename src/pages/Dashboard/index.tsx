@@ -14,7 +14,7 @@ import {
   Check,
   Presentation,
 } from 'lucide-react';
-import { useUI } from '../../contexts/UIContext';
+import { useUI } from '../../contexts/UIContextDefinition';
 
 import { DashboardGrid, WidgetPalette } from '../../components/dashboard';
 import { defaultDashboardWidgets } from '../../mocks/dashboard';
@@ -89,7 +89,7 @@ export function DashboardPage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(widgets));
     setHasChanges(false);
     setIsEditing(false);
-  }, [widgets]);
+  }, [widgets, setIsEditing]);
 
   // Reset to defaults
   const handleReset = useCallback(() => {

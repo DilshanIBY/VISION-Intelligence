@@ -1,7 +1,7 @@
 
 import { Search, Sun, Moon, Bell, Aperture, Mic } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useUI } from '../../contexts/UIContext';
+import { useUI } from '../../contexts/UIContextDefinition';
 
 
 export function TopBar() {

@@ -497,7 +497,7 @@ export function GridCanvas({
     });
 
     // Helper: Find object or department at position
-    const findTargetAtPosition = (x: number, y: number) => {
+    const findTargetAtPosition = useCallback((x: number, y: number) => {
         // Check Canvas Objects (Reverse order for z-index)
         for (let i = canvasObjects.length - 1; i >= 0; i--) {
             const obj = canvasObjects[i];
@@ -518,7 +518,7 @@ export function GridCanvas({
             }
         }
         return null;
-    };
+    }, [canvasObjects, activeFloorIndex, floorDepartments]);
 
 
     // Wheel Zoom interaction
@@ -682,7 +682,7 @@ export function GridCanvas({
 
                 onAddObject({
                     id: `obj-${Date.now()}`,
-                    type: tempObject.type as any,
+                    type: tempObject.type as CanvasObject['type'],
                     x: tempObject.x!,
                     y: tempObject.y!,
                     width: (isClick && (activeTool === 'arrow' || activeTool === 'curved-arrow')) ? 100 : (activeTool === 'note' && isClick) ? 150 : isClick ? 200 : tempObject.width!,
@@ -698,7 +698,8 @@ export function GridCanvas({
             setCreationStart(null);
             setTempObject(null);
         }
-    }, [creationStart, tempObject, onAddObject, activeFloorIndex, activeTool, canvasObjects, floorDepartments]); // Added dependencies
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [creationStart, tempObject, onAddObject, activeFloorIndex, activeTool, canvasObjects, floorDepartments, findTargetAtPosition]); // Added dependencies
 
     // Click on empty area deselects
     const handleCanvasClick = useCallback((e: React.MouseEvent) => {

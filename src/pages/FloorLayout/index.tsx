@@ -26,7 +26,7 @@ import {
   Edit3,
   AlertTriangle,
 } from 'lucide-react';
-import { useUI } from '@/contexts/UIContext';
+import { useUI } from '@/contexts/UIContextDefinition';
 
 // Floor Layout Components
 import {
@@ -59,6 +59,21 @@ import {
   type LayoutTemplate as LayoutTemplateType,
 } from '@mocks/floor-layout';
 import type { CanvasObject } from '@/types/canvas';
+
+// Operator density (m² per operator) for each department type
+// Based on PRD §3.2.4 and typical factory configurations
+const OPERATOR_DENSITY: Record<string, number> = {
+  sewing: 6,        // PRD: operators × 6 m²
+  warehouse: 100,   // Low operator density, mostly storage
+  cutting: 15,      // Fewer operators, larger equipment
+  finishing: 10,    // Quality check and pressing stations
+  packing: 12,      // Packing stations
+  embroidery: 30,   // Machine operators, 1 per ~30m²
+  utilities: 0,     // No direct operators
+  washing: 20,      // Machine operators
+  sublimation: 25,  // Machine operators
+};
+
 
 
 export function FloorLayoutPage() {
@@ -136,21 +151,11 @@ export function FloorLayoutPage() {
     const initialZoom = Math.min(Math.max(containerWidth / floorWidthPx, 0.2), 1.5);
     setZoom(initialZoom);
     // Center it horizontally? Pan defaulting to 20, 20 is okay.
-  }, []); // Run once on mount
+  }, [inputs.floorWidth]); // Run once on mount or when floor width changes drastically (optional)
 
   // Operator density (m² per operator) for each department type
   // Based on PRD §3.2.4 and typical factory configurations
-  const OPERATOR_DENSITY: Record<string, number> = {
-    sewing: 6,        // PRD: operators × 6 m²
-    warehouse: 100,   // Low operator density, mostly storage
-    cutting: 15,      // Fewer operators, larger equipment
-    finishing: 10,    // Quality check and pressing stations
-    packing: 12,      // Packing stations
-    embroidery: 30,   // Machine operators, 1 per ~30m²
-    utilities: 0,     // No direct operators
-    washing: 20,      // Machine operators
-    sublimation: 25,  // Machine operators
-  };
+
 
   // Calculate Actual Operators from ALL Placed Departments
   // Each department contributes operators based on its area and density
@@ -486,7 +491,7 @@ export function FloorLayoutPage() {
 
       if (deltaGridX !== 0 || deltaGridY !== 0) {
         // We need to capture the NEW position to update arrows
-        let movedDeptId = dept.id;
+        const movedDeptId = dept.id;
         let newCenter = { x: 0, y: 0 };
         let didMove = false;
 

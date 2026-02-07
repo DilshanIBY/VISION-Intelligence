@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, ReactNode, forwardRef, useCallback } from 'react';
+import { useState, ReactNode, forwardRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
+import { ToastContext } from './ToastContext';
 
 export interface ToastData {
     id: string;
@@ -9,22 +10,6 @@ export interface ToastData {
     duration?: number;
     action?: { label: string; onClick: () => void };
 }
-
-interface ToastContextValue {
-    toasts: ToastData[];
-    addToast: (toast: Omit<ToastData, 'id'>) => void;
-    removeToast: (id: string) => void;
-}
-
-const ToastContext = createContext<ToastContextValue | undefined>(undefined);
-
-export const useToast = () => {
-    const context = useContext(ToastContext);
-    if (!context) {
-        throw new Error('useToast must be used within a ToastProvider');
-    }
-    return context;
-};
 
 interface ToastProviderProps {
     children: ReactNode;

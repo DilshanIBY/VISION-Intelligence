@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, forwardRef } from 'react';
+import { useState, useRef, useEffect, forwardRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, ChevronUp, ChevronDown } from 'lucide-react';
 
@@ -35,7 +35,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
         const containerRef = useRef<HTMLDivElement>(null);
 
         // Parse value into hours, minutes, and period
-        const parseTime = (timeStr?: string) => {
+        const parseTime = useCallback((timeStr?: string) => {
             if (!timeStr) return { hours: 12, minutes: 0, period: 'AM' };
 
             if (use24Hour) {
@@ -48,13 +48,13 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
                 }
                 return { hours: 12, minutes: 0, period: 'AM' };
             }
-        };
+        }, [use24Hour]);
 
         const [time, setTime] = useState(parseTime(value));
 
         useEffect(() => {
             setTime(parseTime(value));
-        }, [value, use24Hour]);
+        }, [value, parseTime]);
 
         const sizeStyles = {
             sm: 'h-10 text-sm',
