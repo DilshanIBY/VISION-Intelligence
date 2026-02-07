@@ -5,15 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import {
-  Plus,
-  Save,
-  RotateCcw,
-  Download,
-  Edit3,
-  Check,
-  Presentation,
-} from 'lucide-react';
+import { Plus, Save, RotateCcw, Download, Edit3, Check, Presentation } from 'lucide-react';
 import { useUI } from '../../contexts/UIContextDefinition';
 
 import { DashboardGrid, WidgetPalette } from '../../components/dashboard';
@@ -29,7 +21,7 @@ export function DashboardPage() {
     isDashboardEditing: isEditing,
     setDashboardEditing: setIsEditing,
     isPresentationMode,
-    setPresentationMode: setIsPresentationMode
+    setPresentationMode: setIsPresentationMode,
   } = useUI();
 
   // Local State
@@ -60,7 +52,7 @@ export function DashboardPage() {
 
   // Add new widget
   const handleAddWidget = useCallback((type: WidgetType) => {
-    const widgetDef = widgetLibrary.find((w) => w.type === type);
+    const widgetDef = widgetLibrary.find(w => w.type === type);
     if (!widgetDef) return;
 
     const newWidget: DashboardWidget = {
@@ -74,13 +66,13 @@ export function DashboardPage() {
       config: {},
     };
 
-    setWidgets((prev) => [...prev, newWidget]);
+    setWidgets(prev => [...prev, newWidget]);
     setHasChanges(true);
   }, []);
 
   // Remove widget
   const handleRemoveWidget = useCallback((widgetId: string) => {
-    setWidgets((prev) => prev.filter((w) => w.id !== widgetId));
+    setWidgets(prev => prev.filter(w => w.id !== widgetId));
     setHasChanges(true);
   }, []);
 
@@ -96,8 +88,6 @@ export function DashboardPage() {
     setWidgets(defaultDashboardWidgets);
     setHasChanges(true);
   }, []);
-
-
 
   // Exit presentation mode on Escape key
   useEffect(() => {
@@ -123,7 +113,9 @@ export function DashboardPage() {
             <div className="flex flex-col">
               <h2 className="text-2xl font-bold text-text-primary tracking-tight">Dashboard</h2>
               <span className="text-xs text-text-muted mt-1 font-medium flex items-center gap-1.5">
-                <span className={`w-1.5 h-1.5 rounded-full ${isEditing ? 'bg-warning animate-pulse' : 'bg-success'}`}></span>
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${isEditing ? 'bg-warning animate-pulse' : 'bg-success'}`}
+                ></span>
                 {widgets.length} widgets • {isEditing ? 'Editing Layout' : 'View mode'}
               </span>
             </div>
@@ -165,12 +157,13 @@ export function DashboardPage() {
                 onClick={() => setIsEditing(!isEditing)}
                 className={`
                       w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                      ${isEditing
-                    ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                  }
+                      ${
+                        isEditing
+                          ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                          : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                      }
                     `}
-                title={isEditing ? "Done Editing" : "Edit Layout"}
+                title={isEditing ? 'Done Editing' : 'Edit Layout'}
               >
                 {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
               </button>

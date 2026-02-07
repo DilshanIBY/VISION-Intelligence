@@ -75,13 +75,13 @@ export function AnalyticsPage() {
     }
 
     const progressInterval = setInterval(() => {
-      setCycleProgress((prev) => {
+      setCycleProgress(prev => {
         if (prev >= 100) {
           // Move to next slide
-          setCurrentSlideIndex((idx) => (idx + 1) % presentationSlides.length);
+          setCurrentSlideIndex(idx => (idx + 1) % presentationSlides.length);
           return 0;
         }
-        return prev + (100 / (cycleSpeed / 100));
+        return prev + 100 / (cycleSpeed / 100);
       });
     }, 100);
 
@@ -97,16 +97,18 @@ export function AnalyticsPage() {
       }
       if (isPresentationMode) {
         if (e.key === 'ArrowRight') {
-          setCurrentSlideIndex((idx) => (idx + 1) % presentationSlides.length);
+          setCurrentSlideIndex(idx => (idx + 1) % presentationSlides.length);
           setCycleProgress(0);
         }
         if (e.key === 'ArrowLeft') {
-          setCurrentSlideIndex((idx) => (idx - 1 + presentationSlides.length) % presentationSlides.length);
+          setCurrentSlideIndex(
+            idx => (idx - 1 + presentationSlides.length) % presentationSlides.length
+          );
           setCycleProgress(0);
         }
         if (e.key === ' ') {
           e.preventDefault();
-          setIsAutoCycling((prev) => !prev);
+          setIsAutoCycling(prev => !prev);
         }
       }
     };
@@ -115,12 +117,12 @@ export function AnalyticsPage() {
   }, [isPresentationMode]);
 
   const nextSlide = useCallback(() => {
-    setCurrentSlideIndex((idx) => (idx + 1) % presentationSlides.length);
+    setCurrentSlideIndex(idx => (idx + 1) % presentationSlides.length);
     setCycleProgress(0);
   }, []);
 
   const prevSlide = useCallback(() => {
-    setCurrentSlideIndex((idx) => (idx - 1 + presentationSlides.length) % presentationSlides.length);
+    setCurrentSlideIndex(idx => (idx - 1 + presentationSlides.length) % presentationSlides.length);
     setCycleProgress(0);
   }, []);
 
@@ -133,7 +135,7 @@ export function AnalyticsPage() {
         return (
           <div className="grid grid-cols-2 gap-8 h-full">
             <div className="grid grid-cols-2 gap-4">
-              {analyticsKPIs.map((kpi) => (
+              {analyticsKPIs.map(kpi => (
                 <motion.div
                   key={kpi.id}
                   className="card-float p-6 flex flex-col justify-between"
@@ -142,19 +144,33 @@ export function AnalyticsPage() {
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                      {kpi.icon ? iconMap[kpi.icon] || <BarChart3 size={20} /> : <BarChart3 size={20} />}
+                      {kpi.icon ? (
+                        iconMap[kpi.icon] || <BarChart3 size={20} />
+                      ) : (
+                        <BarChart3 size={20} />
+                      )}
                     </div>
                     <span className="text-sm text-text-secondary font-medium">{kpi.title}</span>
                   </div>
                   <div>
                     <span className="text-4xl font-bold text-text-primary">
-                      {kpi.value.toLocaleString()}{kpi.unit}
+                      {kpi.value.toLocaleString()}
+                      {kpi.unit}
                     </span>
                     {kpi.trend && (
-                      <div className={`text-sm mt-2 flex items-center gap-1 ${kpi.trend.direction === 'up' ? 'text-success' :
-                        kpi.trend.direction === 'down' ? 'text-error' : 'text-text-muted'
-                        }`}>
-                        <TrendingUp size={14} className={kpi.trend.direction === 'down' ? 'rotate-180' : ''} />
+                      <div
+                        className={`text-sm mt-2 flex items-center gap-1 ${
+                          kpi.trend.direction === 'up'
+                            ? 'text-success'
+                            : kpi.trend.direction === 'down'
+                              ? 'text-error'
+                              : 'text-text-muted'
+                        }`}
+                      >
+                        <TrendingUp
+                          size={14}
+                          className={kpi.trend.direction === 'down' ? 'rotate-180' : ''}
+                        />
                         {kpi.trend.value}% {kpi.trend.label}
                       </div>
                     )}
@@ -168,13 +184,20 @@ export function AnalyticsPage() {
                 {Object.entries(performanceMetrics).map(([key, metric]) => (
                   <div key={key} className="text-center">
                     <GaugeChart
-                      value={typeof metric.value === 'number' && metric.value <= 100 ? metric.value : (metric.value / metric.target) * 100}
+                      value={
+                        typeof metric.value === 'number' && metric.value <= 100
+                          ? metric.value
+                          : (metric.value / metric.target) * 100
+                      }
                       max={100}
                       size="md"
                       showValue
                     />
                     <p className="text-sm text-text-secondary mt-2">{metric.label}</p>
-                    <p className="text-lg font-semibold text-text-primary">{metric.value}{metric.unit}</p>
+                    <p className="text-lg font-semibold text-text-primary">
+                      {metric.value}
+                      {metric.unit}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -187,13 +210,23 @@ export function AnalyticsPage() {
             <div className="card-float p-6 flex flex-col">
               <h3 className="text-lg font-semibold text-text-primary mb-4">Weekly Usage Trends</h3>
               <div className="flex-1">
-                <LineChartComponent data={usageTrendsData} dataKeys={usageTrendsDataKeys} height={280} showLegend={false} />
+                <LineChartComponent
+                  data={usageTrendsData}
+                  dataKeys={usageTrendsDataKeys}
+                  height={280}
+                  showLegend={false}
+                />
               </div>
             </div>
             <div className="card-float p-6 flex flex-col">
               <h3 className="text-lg font-semibold text-text-primary mb-4">Module Popularity</h3>
               <div className="flex-1">
-                <BarChartComponent data={moduleUsageData} dataKeys={moduleUsageDataKeys} height={280} showLegend={false} />
+                <BarChartComponent
+                  data={moduleUsageData}
+                  dataKeys={moduleUsageDataKeys}
+                  height={280}
+                  showLegend={false}
+                />
               </div>
             </div>
           </div>
@@ -204,14 +237,22 @@ export function AnalyticsPage() {
             <div className="card-float p-6 flex flex-col">
               <h3 className="text-lg font-semibold text-text-primary mb-4">Recent Activity</h3>
               <div className="flex-1 space-y-3 overflow-auto">
-                {recentActivityData.map((activity) => (
-                  <div key={activity.id} className="p-4 rounded-xl bg-glass border border-glass-border">
+                {recentActivityData.map(activity => (
+                  <div
+                    key={activity.id}
+                    className="p-4 rounded-xl bg-glass border border-glass-border"
+                  >
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-medium text-text-primary">{activity.title}</span>
-                      <span className={`text-xs px-2 py-1 rounded-full ${activity.status === 'completed' ? 'bg-success/20 text-success' :
-                        activity.status === 'in-progress' ? 'bg-primary/20 text-primary' :
-                          'bg-glass text-text-muted'
-                        }`}>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          activity.status === 'completed'
+                            ? 'bg-success/20 text-success'
+                            : activity.status === 'in-progress'
+                              ? 'bg-primary/20 text-primary'
+                              : 'bg-glass text-text-muted'
+                        }`}
+                      >
                         {activity.status}
                       </span>
                     </div>
@@ -230,7 +271,12 @@ export function AnalyticsPage() {
             <div className="card-float p-6 flex flex-col">
               <h3 className="text-lg font-semibold text-text-primary mb-4">Monthly Summary</h3>
               <div className="flex-1">
-                <BarChartComponent data={monthlySummary} dataKeys={monthlySummaryDataKeys} height={280} showLegend={false} />
+                <BarChartComponent
+                  data={monthlySummary}
+                  dataKeys={monthlySummaryDataKeys}
+                  height={280}
+                  showLegend={false}
+                />
               </div>
             </div>
           </div>
@@ -238,17 +284,22 @@ export function AnalyticsPage() {
       case 3: // Key Insights
         return (
           <div className="grid grid-cols-3 gap-6 h-full">
-            {insightsHighlights.map((insight) => (
+            {insightsHighlights.map(insight => (
               <motion.div
                 key={insight.id}
                 className="card-float p-6 flex flex-col"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
               >
-                <div className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${insight.type === 'success' ? 'bg-success/20 text-success' :
-                  insight.type === 'info' ? 'bg-primary/20 text-primary' :
-                    'bg-warning/20 text-warning'
-                  }`}>
+                <div
+                  className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${
+                    insight.type === 'success'
+                      ? 'bg-success/20 text-success'
+                      : insight.type === 'info'
+                        ? 'bg-primary/20 text-primary'
+                        : 'bg-warning/20 text-warning'
+                  }`}
+                >
                   <Sparkles size={24} />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary mb-2">{insight.title}</h3>
@@ -284,14 +335,15 @@ export function AnalyticsPage() {
           <div className="flex items-center gap-2">
             {/* Time Range Selector */}
             <div className="flex items-center gap-1 p-1 rounded-full bg-glass border border-glass-border">
-              {(['week', 'month', 'quarter', 'year'] as const).map((range) => (
+              {(['week', 'month', 'quarter', 'year'] as const).map(range => (
                 <button
                   key={range}
                   onClick={() => setTimeRange(range)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${timeRange === range
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-white/50'
-                    }`}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    timeRange === range
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-white/50'
+                  }`}
                 >
                   {range.charAt(0).toUpperCase() + range.slice(1)}
                 </button>
@@ -339,19 +391,33 @@ export function AnalyticsPage() {
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                    {kpi.icon ? iconMap[kpi.icon] || <BarChart3 size={20} /> : <BarChart3 size={20} />}
+                    {kpi.icon ? (
+                      iconMap[kpi.icon] || <BarChart3 size={20} />
+                    ) : (
+                      <BarChart3 size={20} />
+                    )}
                   </div>
                   {kpi.trend && (
-                    <div className={`text-xs font-medium flex items-center gap-1 ${kpi.trend.direction === 'up' ? 'text-success' :
-                      kpi.trend.direction === 'down' ? 'text-error' : 'text-text-muted'
-                      }`}>
-                      <TrendingUp size={12} className={kpi.trend.direction === 'down' ? 'rotate-180' : ''} />
+                    <div
+                      className={`text-xs font-medium flex items-center gap-1 ${
+                        kpi.trend.direction === 'up'
+                          ? 'text-success'
+                          : kpi.trend.direction === 'down'
+                            ? 'text-error'
+                            : 'text-text-muted'
+                      }`}
+                    >
+                      <TrendingUp
+                        size={12}
+                        className={kpi.trend.direction === 'down' ? 'rotate-180' : ''}
+                      />
                       {kpi.trend.value}%
                     </div>
                   )}
                 </div>
                 <p className="text-2xl font-bold text-text-primary">
-                  {kpi.value.toLocaleString()}{kpi.unit}
+                  {kpi.value.toLocaleString()}
+                  {kpi.unit}
                 </p>
                 <p className="text-xs text-text-muted mt-1">{kpi.title}</p>
               </motion.div>
@@ -363,7 +429,12 @@ export function AnalyticsPage() {
                 <h3 className="text-base font-semibold text-text-primary">Usage Trends</h3>
                 <PieChart size={16} className="text-text-muted" />
               </div>
-              <LineChartComponent data={usageTrendsData} dataKeys={usageTrendsDataKeys} height={180} showLegend={false} />
+              <LineChartComponent
+                data={usageTrendsData}
+                dataKeys={usageTrendsDataKeys}
+                height={180}
+                showLegend={false}
+              />
             </div>
 
             {/* Module Usage Chart */}
@@ -372,7 +443,12 @@ export function AnalyticsPage() {
                 <h3 className="text-base font-semibold text-text-primary">Module Usage</h3>
                 <BarChart3 size={16} className="text-text-muted" />
               </div>
-              <BarChartComponent data={moduleUsageData} dataKeys={moduleUsageDataKeys} height={180} showLegend={false} />
+              <BarChartComponent
+                data={moduleUsageData}
+                dataKeys={moduleUsageDataKeys}
+                height={180}
+                showLegend={false}
+              />
             </div>
 
             {/* Insights */}
@@ -384,10 +460,15 @@ export function AnalyticsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + index * 0.05 }}
               >
-                <div className={`w-8 h-8 rounded-lg mb-3 flex items-center justify-center ${insight.type === 'success' ? 'bg-success/20 text-success' :
-                  insight.type === 'info' ? 'bg-primary/20 text-primary' :
-                    'bg-warning/20 text-warning'
-                  }`}>
+                <div
+                  className={`w-8 h-8 rounded-lg mb-3 flex items-center justify-center ${
+                    insight.type === 'success'
+                      ? 'bg-success/20 text-success'
+                      : insight.type === 'info'
+                        ? 'bg-primary/20 text-primary'
+                        : 'bg-warning/20 text-warning'
+                  }`}
+                >
                   <Sparkles size={16} />
                 </div>
                 <h4 className="text-sm font-semibold text-text-primary mb-1">{insight.title}</h4>
@@ -405,7 +486,12 @@ export function AnalyticsPage() {
                 <h3 className="text-base font-semibold text-text-primary">Monthly Summary</h3>
                 <Calendar size={16} className="text-text-muted" />
               </div>
-              <BarChartComponent data={monthlySummary} dataKeys={monthlySummaryDataKeys} height={180} showLegend={false} />
+              <BarChartComponent
+                data={monthlySummary}
+                dataKeys={monthlySummaryDataKeys}
+                height={180}
+                showLegend={false}
+              />
             </div>
           </div>
         </div>
@@ -434,14 +520,15 @@ export function AnalyticsPage() {
           <div className="flex items-center gap-3">
             {/* Cycle Speed Selector */}
             <div className="flex items-center gap-1 p-1 rounded-full bg-glass border border-glass-border">
-              {CYCLE_SPEEDS.map((speed) => (
+              {CYCLE_SPEEDS.map(speed => (
                 <button
                   key={speed.value}
                   onClick={() => setCycleSpeed(speed.value)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${cycleSpeed === speed.value
-                    ? 'bg-primary text-white'
-                    : 'text-text-secondary hover:text-text-primary'
-                    }`}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    cycleSpeed === speed.value
+                      ? 'bg-primary text-white'
+                      : 'text-text-secondary hover:text-text-primary'
+                  }`}
                 >
                   {speed.label}
                 </button>
@@ -451,10 +538,11 @@ export function AnalyticsPage() {
             {/* Play/Pause */}
             <button
               onClick={() => setIsAutoCycling(!isAutoCycling)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isAutoCycling
-                ? 'bg-primary text-white shadow-glow-primary'
-                : 'bg-glass text-text-secondary hover:text-primary border border-glass-border'
-                }`}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                isAutoCycling
+                  ? 'bg-primary text-white shadow-glow-primary'
+                  : 'bg-glass text-text-secondary hover:text-primary border border-glass-border'
+              }`}
             >
               {isAutoCycling ? <Pause size={18} /> : <Play size={18} />}
             </button>
@@ -519,10 +607,9 @@ export function AnalyticsPage() {
                   setCurrentSlideIndex(index);
                   setCycleProgress(0);
                 }}
-                className={`w-2.5 h-2.5 rounded-full transition-all ${index === currentSlideIndex
-                  ? 'bg-primary w-6'
-                  : 'bg-glass hover:bg-text-muted'
-                  }`}
+                className={`w-2.5 h-2.5 rounded-full transition-all ${
+                  index === currentSlideIndex ? 'bg-primary w-6' : 'bg-glass hover:bg-text-muted'
+                }`}
               />
             ))}
           </div>

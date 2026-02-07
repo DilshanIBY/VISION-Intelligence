@@ -1,8 +1,6 @@
-
 import { Search, Sun, Moon, Bell, Aperture, Mic } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useUI } from '../../contexts/UIContextDefinition';
-
 
 export function TopBar() {
   const { toggleSidebar, isSidebarExpanded } = useUI();
@@ -40,29 +38,37 @@ export function TopBar() {
   };
 
   return (
-    <header className="
+    <header
+      className="
       glass-heavy rounded-full px-5 py-3
       flex items-center justify-between gap-6
       shadow-float hover:shadow-float-hover
       transition-all duration-300
       w-full mx-auto
-    ">
+    "
+    >
       {/* Left: App Branding (Sidebar Toggle) */}
       <div
         className="flex items-center gap-5 min-w-[240px] cursor-pointer group select-none"
         onClick={toggleSidebar}
       >
-        <div className={`
+        <div
+          className={`
           flex items-center justify-center w-12 h-12 rounded-2xl 
           bg-primary text-white shadow-glow-primary 
           transition-all duration-300 group-hover:scale-105 group-active:scale-95
           ${isSidebarExpanded ? 'rotate-90' : 'rotate-0'}
-        `}>
+        `}
+        >
           <Aperture size={28} />
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-xl font-black text-text-primary tracking-[0.35em] leading-none ml-1">APPAREL</h1>
-          <span className="text-[10px] text-text-muted font-bold tracking-[0.2em] self-start ml-1.5 mt-1.5 text-opacity-80">INTELLIGENCE</span>
+          <h1 className="text-xl font-black text-text-primary tracking-[0.35em] leading-none ml-1">
+            APPAREL
+          </h1>
+          <span className="text-[10px] text-text-muted font-bold tracking-[0.2em] self-start ml-1.5 mt-1.5 text-opacity-80">
+            INTELLIGENCE
+          </span>
         </div>
       </div>
 
@@ -72,7 +78,10 @@ export function TopBar() {
         <div className="w-full max-w-4xl hidden md:block group">
           <div className="relative w-full">
             <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-              <Search size={18} className="text-text-muted group-hover:text-primary transition-colors" />
+              <Search
+                size={18}
+                className="text-text-muted group-hover:text-primary transition-colors"
+              />
             </div>
             <input
               type="text"
@@ -126,7 +135,11 @@ export function TopBar() {
           title="Profile"
         >
           <div className="w-9 h-9 rounded-full shadow-lg group-hover:scale-105 transition-transform ring-2 ring-surface overflow-hidden">
-            <img src="/src/assets/placeholder-avatar.png" alt="User Profile" className="w-full h-full object-cover scale-105" />
+            <img
+              src="/src/assets/placeholder-avatar.png"
+              alt="User Profile"
+              className="w-full h-full object-cover scale-105"
+            />
           </div>
         </button>
       </div>

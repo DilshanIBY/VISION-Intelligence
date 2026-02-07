@@ -153,7 +153,9 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   overflow: hidden;
   /* Prevent body scroll, handle in main container */
 }
@@ -182,7 +184,9 @@ body {
   background-color: var(--color-surface);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-float);
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s var(--ease-spring);
+  transition:
+    transform 0.2s var(--ease-spring),
+    box-shadow 0.2s var(--ease-spring);
 }
 
 .card-float:hover {
@@ -231,7 +235,7 @@ body {
 }
 
 .react-grid-item .react-resizable-handle::after {
-  content: "";
+  content: '';
   position: absolute;
   right: 4px;
   bottom: 4px;
@@ -312,7 +316,7 @@ body {
 
 .focus-glow:focus-visible {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 2px var(--color-bg),
     0 0 0 4px var(--color-primary),
     var(--shadow-glow-primary);
@@ -320,7 +324,7 @@ body {
 
 .focus-glow-accent:focus-visible {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 2px var(--color-bg),
     0 0 0 4px var(--color-accent),
     var(--shadow-glow-accent);
@@ -332,7 +336,9 @@ body {
 
 /* Hover lift effect */
 .hover-lift {
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+  transition:
+    transform 0.2s var(--ease-spring),
+    box-shadow 0.2s ease;
 }
 
 .hover-lift:hover {
@@ -347,5 +353,8 @@ body {
 
 /* Smooth color transition */
 .color-transition {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }

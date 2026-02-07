@@ -1,12 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  LayoutDashboard,
-  Calculator,
-  Grid3X3,
-  BarChart3,
-  Settings,
-} from 'lucide-react';
+import { LayoutDashboard, Calculator, Grid3X3, BarChart3, Settings } from 'lucide-react';
 import { useUI } from '../../contexts/UIContextDefinition';
 
 interface NavItem {
@@ -34,25 +28,27 @@ export function Sidebar() {
         glass-heavy py-6 px-4
         flex flex-col gap-2 items-center
         z-50 shadow-float hover:shadow-float-hover
-        ${isSidebarExpanded
-          ? 'w-[240px] h-full items-start px-6 rounded-3xl'
-          : 'w-[88px] h-auto rounded-[44px]' // 44px is geometric match for 88px width
+        ${
+          isSidebarExpanded
+            ? 'w-[240px] h-full items-start px-6 rounded-3xl'
+            : 'w-[88px] h-auto rounded-[44px]' // 44px is geometric match for 88px width
         }
       `}
     >
       {/* Navigation Items */}
       <nav className="flex flex-col gap-1 w-full">
-        <AnimatePresence mode='popLayout'>
-          {navItems.map((item) => (
+        <AnimatePresence mode="popLayout">
+          {navItems.map(item => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) => `
                 relative flex items-center h-12 rounded-full px-3.5
                 transition-colors duration-300 overflow-hidden w-full
-                ${isActive
-                  ? 'bg-primary text-white shadow-glow-primary'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
+                ${
+                  isActive
+                    ? 'bg-primary text-white shadow-glow-primary'
+                    : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
                 }
                 ${!isSidebarExpanded && 'justify-center'}
               `}

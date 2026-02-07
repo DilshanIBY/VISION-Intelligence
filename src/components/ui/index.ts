@@ -22,4 +22,3 @@ export * from './motion';
 // Legacy exports (for backward compatibility)
 export { Sidebar } from './Sidebar';
 export { TopBar } from './TopBar';
-

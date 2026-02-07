@@ -29,6 +29,7 @@ env:
 
 jobs:
   build-tauri:
+    if: "!contains(github.event.head_commit.message, '[skip release]')"
     name: Build ${{ matrix.settings.os }}
     strategy:
       fail-fast: false
@@ -103,10 +104,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: 'dev-${{ github.sha }}'
-          releaseName: 'APPAREL Dev Build'
-          releaseBody: 'Development build from main branch. Use for testing only.'
-          releaseDraft: true
+          tagName: 'v0.1.${{ github.run_number }}'
+          releaseName: 'APPAREL v0.1.${{ github.run_number }}'
+          releaseBody: 'Automated release from main branch.'
+          releaseDraft: false
           prerelease: true
           args: --target ${{ matrix.settings.target }} --bundles ${{ matrix.settings.bundles }}
 

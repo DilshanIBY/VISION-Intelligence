@@ -106,7 +106,8 @@ export function SettingsPage() {
                 {/* Avatar */}
                 <div className="relative">
                   <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-                    {mockUserProfile.firstName[0]}{mockUserProfile.lastName[0]}
+                    {mockUserProfile.firstName[0]}
+                    {mockUserProfile.lastName[0]}
                   </div>
                   <button className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-surface border border-glass-border shadow-float flex items-center justify-center text-text-secondary hover:text-primary hover:bg-white transition-all">
                     <Camera size={14} />
@@ -120,7 +121,9 @@ export function SettingsPage() {
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
                     {roleIcons[mockUserProfile.role]}
-                    <span className="text-sm text-text-secondary capitalize">{mockUserProfile.role}</span>
+                    <span className="text-sm text-text-secondary capitalize">
+                      {mockUserProfile.role}
+                    </span>
                   </div>
                   <div className="flex items-center gap-4 mt-3 text-sm text-text-muted">
                     <span className="flex items-center gap-1.5">
@@ -143,8 +146,12 @@ export function SettingsPage() {
               <h4 className="text-base font-semibold text-text-primary mb-4">Profile Details</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs text-text-muted uppercase tracking-wider">Department</label>
-                  <p className="text-sm text-text-primary">{mockUserProfile.department || 'Not set'}</p>
+                  <label className="text-xs text-text-muted uppercase tracking-wider">
+                    Department
+                  </label>
+                  <p className="text-sm text-text-primary">
+                    {mockUserProfile.department || 'Not set'}
+                  </p>
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs text-text-muted uppercase tracking-wider">Joined</label>
@@ -153,7 +160,7 @@ export function SettingsPage() {
                     {new Date(mockUserProfile.joinedDate).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
-                      day: 'numeric'
+                      day: 'numeric',
                     })}
                   </p>
                 </div>
@@ -209,23 +216,27 @@ export function SettingsPage() {
             <div className="card-float p-6">
               <h4 className="text-base font-semibold text-text-primary mb-4">Theme</h4>
               <div className="grid grid-cols-3 gap-3">
-                {themeOptions.map((option) => (
+                {themeOptions.map(option => (
                   <button
                     key={option.value}
                     onClick={() => handleThemeChange(option.value as typeof theme)}
-                    className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${theme === option.value
-                      ? 'border-primary bg-primary/5'
-                      : 'border-glass-border hover:border-primary/50 bg-glass'
-                      }`}
+                    className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${
+                      theme === option.value
+                        ? 'border-primary bg-primary/5'
+                        : 'border-glass-border hover:border-primary/50 bg-glass'
+                    }`}
                   >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme === option.value ? 'bg-primary text-white' : 'bg-surface text-text-secondary'
-                      }`}>
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        theme === option.value
+                          ? 'bg-primary text-white'
+                          : 'bg-surface text-text-secondary'
+                      }`}
+                    >
                       {themeIcons[option.value]}
                     </div>
                     <span className="text-sm font-medium text-text-primary">{option.label}</span>
-                    {theme === option.value && (
-                      <Check size={16} className="text-primary" />
-                    )}
+                    {theme === option.value && <Check size={16} className="text-primary" />}
                   </button>
                 ))}
               </div>
@@ -235,15 +246,18 @@ export function SettingsPage() {
             <div className="card-float p-6">
               <h4 className="text-base font-semibold text-text-primary mb-4">Accent Color</h4>
               <div className="flex flex-wrap gap-3">
-                {accentColorOptions.map((color) => (
+                {accentColorOptions.map(color => (
                   <button
                     key={color.value}
                     onClick={() => {
                       setAccentColor(color.value);
                       setHasChanges(true);
                     }}
-                    className={`w-10 h-10 rounded-xl transition-all ${accentColor === color.value ? 'ring-2 ring-offset-2 ring-primary scale-110' : 'hover:scale-105'
-                      }`}
+                    className={`w-10 h-10 rounded-xl transition-all ${
+                      accentColor === color.value
+                        ? 'ring-2 ring-offset-2 ring-primary scale-110'
+                        : 'hover:scale-105'
+                    }`}
                     style={{ backgroundColor: color.value }}
                     title={color.label}
                   >
@@ -259,25 +273,24 @@ export function SettingsPage() {
             <div className="card-float p-6">
               <h4 className="text-base font-semibold text-text-primary mb-4">Display Density</h4>
               <div className="space-y-2">
-                {densityOptions.map((option) => (
+                {densityOptions.map(option => (
                   <button
                     key={option.value}
                     onClick={() => {
                       setDensity(option.value as typeof density);
                       setHasChanges(true);
                     }}
-                    className={`w-full p-4 rounded-xl border-2 transition-all text-left flex items-center justify-between ${density === option.value
-                      ? 'border-primary bg-primary/5'
-                      : 'border-glass-border hover:border-primary/50 bg-glass'
-                      }`}
+                    className={`w-full p-4 rounded-xl border-2 transition-all text-left flex items-center justify-between ${
+                      density === option.value
+                        ? 'border-primary bg-primary/5'
+                        : 'border-glass-border hover:border-primary/50 bg-glass'
+                    }`}
                   >
                     <div>
                       <span className="text-sm font-medium text-text-primary">{option.label}</span>
                       <p className="text-xs text-text-muted mt-0.5">{option.description}</p>
                     </div>
-                    {density === option.value && (
-                      <Check size={18} className="text-primary" />
-                    )}
+                    {density === option.value && <Check size={18} className="text-primary" />}
                   </button>
                 ))}
               </div>
@@ -298,7 +311,11 @@ export function SettingsPage() {
             <div className="card-float p-6">
               <div className="flex items-start gap-6">
                 <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-secondary to-primary flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                  {mockOrganization.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+                  {mockOrganization.name
+                    .split(' ')
+                    .map(w => w[0])
+                    .join('')
+                    .slice(0, 2)}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-text-primary">{mockOrganization.name}</h3>
@@ -323,15 +340,19 @@ export function SettingsPage() {
                 <span className="text-xs text-text-muted">{mockTeamMembers.length} members</span>
               </div>
               <div className="space-y-3">
-                {mockTeamMembers.map((member) => (
+                {mockTeamMembers.map(member => (
                   <div
                     key={member.id}
-                    className={`p-3 rounded-xl bg-glass border border-glass-border flex items-center justify-between ${member.status === 'inactive' ? 'opacity-50' : ''
-                      }`}
+                    className={`p-3 rounded-xl bg-glass border border-glass-border flex items-center justify-between ${
+                      member.status === 'inactive' ? 'opacity-50' : ''
+                    }`}
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-sm font-medium text-primary">
-                        {member.name.split(' ').map(n => n[0]).join('')}
+                        {member.name
+                          .split(' ')
+                          .map(n => n[0])
+                          .join('')}
                       </div>
                       <div>
                         <p className="text-sm font-medium text-text-primary">{member.name}</p>
@@ -343,9 +364,15 @@ export function SettingsPage() {
                         {roleIcons[member.role]}
                         <span className="capitalize">{member.role}</span>
                       </span>
-                      <span className={`w-2 h-2 rounded-full ${member.status === 'active' ? 'bg-success' :
-                        member.status === 'invited' ? 'bg-warning' : 'bg-text-muted'
-                        }`} />
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          member.status === 'active'
+                            ? 'bg-success'
+                            : member.status === 'invited'
+                              ? 'bg-warning'
+                              : 'bg-text-muted'
+                        }`}
+                      />
                     </div>
                   </div>
                 ))}
@@ -385,7 +412,7 @@ export function SettingsPage() {
                   { icon: FileText, label: 'Documentation', href: appInfo.links.documentation },
                   { icon: HelpCircle, label: 'Support', href: appInfo.links.support },
                   { icon: FileText, label: 'Changelog', href: appInfo.links.changelog },
-                ].map((link) => (
+                ].map(link => (
                   <a
                     key={link.label}
                     href={link.href}
@@ -394,10 +421,16 @@ export function SettingsPage() {
                     className="flex items-center justify-between p-3 rounded-xl bg-glass border border-glass-border hover:border-primary/50 transition-all group"
                   >
                     <span className="flex items-center gap-3 text-sm text-text-primary">
-                      <link.icon size={18} className="text-text-muted group-hover:text-primary transition-colors" />
+                      <link.icon
+                        size={18}
+                        className="text-text-muted group-hover:text-primary transition-colors"
+                      />
                       {link.label}
                     </span>
-                    <ExternalLink size={14} className="text-text-muted group-hover:text-primary transition-colors" />
+                    <ExternalLink
+                      size={14}
+                      className="text-text-muted group-hover:text-primary transition-colors"
+                    />
                   </a>
                 ))}
               </div>
@@ -407,10 +440,16 @@ export function SettingsPage() {
             <div className="card-float p-6">
               <h4 className="text-base font-semibold text-text-primary mb-4">Legal</h4>
               <div className="flex gap-4 text-sm">
-                <a href={appInfo.links.privacy} className="text-text-secondary hover:text-primary transition-colors">
+                <a
+                  href={appInfo.links.privacy}
+                  className="text-text-secondary hover:text-primary transition-colors"
+                >
                   Privacy Policy
                 </a>
-                <a href={appInfo.links.terms} className="text-text-secondary hover:text-primary transition-colors">
+                <a
+                  href={appInfo.links.terms}
+                  className="text-text-secondary hover:text-primary transition-colors"
+                >
                   Terms of Service
                 </a>
               </div>
@@ -461,14 +500,15 @@ export function SettingsPage() {
         {/* Sidebar Tabs */}
         <div className="w-56 flex-shrink-0">
           <nav className="card-float p-2 space-y-1">
-            {tabConfig.map((tab) => (
+            {tabConfig.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === tab.id
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-glass'
-                  }`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  activeTab === tab.id
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-text-secondary hover:text-text-primary hover:bg-glass'
+                }`}
               >
                 <tab.icon size={18} />
                 {tab.label}
@@ -479,9 +519,7 @@ export function SettingsPage() {
 
         {/* Tab Content */}
         <div className="flex-1 overflow-auto pr-2">
-          <AnimatePresence mode="wait">
-            {renderTabContent()}
-          </AnimatePresence>
+          <AnimatePresence mode="wait">{renderTabContent()}</AnimatePresence>
         </div>
       </div>
     </div>

@@ -13,8 +13,9 @@ export function MainLayout() {
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none bg-[radial-gradient(circle_at_50%_0%,var(--color-primary-light),transparent_70%)] blur-3xl" />
 
       {/* Floating Elements Shell */}
-      <div className={`relative z-10 flex h-full w-full flex-col ${isPresentationMode ? 'p-0' : 'p-4 md:p-6 gap-4 md:gap-6'}`}>
-
+      <div
+        className={`relative z-10 flex h-full w-full flex-col ${isPresentationMode ? 'p-0' : 'p-4 md:p-6 gap-4 md:gap-6'}`}
+      >
         {/* Top Bar - Floating Capsule (Hidden in Presentation Mode) */}
         {!isPresentationMode && (
           <div className="flex-none z-50 flex justify-center w-full">
@@ -40,12 +41,14 @@ export function MainLayout() {
             `}
             style={{
               willChange: 'width, transform',
-              transform: 'translateZ(0)' // Force hardware acceleration
+              transform: 'translateZ(0)', // Force hardware acceleration
             }}
             transition={{ type: 'spring', stiffness: 200, damping: 25, mass: 1 }}
           >
             {/* Content Scroll Area */}
-            <div className={`absolute inset-0 overflow-auto scroll-smooth custom-scrollbar ${isPresentationMode ? 'p-0' : 'p-6 md:p-8'}`}>
+            <div
+              className={`absolute inset-0 overflow-auto scroll-smooth custom-scrollbar ${isPresentationMode ? 'p-0' : 'p-6 md:p-8'}`}
+            >
               <Outlet />
             </div>
           </motion.main>

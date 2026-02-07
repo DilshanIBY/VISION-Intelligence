@@ -6,15 +6,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Calculator,
-  Download,
-  Plus,
-  RotateCcw,
-  Presentation,
-  Check,
-  Edit3
-} from 'lucide-react';
+import { Calculator, Download, Plus, RotateCcw, Presentation, Check, Edit3 } from 'lucide-react';
 import { useUI } from '@/contexts/UIContextDefinition';
 
 // Calculator Components
@@ -40,12 +32,14 @@ export function MachineryCalculatorPage() {
     isDashboardEditing: isEditing,
     setDashboardEditing: setIsEditing,
     isPresentationMode,
-    setPresentationMode: setIsPresentationMode
+    setPresentationMode: setIsPresentationMode,
   } = useUI();
 
   // State
   const [inputs, setInputs] = useState<CalculatorInputs>(defaultCalculatorInputs);
-  const [outputs, setOutputs] = useState<CalculatorOutputs>(() => calculateMockResults(defaultCalculatorInputs));
+  const [outputs, setOutputs] = useState<CalculatorOutputs>(() =>
+    calculateMockResults(defaultCalculatorInputs)
+  );
   const [scenarios, setScenarios] = useState<Scenario[]>(mockScenarios);
   const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
   const [warnings, setWarnings] = useState<ValidationWarning[]>([]);
@@ -81,12 +75,12 @@ export function MachineryCalculatorPage() {
   }, [isPresentationMode, setIsPresentationMode]);
 
   // Input change handler
-  const handleInputChange = useCallback(<K extends keyof CalculatorInputs>(
-    key: K,
-    value: CalculatorInputs[K]
-  ) => {
-    setInputs(prev => ({ ...prev, [key]: value }));
-  }, []);
+  const handleInputChange = useCallback(
+    <K extends keyof CalculatorInputs>(key: K, value: CalculatorInputs[K]) => {
+      setInputs(prev => ({ ...prev, [key]: value }));
+    },
+    []
+  );
 
   // Dismiss warning handler
   const handleDismissWarning = useCallback((id: string) => {
@@ -111,10 +105,13 @@ export function MachineryCalculatorPage() {
   }, [inputs, outputs, scenarios.length]);
 
   // Remove scenario
-  const handleRemoveScenario = useCallback((id: string) => {
-    setScenarios(prev => prev.filter(s => s.id !== id));
-    if (selectedScenarioId === id) setSelectedScenarioId(null);
-  }, [selectedScenarioId]);
+  const handleRemoveScenario = useCallback(
+    (id: string) => {
+      setScenarios(prev => prev.filter(s => s.id !== id));
+      if (selectedScenarioId === id) setSelectedScenarioId(null);
+    },
+    [selectedScenarioId]
+  );
 
   // Select scenario
   const handleSelectScenario = useCallback((scenario: Scenario) => {
@@ -126,7 +123,7 @@ export function MachineryCalculatorPage() {
 
   // Rename scenario
   const handleRenameScenario = useCallback((id: string, newName: string) => {
-    setScenarios(prev => prev.map(s => s.id === id ? { ...s, name: newName } : s));
+    setScenarios(prev => prev.map(s => (s.id === id ? { ...s, name: newName } : s)));
   }, []);
 
   const baselineOutputs = scenarios.find(s => s.isBaseline)?.outputs;
@@ -177,14 +174,15 @@ export function MachineryCalculatorPage() {
                 onClick={() => setIsEditing(!isEditing)}
                 className={`
                   w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                  ${isEditing
-                    ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  ${
+                    isEditing
+                      ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                   }
                 `}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                title={isEditing ? "Done Editing" : "Edit Layout"}
+                title={isEditing ? 'Done Editing' : 'Edit Layout'}
               >
                 {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
               </motion.button>
@@ -247,11 +245,7 @@ export function MachineryCalculatorPage() {
 
           {/* Right: Outputs Panel (60%) - Dictates the height */}
           <div className="ml-[40%] flex flex-col gap-4">
-            <OutputsPanel
-              outputs={outputs}
-              deadline={inputs.deadline}
-              className="w-full"
-            />
+            <OutputsPanel outputs={outputs} deadline={inputs.deadline} className="w-full" />
           </div>
         </div>
 
@@ -267,14 +261,14 @@ export function MachineryCalculatorPage() {
           </div>
 
           <div className="flex gap-3 overflow-x-auto pb-1">
-            {scenarios.map((scenario) => (
+            {scenarios.map(scenario => (
               <ScenarioCard
                 key={scenario.id}
                 scenario={scenario}
                 baseline={baselineOutputs}
                 onSelect={() => handleSelectScenario(scenario)}
                 onRemove={scenario.isBaseline ? undefined : () => handleRemoveScenario(scenario.id)}
-                onRename={(newName) => handleRenameScenario(scenario.id, newName)}
+                onRename={newName => handleRenameScenario(scenario.id, newName)}
                 isSelected={selectedScenarioId === scenario.id}
                 className="flex-shrink-0 w-48"
               />

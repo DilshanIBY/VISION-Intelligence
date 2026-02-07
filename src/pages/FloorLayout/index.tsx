@@ -63,18 +63,16 @@ import type { CanvasObject } from '@/types/canvas';
 // Operator density (m² per operator) for each department type
 // Based on PRD §3.2.4 and typical factory configurations
 const OPERATOR_DENSITY: Record<string, number> = {
-  sewing: 6,        // PRD: operators × 6 m²
-  warehouse: 100,   // Low operator density, mostly storage
-  cutting: 15,      // Fewer operators, larger equipment
-  finishing: 10,    // Quality check and pressing stations
-  packing: 12,      // Packing stations
-  embroidery: 30,   // Machine operators, 1 per ~30m²
-  utilities: 0,     // No direct operators
-  washing: 20,      // Machine operators
-  sublimation: 25,  // Machine operators
+  sewing: 6, // PRD: operators × 6 m²
+  warehouse: 100, // Low operator density, mostly storage
+  cutting: 15, // Fewer operators, larger equipment
+  finishing: 10, // Quality check and pressing stations
+  packing: 12, // Packing stations
+  embroidery: 30, // Machine operators, 1 per ~30m²
+  utilities: 0, // No direct operators
+  washing: 20, // Machine operators
+  sublimation: 25, // Machine operators
 };
-
-
 
 export function FloorLayoutPage() {
   // Global UI State
@@ -107,7 +105,9 @@ export function FloorLayoutPage() {
   const [showTemplates, setShowTemplates] = useState(false);
   const [activeSidebar, setActiveSidebar] = useState<'none' | 'export' | 'validation'>('none');
   const [isMeasuring, setIsMeasuring] = useState(false);
-  const [activeTool, setActiveTool] = useState<'select' | 'pan' | 'shape-rect' | 'shape-circle' | 'text' | 'note' | 'arrow' | 'curved-arrow'>('select');
+  const [activeTool, setActiveTool] = useState<
+    'select' | 'pan' | 'shape-rect' | 'shape-circle' | 'text' | 'note' | 'arrow' | 'curved-arrow'
+  >('select');
 
   // Drag State
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
@@ -123,10 +123,7 @@ export function FloorLayoutPage() {
   );
 
   // Calculate department areas based on inputs
-  const calculatedAreas = useMemo(
-    () => calculateDepartmentAreas(inputs),
-    [inputs]
-  );
+  const calculatedAreas = useMemo(() => calculateDepartmentAreas(inputs), [inputs]);
 
   // Calculate total area (target/palette area)
   const totalArea = useMemo(
@@ -155,7 +152,6 @@ export function FloorLayoutPage() {
 
   // Operator density (m² per operator) for each department type
   // Based on PRD §3.2.4 and typical factory configurations
-
 
   // Calculate Actual Operators from ALL Placed Departments
   // Each department contributes operators based on its area and density
@@ -198,12 +194,12 @@ export function FloorLayoutPage() {
   }, [isPresentationMode, isMeasuring, setPresentationMode]);
 
   // Input change handler
-  const handleInputChange = useCallback(<K extends keyof FloorLayoutInputs>(
-    key: K,
-    value: FloorLayoutInputs[K]
-  ) => {
-    setInputs(prev => ({ ...prev, [key]: value }));
-  }, []);
+  const handleInputChange = useCallback(
+    <K extends keyof FloorLayoutInputs>(key: K, value: FloorLayoutInputs[K]) => {
+      setInputs(prev => ({ ...prev, [key]: value }));
+    },
+    []
+  );
 
   // Reset layout
   const handleReset = useCallback(() => {
@@ -216,62 +212,78 @@ export function FloorLayoutPage() {
   }, []);
 
   // Remove department
-  const handleRemoveDepartment = useCallback((id: string) => {
-    setDepartments(prev => prev.filter(d => d.id !== id));
-    if (selectedDepartmentId === id) setSelectedDepartmentId(null);
-  }, [selectedDepartmentId]);
+  const handleRemoveDepartment = useCallback(
+    (id: string) => {
+      setDepartments(prev => prev.filter(d => d.id !== id));
+      if (selectedDepartmentId === id) setSelectedDepartmentId(null);
+    },
+    [selectedDepartmentId]
+  );
 
   // Update department (resize/move)
   const handleUpdateDepartment = useCallback((id: string, updates: Partial<PlacedDepartment>) => {
     // 1. Update Departments
     let updatedDept: PlacedDepartment | undefined;
 
-    setDepartments(prev => prev.map(d => {
-      if (d.id !== id) return d;
-      const updated = { ...d, ...updates };
-      // Recalculate area if dimensions changed
-      if (updates.width || updates.height) {
-        updated.calculatedArea = updated.width * updated.height * 25; // 5x5m = 25m2 per cell
-      }
-      updatedDept = updated;
-      return updated;
-    }));
+    setDepartments(prev =>
+      prev.map(d => {
+        if (d.id !== id) return d;
+        const updated = { ...d, ...updates };
+        // Recalculate area if dimensions changed
+        if (updates.width || updates.height) {
+          updated.calculatedArea = updated.width * updated.height * 25; // 5x5m = 25m2 per cell
+        }
+        updatedDept = updated;
+        return updated;
+      })
+    );
 
     // 2. Update Connected Arrows (in CanvasObjects)
-    if (updatedDept && (updates.x !== undefined || updates.y !== undefined || updates.width !== undefined || updates.height !== undefined)) {
+    if (
+      updatedDept &&
+      (updates.x !== undefined ||
+        updates.y !== undefined ||
+        updates.width !== undefined ||
+        updates.height !== undefined)
+    ) {
       const GRID_CELL_SIZE = 40; // Hardcoded matches GridCanvas
       const center = {
-        x: (updatedDept.x * GRID_CELL_SIZE) + (updatedDept.width * GRID_CELL_SIZE) / 2,
-        y: (updatedDept.y * GRID_CELL_SIZE) + (updatedDept.height * GRID_CELL_SIZE) / 2
+        x: updatedDept.x * GRID_CELL_SIZE + (updatedDept.width * GRID_CELL_SIZE) / 2,
+        y: updatedDept.y * GRID_CELL_SIZE + (updatedDept.height * GRID_CELL_SIZE) / 2,
       };
 
-      setCanvasObjects(prev => prev.map(obj => {
-        if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && (obj.startObjectId === id || obj.endObjectId === id)) {
-          let startPoint = obj.startPoint;
-          let endPoint = obj.endPoint;
+      setCanvasObjects(prev =>
+        prev.map(obj => {
+          if (
+            (obj.type === 'arrow' || obj.type === 'curved-arrow') &&
+            (obj.startObjectId === id || obj.endObjectId === id)
+          ) {
+            let startPoint = obj.startPoint;
+            let endPoint = obj.endPoint;
 
-          if (obj.startObjectId === id) startPoint = center;
-          if (obj.endObjectId === id) endPoint = center;
+            if (obj.startObjectId === id) startPoint = center;
+            if (obj.endObjectId === id) endPoint = center;
 
-          if (startPoint && endPoint) {
-            const minX = Math.min(startPoint.x, endPoint.x) - 20;
-            const minY = Math.min(startPoint.y, endPoint.y) - 20;
-            const maxX = Math.max(startPoint.x, endPoint.x) + 20;
-            const maxY = Math.max(startPoint.y, endPoint.y) + 20;
+            if (startPoint && endPoint) {
+              const minX = Math.min(startPoint.x, endPoint.x) - 20;
+              const minY = Math.min(startPoint.y, endPoint.y) - 20;
+              const maxX = Math.max(startPoint.x, endPoint.x) + 20;
+              const maxY = Math.max(startPoint.y, endPoint.y) + 20;
 
-            return {
-              ...obj,
-              x: minX,
-              y: minY,
-              width: maxX - minX,
-              height: maxY - minY,
-              startPoint,
-              endPoint
-            };
+              return {
+                ...obj,
+                x: minX,
+                y: minY,
+                width: maxX - minX,
+                height: maxY - minY,
+                startPoint,
+                endPoint,
+              };
+            }
           }
-        }
-        return obj;
-      }));
+          return obj;
+        })
+      );
     }
   }, []);
 
@@ -284,19 +296,28 @@ export function FloorLayoutPage() {
 
   const handleUpdateObject = useCallback((id: string, updates: Partial<CanvasObject>) => {
     setCanvasObjects(prev => {
-      const nextObjects = prev.map(o => o.id === id ? { ...o, ...updates } : o);
+      const nextObjects = prev.map(o => (o.id === id ? { ...o, ...updates } : o));
       const target = nextObjects.find(o => o.id === id);
 
       // Update connected arrows if position/dimensions changed
-      if (target && (updates.x !== undefined || updates.y !== undefined || updates.width !== undefined || updates.height !== undefined)) {
+      if (
+        target &&
+        (updates.x !== undefined ||
+          updates.y !== undefined ||
+          updates.width !== undefined ||
+          updates.height !== undefined)
+      ) {
         return nextObjects.map(obj => {
-          if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && (obj.startObjectId === id || obj.endObjectId === id)) {
+          if (
+            (obj.type === 'arrow' || obj.type === 'curved-arrow') &&
+            (obj.startObjectId === id || obj.endObjectId === id)
+          ) {
             let startPoint = obj.startPoint;
             let endPoint = obj.endPoint;
 
             const targetCenter = {
               x: target.x + target.width / 2,
-              y: target.y + target.height / 2
+              y: target.y + target.height / 2,
             };
 
             if (obj.startObjectId === id) startPoint = targetCenter;
@@ -315,7 +336,7 @@ export function FloorLayoutPage() {
                 width: maxX - minX,
                 height: maxY - minY,
                 startPoint,
-                endPoint
+                endPoint,
               };
             }
           }
@@ -326,31 +347,37 @@ export function FloorLayoutPage() {
     });
   }, []);
 
-  const handleRemoveObject = useCallback((id: string) => {
-    setCanvasObjects(prev => prev.filter(o => o.id !== id));
-    if (selectedObjectId === id) setSelectedObjectId(null);
-  }, [selectedObjectId]);
+  const handleRemoveObject = useCallback(
+    (id: string) => {
+      setCanvasObjects(prev => prev.filter(o => o.id !== id));
+      if (selectedObjectId === id) setSelectedObjectId(null);
+    },
+    [selectedObjectId]
+  );
 
-  const onDragEndObject = useCallback((obj: CanvasObject, dx: number, dy: number) => {
-    const updates: Partial<CanvasObject> = {
-      x: Math.round(obj.x + dx),
-      y: Math.round(obj.y + dy)
-    };
-
-    // If arrow, also shift endpoints
-    if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && obj.startPoint && obj.endPoint) {
-      updates.startPoint = {
-        x: obj.startPoint.x + dx,
-        y: obj.startPoint.y + dy
+  const onDragEndObject = useCallback(
+    (obj: CanvasObject, dx: number, dy: number) => {
+      const updates: Partial<CanvasObject> = {
+        x: Math.round(obj.x + dx),
+        y: Math.round(obj.y + dy),
       };
-      updates.endPoint = {
-        x: obj.endPoint.x + dx,
-        y: obj.endPoint.y + dy
-      };
-    }
 
-    handleUpdateObject(obj.id, updates);
-  }, [handleUpdateObject]);
+      // If arrow, also shift endpoints
+      if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && obj.startPoint && obj.endPoint) {
+        updates.startPoint = {
+          x: obj.startPoint.x + dx,
+          y: obj.startPoint.y + dy,
+        };
+        updates.endPoint = {
+          x: obj.endPoint.x + dx,
+          y: obj.endPoint.y + dy,
+        };
+      }
+
+      handleUpdateObject(obj.id, updates);
+    },
+    [handleUpdateObject]
+  );
 
   // Zoom controls
   const handleZoomIn = useCallback(() => setZoom(z => Math.min(2, z + 0.25)), []);
@@ -377,36 +404,43 @@ export function FloorLayoutPage() {
     }
   }, [inputs.buildingFloors]);
 
-  const handleRemoveFloor = useCallback((index: number) => {
-    if (inputs.buildingFloors > 1) {
-      setDepartments(prev => prev.filter(d => d.floorIndex !== index));
-      setInputs(prev => ({ ...prev, buildingFloors: prev.buildingFloors - 1 }));
-      if (activeFloorIndex >= index && activeFloorIndex > 0) {
-        setActiveFloorIndex(activeFloorIndex - 1);
+  const handleRemoveFloor = useCallback(
+    (index: number) => {
+      if (inputs.buildingFloors > 1) {
+        setDepartments(prev => prev.filter(d => d.floorIndex !== index));
+        setInputs(prev => ({ ...prev, buildingFloors: prev.buildingFloors - 1 }));
+        if (activeFloorIndex >= index && activeFloorIndex > 0) {
+          setActiveFloorIndex(activeFloorIndex - 1);
+        }
       }
-    }
-  }, [inputs.buildingFloors, activeFloorIndex]);
+    },
+    [inputs.buildingFloors, activeFloorIndex]
+  );
 
   // Template selection
-  const handleSelectTemplate = useCallback((template: LayoutTemplateType) => {
-    // Apply template inputs
-    setInputs(prev => ({ ...prev, ...template.inputs }));
+  const handleSelectTemplate = useCallback(
+    (template: LayoutTemplateType) => {
+      // Apply template inputs
+      setInputs(prev => ({ ...prev, ...template.inputs }));
 
-    // Apply template departments
-    const newDepartments: PlacedDepartment[] = template.departments.map((d, i) => {
-      const areaInfo = calculateDepartmentAreas({ ...inputs, ...template.inputs })
-        .find(a => a.departmentTypeId === d.departmentTypeId);
+      // Apply template departments
+      const newDepartments: PlacedDepartment[] = template.departments.map((d, i) => {
+        const areaInfo = calculateDepartmentAreas({ ...inputs, ...template.inputs }).find(
+          a => a.departmentTypeId === d.departmentTypeId
+        );
 
-      return {
-        ...d,
-        id: `dept-${Date.now()}-${i}`,
-        calculatedArea: areaInfo?.calculatedArea || 100,
-      };
-    });
+        return {
+          ...d,
+          id: `dept-${Date.now()}-${i}`,
+          calculatedArea: areaInfo?.calculatedArea || 100,
+        };
+      });
 
-    setDepartments(newDepartments);
-    setActiveFloorIndex(0);
-  }, [inputs]);
+      setDepartments(newDepartments);
+      setActiveFloorIndex(0);
+    },
+    [inputs]
+  );
 
   // Export handler
   const handleExport = useCallback((format: 'png' | 'pdf', options: ExportOptions) => {
@@ -474,7 +508,8 @@ export function FloorLayoutPage() {
       const maxX = floorWidthPx - result.width;
       const maxY = floorHeightPx - result.height;
 
-      onDragEndObject(result,
+      onDragEndObject(
+        result,
         Math.max(0, Math.min(newX, maxX)) - result.x,
         Math.max(0, Math.min(newY, maxY)) - result.y
       );
@@ -486,8 +521,8 @@ export function FloorLayoutPage() {
       const dept = active.data.current.department as PlacedDepartment;
 
       // Calculate delta in grid units, accounting for zoom
-      const deltaGridX = Math.round((delta.x / zoom) / 40);
-      const deltaGridY = Math.round((delta.y / zoom) / 40);
+      const deltaGridX = Math.round(delta.x / zoom / 40);
+      const deltaGridY = Math.round(delta.y / zoom / 40);
 
       if (deltaGridX !== 0 || deltaGridY !== 0) {
         // We need to capture the NEW position to update arrows
@@ -495,80 +530,83 @@ export function FloorLayoutPage() {
         let newCenter = { x: 0, y: 0 };
         let didMove = false;
 
-        setDepartments(prev => prev.map(d => {
-          if (d.id !== dept.id) return d;
+        setDepartments(prev =>
+          prev.map(d => {
+            if (d.id !== dept.id) return d;
 
-          const newX = d.x + deltaGridX;
-          const newY = d.y + deltaGridY;
+            const newX = d.x + deltaGridX;
+            const newY = d.y + deltaGridY;
 
-          // Constrain to positive coordinates (canvas bounds) and Floor Width/Height
-          const deptWidthCells = d.width;
-          const deptHeightCells = d.height;
-          // Grid width in cells = floorWidth / 5
-          const floorWidthCells = Math.round(inputs.floorWidth / 5);
-          const floorHeightCells = Math.round(inputs.floorHeight / 5);
+            // Constrain to positive coordinates (canvas bounds) and Floor Width/Height
+            const deptWidthCells = d.width;
+            const deptHeightCells = d.height;
+            // Grid width in cells = floorWidth / 5
+            const floorWidthCells = Math.round(inputs.floorWidth / 5);
+            const floorHeightCells = Math.round(inputs.floorHeight / 5);
 
-          const maxX = floorWidthCells - deptWidthCells;
-          const maxY = floorHeightCells - deptHeightCells;
+            const maxX = floorWidthCells - deptWidthCells;
+            const maxY = floorHeightCells - deptHeightCells;
 
-          const finalX = Math.max(0, Math.min(newX, maxX));
-          const finalY = Math.max(0, Math.min(newY, maxY));
+            const finalX = Math.max(0, Math.min(newX, maxX));
+            const finalY = Math.max(0, Math.min(newY, maxY));
 
-          // Calculate center for arrow updates
-          const GRID_CELL_SIZE = 40;
-          newCenter = {
-            x: (finalX * GRID_CELL_SIZE) + (d.width * GRID_CELL_SIZE) / 2,
-            y: (finalY * GRID_CELL_SIZE) + (d.height * GRID_CELL_SIZE) / 2
-          };
-          didMove = true;
+            // Calculate center for arrow updates
+            const GRID_CELL_SIZE = 40;
+            newCenter = {
+              x: finalX * GRID_CELL_SIZE + (d.width * GRID_CELL_SIZE) / 2,
+              y: finalY * GRID_CELL_SIZE + (d.height * GRID_CELL_SIZE) / 2,
+            };
+            didMove = true;
 
-          return {
-            ...d,
-            x: finalX,
-            y: finalY
-          };
-        }));
+            return {
+              ...d,
+              x: finalX,
+              y: finalY,
+            };
+          })
+        );
 
         // Update Arrows if department moved
         if (didMove) {
-          setCanvasObjects(prev => prev.map(obj => {
-            if ((obj.type === 'arrow' || obj.type === 'curved-arrow') && (obj.startObjectId === movedDeptId || obj.endObjectId === movedDeptId)) {
-              let startPoint = obj.startPoint;
-              let endPoint = obj.endPoint;
+          setCanvasObjects(prev =>
+            prev.map(obj => {
+              if (
+                (obj.type === 'arrow' || obj.type === 'curved-arrow') &&
+                (obj.startObjectId === movedDeptId || obj.endObjectId === movedDeptId)
+              ) {
+                let startPoint = obj.startPoint;
+                let endPoint = obj.endPoint;
 
-              if (obj.startObjectId === movedDeptId) startPoint = newCenter;
-              if (obj.endObjectId === movedDeptId) endPoint = newCenter;
+                if (obj.startObjectId === movedDeptId) startPoint = newCenter;
+                if (obj.endObjectId === movedDeptId) endPoint = newCenter;
 
-              if (startPoint && endPoint) {
-                const minX = Math.min(startPoint.x, endPoint.x) - 20;
-                const minY = Math.min(startPoint.y, endPoint.y) - 20;
-                const maxX = Math.max(startPoint.x, endPoint.x) + 20;
-                const maxY = Math.max(startPoint.y, endPoint.y) + 20;
+                if (startPoint && endPoint) {
+                  const minX = Math.min(startPoint.x, endPoint.x) - 20;
+                  const minY = Math.min(startPoint.y, endPoint.y) - 20;
+                  const maxX = Math.max(startPoint.x, endPoint.x) + 20;
+                  const maxY = Math.max(startPoint.y, endPoint.y) + 20;
 
-                return {
-                  ...obj,
-                  x: minX,
-                  y: minY,
-                  width: maxX - minX,
-                  height: maxY - minY,
-                  startPoint,
-                  endPoint
-                };
+                  return {
+                    ...obj,
+                    x: minX,
+                    y: minY,
+                    width: maxX - minX,
+                    height: maxY - minY,
+                    startPoint,
+                    endPoint,
+                  };
+                }
               }
-            }
-            return obj;
-          }));
+              return obj;
+            })
+          );
         }
       }
     }
   };
 
   return (
-    <DndContext
-      sensors={sensors}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-    >
+    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <motion.div
         className={`h-full flex flex-col ${isPresentationMode ? 'fixed inset-0 z-50 bg-[var(--color-bg)]' : ''}`}
         animate={isPresentationMode ? { padding: 24 } : { padding: 0 }}
@@ -625,14 +663,15 @@ export function FloorLayoutPage() {
                   onClick={() => setIsEditing(!isEditing)}
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                    ${isEditing
-                      ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                    ${
+                      isEditing
+                        ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                        : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                     }
                   `}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  title={isEditing ? "Done Editing" : "Edit Layout"}
+                  title={isEditing ? 'Done Editing' : 'Edit Layout'}
                 >
                   {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
                 </motion.button>
@@ -657,7 +696,6 @@ export function FloorLayoutPage() {
                 >
                   <Download size={18} />
                 </motion.button>
-
               </div>
             </motion.div>
           )}
@@ -712,15 +750,19 @@ export function FloorLayoutPage() {
                     onClick={() => setActiveSidebar('validation')}
                     className={`
                       h-9 px-3 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors border
-                      ${warnings.length > 0
-                        ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
-                        : 'bg-surface text-text-secondary border-transparent hover:bg-white'
+                      ${
+                        warnings.length > 0
+                          ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
+                          : 'bg-surface text-text-secondary border-transparent hover:bg-white'
                       }
                     `}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <AlertTriangle size={16} className={warnings.length > 0 ? "text-amber-600" : "text-text-muted"} />
+                    <AlertTriangle
+                      size={16}
+                      className={warnings.length > 0 ? 'text-amber-600' : 'text-text-muted'}
+                    />
                     {warnings.length > 0 && (
                       <span className="flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-amber-200 text-amber-800 text-xs font-bold">
                         {warnings.length}
@@ -750,7 +792,6 @@ export function FloorLayoutPage() {
 
             {/* 3-COLUMN LAYOUT CONTAINER */}
             <div className="flex-1 flex min-h-0 bg-surface/50 rounded-2xl overflow-hidden border border-glass-border isolation-isolate transform-gpu">
-
               {/* LEFT COLUMN: Department Sidebar */}
               <div className="w-64 flex-shrink-0 flex flex-col border-r border-glass-border bg-surface/30 backdrop-blur-sm z-10">
                 <FloatingPalette
@@ -829,17 +870,10 @@ export function FloorLayoutPage() {
           onClose={() => setActiveSidebar('none')}
           title={activeSidebar === 'export' ? 'Export Layout' : 'Validation Issues'}
         >
-          {activeSidebar === 'export' && (
-            <ExportPanel
-              onExport={handleExport}
-            />
-          )}
+          {activeSidebar === 'export' && <ExportPanel onExport={handleExport} />}
 
           {activeSidebar === 'validation' && (
-            <ValidationOverlay
-              warnings={warnings}
-              onDismiss={handleDismissWarning}
-            />
+            <ValidationOverlay warnings={warnings} onDismiss={handleDismissWarning} />
           )}
         </RightSidebar>
 
@@ -847,7 +881,9 @@ export function FloorLayoutPage() {
         <DragOverlay>
           {activeDragId && activeDragData && (
             <DepartmentBlock
-              departmentType={departmentTypes.find(dt => dt.id === activeDragData.departmentTypeId)!}
+              departmentType={
+                departmentTypes.find(dt => dt.id === activeDragData.departmentTypeId)!
+              }
               calculatedArea={activeDragData.calculatedArea}
               width={activeDragData.gridWidth}
               height={activeDragData.gridHeight}

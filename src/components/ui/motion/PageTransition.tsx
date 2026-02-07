@@ -14,9 +14,9 @@ import { pageTransitionVariants } from './MotionConfig';
 // =====================================================
 
 interface PageTransitionProps {
-    children: ReactNode;
-    /** Optional custom class */
-    className?: string;
+  children: ReactNode;
+  /** Optional custom class */
+  className?: string;
 }
 
 // =====================================================
@@ -26,37 +26,37 @@ interface PageTransitionProps {
 /**
  * Wrap your route content with this component for page transitions.
  * Place inside the route element, not around the Routes component.
- * 
+ *
  * @example
- * <Route 
- *   path="/dashboard" 
+ * <Route
+ *   path="/dashboard"
  *   element={
  *     <PageTransition>
  *       <DashboardPage />
  *     </PageTransition>
- *   } 
+ *   }
  * />
  */
 export const PageTransition = forwardRef<HTMLDivElement, PageTransitionProps>(
-    ({ children, className = '' }, ref) => {
-        const location = useLocation();
+  ({ children, className = '' }, ref) => {
+    const location = useLocation();
 
-        return (
-            <AnimatePresence mode="wait">
-                <motion.div
-                    ref={ref}
-                    key={location.pathname}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransitionVariants}
-                    className={`w-full h-full ${className}`}
-                >
-                    {children}
-                </motion.div>
-            </AnimatePresence>
-        );
-    }
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          ref={ref}
+          key={location.pathname}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={pageTransitionVariants}
+          className={`w-full h-full ${className}`}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
 );
 
 PageTransition.displayName = 'PageTransition';
@@ -66,8 +66,8 @@ PageTransition.displayName = 'PageTransition';
 // =====================================================
 
 interface FadePageProps {
-    children: ReactNode;
-    className?: string;
+  children: ReactNode;
+  className?: string;
 }
 
 /**
@@ -75,20 +75,20 @@ interface FadePageProps {
  * Use when you need page-level fade without router integration.
  */
 export const FadePage = forwardRef<HTMLDivElement, FadePageProps>(
-    ({ children, className = '' }, ref) => {
-        return (
-            <motion.div
-                ref={ref}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`w-full h-full ${className}`}
-            >
-                {children}
-            </motion.div>
-        );
-    }
+  ({ children, className = '' }, ref) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className={`w-full h-full ${className}`}
+      >
+        {children}
+      </motion.div>
+    );
+  }
 );
 
 FadePage.displayName = 'FadePage';
@@ -98,12 +98,12 @@ FadePage.displayName = 'FadePage';
 // =====================================================
 
 interface RouteTransitionContainerProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 /**
  * Wrap around your Routes component for exit animations.
- * 
+ *
  * @example
  * <RouteTransitionContainer>
  *   <Routes>
@@ -112,15 +112,13 @@ interface RouteTransitionContainerProps {
  * </RouteTransitionContainer>
  */
 export const RouteTransitionContainer = ({ children }: RouteTransitionContainerProps) => {
-    const location = useLocation();
+  const location = useLocation();
 
-    return (
-        <AnimatePresence mode="wait" initial={false}>
-            <div key={location.pathname}>
-                {children}
-            </div>
-        </AnimatePresence>
-    );
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <div key={location.pathname}>{children}</div>
+    </AnimatePresence>
+  );
 };
 
 export default PageTransition;
