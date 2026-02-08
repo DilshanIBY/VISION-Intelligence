@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Surface Colors */
   --color-bg: var(--color-bg);
@@ -11,6 +13,7 @@
   --color-primary: var(--color-primary);
   --color-primary-hover: var(--color-primary-hover);
   --color-primary-light: var(--color-primary-light);
+  --color-primary-dark: var(--color-primary-dark);
 
   --color-secondary: var(--color-secondary);
   --color-secondary-hover: var(--color-secondary-hover);
@@ -68,6 +71,8 @@
   /* Deep Blue */
   --color-primary-hover: #1e3a8a;
   --color-primary-light: #3b82f6;
+  --color-primary-dark: #111827;
+  /* Gray 900 / nearly black to ensure contrast with white text */
 
   /* Secondary Colors */
   --color-secondary: #0d9488;
@@ -113,6 +118,8 @@
   /* Light Blue */
   --color-primary-hover: #93c5fd;
   --color-primary-light: #3b82f6;
+  --color-primary-dark: #1e3a8a;
+  /* Darker blue for depth */
 
   /* Secondary Colors */
   --color-secondary: #2dd4bf;
@@ -254,18 +261,17 @@ body {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--color-glass) 0%,
-    var(--color-glass-border) 50%,
-    var(--color-glass) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--color-glass) 0%,
+      var(--color-glass-border) 50%,
+      var(--color-glass) 100%);
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s ease-in-out infinite;
 }
@@ -279,9 +285,11 @@ body {
     transform: scale(0);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.2);
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -293,9 +301,11 @@ body {
     transform: scale(0) rotate(-45deg);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.2) rotate(0deg);
   }
+
   100% {
     transform: scale(1) rotate(0deg);
     opacity: 1;

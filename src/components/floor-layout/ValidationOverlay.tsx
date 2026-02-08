@@ -34,11 +34,11 @@ export function ValidationOverlay({ warnings, onDismiss, className = '' }: Valid
   const getSeverityStyle = (severity: ValidationWarning['severity']) => {
     switch (severity) {
       case 'error':
-        return 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/50';
+        return 'border-red-200 bg-red-50 dark:border-red-900/50 dark:bg-red-950/30';
       case 'warning':
-        return 'border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/50';
+        return 'border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/30';
       case 'info':
-        return 'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/50';
+        return 'border-blue-200 bg-blue-50 dark:border-blue-900/50 dark:bg-blue-950/30';
     }
   };
 
@@ -53,13 +53,13 @@ export function ValidationOverlay({ warnings, onDismiss, className = '' }: Valid
 
         <div className="flex items-center gap-2">
           {errorCount > 0 && (
-            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 text-xs font-medium">
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 text-xs font-medium border border-red-200 dark:border-red-800">
               <AlertCircle size={12} />
               {errorCount} Error{errorCount !== 1 ? 's' : ''}
             </span>
           )}
           {warningCount > 0 && (
-            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-400 text-xs font-medium">
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 text-xs font-medium border border-amber-200 dark:border-amber-800">
               <AlertTriangle size={12} />
               {warningCount} Warning{warningCount !== 1 ? 's' : ''}
             </span>

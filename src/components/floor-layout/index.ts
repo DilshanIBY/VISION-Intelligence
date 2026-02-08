@@ -9,7 +9,7 @@ export { ParametersPanel } from './ParametersPanel';
 
 export { DepartmentPalette } from './DepartmentPalette';
 
-export { GridCanvas } from './GridCanvas';
+export { GridCanvas, GRID_CELL_SIZE, GRID_CELL_METERS } from './GridCanvas';
 
 export { CanvasControls } from './CanvasControls';
 

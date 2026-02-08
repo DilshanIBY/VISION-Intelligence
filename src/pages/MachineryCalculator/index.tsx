@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calculator, Download, Plus, RotateCcw, Presentation, Check, Edit3, X, Play, Pause } from 'lucide-react';
+import { Calculator, Download, Plus, RotateCcw, Presentation, Check, Edit3, X } from 'lucide-react';
 import { useUI } from '../../contexts/UIContextDefinition';
 
 // Calculator Components
@@ -21,12 +21,6 @@ import {
 } from '@mocks/calculator';
 import { validateThreadColorImpact } from '@/types/validation/calculation-schemas';
 
-const presentationSlides = [
-  { id: 'inputs', title: 'Input Parameters' },
-  { id: 'results', title: 'Calculation Results' },
-  { id: 'scenarios', title: 'Scenario Analysis' },
-];
-
 export function MachineryCalculatorPage() {
   // Global UI State
   const {
@@ -45,8 +39,6 @@ export function MachineryCalculatorPage() {
   const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
   const [warnings, setWarnings] = useState<ValidationWarning[]>([]);
   const [activeSidebar, setActiveSidebar] = useState<'none' | 'export'>('none');
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [isAutoCycling, setIsAutoCycling] = useState(false);
 
   // Recalculate when inputs change
   useEffect(() => {
@@ -107,7 +99,7 @@ export function MachineryCalculatorPage() {
       outputs: { ...outputs },
     };
     setScenarios(prev => [...prev, newScenario]);
-  }, [inputs, scenarios.length]);
+  }, [inputs, outputs, scenarios.length]);
 
   // Remove scenario
   const handleRemoveScenario = useCallback(
@@ -135,73 +127,7 @@ export function MachineryCalculatorPage() {
     setActiveSidebar('none');
   }, []);
 
-  // Simplified Presentation Mode
-  if (isPresentationMode) {
-    return (
-      <div className="fixed inset-0 z-50 bg-bg flex flex-col">
-        {/* Presentation Header */}
-        <div className="flex items-center justify-between p-6">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold text-text-primary">
-              {presentationSlides[currentSlideIndex].title}
-            </h1>
-            <span className="text-sm text-text-muted">
-              {currentSlideIndex + 1} / {presentationSlides.length}
-            </span>
-          </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setCurrentSlideIndex(prev => (prev + 1) % presentationSlides.length)}
-              className="px-3 py-2 rounded-full text-sm font-medium bg-glass text-text-primary hover:bg-surface border border-glass-border transition-all"
-            >
-              Next Slide
-            </button>
-            <button
-              onClick={() => setIsAutoCycling(!isAutoCycling)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isAutoCycling
-                ? 'bg-primary text-white shadow-glow-primary'
-                : 'bg-glass text-text-secondary hover:text-primary border border-glass-border'
-                }`}
-            >
-              {isAutoCycling ? <Pause size={18} /> : <Play size={18} />}
-            </button>
-            <button
-              onClick={() => setIsPresentationMode(false)}
-              className="px-4 py-2 rounded-full text-sm font-medium bg-glass text-text-primary hover:bg-surface border border-glass-border transition-all"
-            >
-              <X size={18} />
-            </button>
-          </div>
-        </div>
-
-        <div className="flex-1 p-8 overflow-auto flex items-center justify-center">
-          {currentSlideIndex === 0 && (
-            <div className="w-full max-w-4xl">
-              <InputsPanel
-                inputs={inputs}
-                onInputChange={handleInputChange}
-                warnings={warnings}
-                onDismissWarning={handleDismissWarning}
-                className="h-full"
-              />
-            </div>
-          )}
-          {currentSlideIndex === 1 && (
-            <div className="w-full max-w-4xl">
-              <OutputsPanel outputs={outputs} deadline={inputs.deadline} className="w-full" />
-            </div>
-          )}
-          {/* Scenarios slide simplified/removed for now or could reuse card logic */}
-          {currentSlideIndex === 2 && (
-            <div className="w-full max-w-4xl text-center text-text-muted">
-              Scenarios View Placeholder
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -304,9 +230,9 @@ export function MachineryCalculatorPage() {
             <button
               onClick={() => setIsPresentationMode(false)}
               className="px-4 py-2 rounded-full text-sm font-medium
-              bg-glass-heavy text-text-primary hover:bg-surface border border-glass-border shadow-float transition-all backdrop-blur-md"
+               bg-glass-heavy text-text-primary hover:bg-surface border border-glass-border shadow-float transition-all backdrop-blur-md"
             >
-              Exit Presentation
+              <X size={18} />
             </button>
           </motion.div>
         )}

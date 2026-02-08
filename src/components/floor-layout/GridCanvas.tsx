@@ -19,8 +19,8 @@ import {
 } from '@mocks/floor-layout';
 import type { CanvasObject } from '@/types/canvas';
 
-const GRID_CELL_SIZE = 40; // px per grid cell
-const GRID_CELL_METERS = 5; // meters per grid cell
+export const GRID_CELL_SIZE = 40; // px per grid cell
+export const GRID_CELL_METERS = 5; // meters per grid cell
 
 interface DraggablePlacedDepartmentProps {
   department: PlacedDepartment;
@@ -508,6 +508,16 @@ export function GridCanvas({
   const [creationStart, setCreationStart] = useState<{ x: number; y: number } | null>(null);
   const [tempObject, setTempObject] = useState<Partial<CanvasObject> | null>(null);
 
+  // Connection Snapping State
+  const [hoveredTarget, setHoveredTarget] = useState<{
+    id: string;
+    type: 'object' | 'department';
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
+
   // Track Space key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -702,6 +712,45 @@ export function GridCanvas({
         const currentX = (e.clientX - rect.left - pan.x) / zoom;
         const currentY = (e.clientY - rect.top - pan.y) / zoom;
 
+        // Visual distinction for Arrows vs Shapes
+        if (activeTool === 'arrow' || activeTool === 'curved-arrow') {
+          // Check for connection targets under mouse
+          const target = findTargetAtPosition(currentX, currentY);
+
+          if (target) {
+            // If snapping, use target geometry
+            // Need to find dimensions
+            let targetW = 0;
+            let targetH = 0;
+            let targetX = 0; // Absolute canvas coords
+            let targetY = 0;
+
+            if (target.type === 'object') {
+              const obj = canvasObjects.find(o => o.id === target.id);
+              if (obj) { targetW = obj.width; targetH = obj.height; targetX = obj.x; targetY = obj.y; }
+            } else {
+              const dept = floorDepartments.find(d => d.id === target.id);
+              if (dept) {
+                targetW = dept.width * GRID_CELL_SIZE;
+                targetH = dept.height * GRID_CELL_SIZE;
+                targetX = dept.x * GRID_CELL_SIZE;
+                targetY = dept.y * GRID_CELL_SIZE;
+              }
+            }
+
+            setHoveredTarget({
+              id: target.id as string,
+              type: target.type as any,
+              x: targetX,
+              y: targetY,
+              width: targetW,
+              height: targetH
+            });
+          } else {
+            setHoveredTarget(null);
+          }
+        }
+
         const w = currentX - creationStart.x;
         const h = currentY - creationStart.y;
 
@@ -714,7 +763,7 @@ export function GridCanvas({
         }));
       }
     },
-    [isPanning, panStart, onPanChange, creationStart, tempObject, zoom, pan]
+    [isPanning, panStart, onPanChange, creationStart, tempObject, zoom, pan, activeTool, findTargetAtPosition, canvasObjects, floorDepartments]
   );
 
   const handleMouseUp = useCallback(() => {
@@ -732,7 +781,6 @@ export function GridCanvas({
       let endPoint = { x: tempObject.x! + w, y: tempObject.y! + h }; // Default
 
       if (activeTool === 'arrow' || activeTool === 'curved-arrow') {
-        // Determine actual start/end based on drag direction
         const isDraggedRight = tempObject.x === creationStart.x;
         const isDraggedDown = tempObject.y === creationStart.y;
 
@@ -742,25 +790,29 @@ export function GridCanvas({
           y: isDraggedDown ? tempObject.y! + h : tempObject.y!,
         };
 
-        // If dragging left, p2 is start (left), p1 is end (right)?
-        // No, Creation Start is always where user pressed DOWN. So that's the SOURCE.
+        if (hoveredTarget) {
+          p2.x = hoveredTarget.x + hoveredTarget.width / 2;
+          p2.y = hoveredTarget.y + hoveredTarget.height / 2;
+          endObjId = hoveredTarget.id;
+        } else {
+          const endTarget = findTargetAtPosition(p2.x, p2.y);
+          if (endTarget) {
+            endObjId = endTarget.id.toString();
+            p2.x = endTarget.cx;
+            p2.y = endTarget.cy;
+          }
+        }
+
+        const startTarget = findTargetAtPosition(p1.x, p1.y);
+        if (startTarget) {
+          startObjId = startTarget.id.toString();
+          p1.x = startTarget.cx;
+          p1.y = startTarget.cy;
+        }
+
         startPoint = p1;
         endPoint = p2;
 
-        // Snap to objects
-        const startTarget = findTargetAtPosition(startPoint.x, startPoint.y);
-        if (startTarget) {
-          startObjId = startTarget.id.toString();
-          startPoint = { x: startTarget.cx, y: startTarget.cy };
-        }
-
-        const endTarget = findTargetAtPosition(endPoint.x, endPoint.y);
-        if (endTarget) {
-          endObjId = endTarget.id.toString();
-          endPoint = { x: endTarget.cx, y: endTarget.cy };
-        }
-
-        // Recalculate Bounding Box to include both points + padding
         const minX = Math.min(startPoint.x, endPoint.x) - 20;
         const minY = Math.min(startPoint.y, endPoint.y) - 20;
         const maxX = Math.max(startPoint.x, endPoint.x) + 20;
@@ -981,6 +1033,22 @@ export function GridCanvas({
         {isOver && (
           <div className="absolute inset-0 bg-primary/5 border-2 border-dashed border-primary pointer-events-none" />
         )}
+
+        {/* Connection Highlight */}
+        {hoveredTarget && (activeTool === 'arrow' || activeTool === 'curved-arrow') && (
+          <div
+            className="absolute border-2 border-blue-500 rounded-lg pointer-events-none animate-pulse z-50 mix-blend-multiply"
+            style={{
+              left: hoveredTarget.x - 4,
+              top: hoveredTarget.y - 4,
+              width: hoveredTarget.width + 8,
+              height: hoveredTarget.height + 8,
+              boxShadow: '0 0 0 4px rgba(59, 130, 246, 0.2)'
+            }}
+          />
+        )}
+
+
       </motion.div>
 
       {/* Empty State */}

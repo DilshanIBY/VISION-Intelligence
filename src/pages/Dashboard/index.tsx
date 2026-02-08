@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Save, RotateCcw, Download, Edit3, Check, Presentation } from 'lucide-react';
+import { Plus, Save, RotateCcw, Download, Edit3, Check, Presentation, X } from 'lucide-react';
 import { useUI } from '../../contexts/UIContextDefinition';
 
 import { DashboardGrid, WidgetPalette } from '../../components/dashboard';
@@ -218,7 +218,7 @@ export function DashboardPage() {
               className="px-4 py-2 rounded-full text-sm font-medium
                 bg-glass-heavy text-text-primary hover:bg-surface border border-glass-border shadow-float transition-all backdrop-blur-md"
             >
-              Exit Presentation
+              <X size={18} />
             </button>
           </motion.div>
         )}

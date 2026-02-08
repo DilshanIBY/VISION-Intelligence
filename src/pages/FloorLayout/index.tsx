@@ -4,7 +4,7 @@
  * @requirement P3-PG-FLOOR-001 to P3-PG-FLOOR-019
  */
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   DndContext,
@@ -25,6 +25,7 @@ import {
   Check,
   Edit3,
   AlertTriangle,
+  X,
 } from 'lucide-react';
 import { useUI } from '@/contexts/UIContextDefinition';
 
@@ -43,6 +44,8 @@ import {
   MeasurementTool,
   RightSidebar,
   type ExportOptions,
+  GRID_CELL_SIZE,
+  GRID_CELL_METERS,
 } from '@components/floor-layout';
 
 // Mock Data
@@ -137,18 +140,109 @@ export function FloorLayoutPage() {
     [departments]
   );
 
-  // Initial Fit to Screen
+  // --- Dynamic Canvas Resizing & Fit to Screen ---
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
+
+  // Resize Observer to adjust floor dimensions to container
   useEffect(() => {
-    // Estimate container width (approximate or use ResizeObserver for precision)
-    // Sidebar 320px + padding etc. -> Window Width - 340px?
-    // Let's just set a reasonable default zoom based on floor width for now.
-    // If floor is 250m wide -> 2000px. If screen is 1920, available is ~1500. Zoom ~0.75.
-    const containerWidth = window.innerWidth - 380; // Minus sidebar and padding
-    const floorWidthPx = inputs.floorWidth * (40 / 5); // 8px per meter
-    const initialZoom = Math.min(Math.max(containerWidth / floorWidthPx, 0.2), 1.5);
-    setZoom(initialZoom);
-    // Center it horizontally? Pan defaulting to 20, 20 is okay.
-  }, [inputs.floorWidth]); // Run once on mount or when floor width changes drastically (optional)
+    if (!canvasContainerRef.current) return;
+
+    const resizeObserver = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        if (entry.contentBoxSize) {
+          const { inlineSize: width, blockSize: height } = entry.contentBoxSize[0];
+
+          // Calculate dimensions in meters based on grid
+          // Subtract a small buffer (e.g. 40px) to avoid scrollbars at default zoom
+          const availableWidth = Math.max(width - 40, 100);
+          const availableHeight = Math.max(height - 40, 100);
+
+          const newFloorWidth = Math.floor(availableWidth / GRID_CELL_SIZE) * GRID_CELL_METERS;
+          const newFloorHeight = Math.floor(availableHeight / GRID_CELL_SIZE) * GRID_CELL_METERS;
+
+          // Only update if dimensions actually changed to prevent loops
+          setInputs(prev => {
+            if (prev.floorWidth === newFloorWidth && prev.floorHeight === newFloorHeight) {
+              return prev;
+            }
+            return {
+              ...prev,
+              floorWidth: newFloorWidth,
+              floorHeight: newFloorHeight,
+            };
+          });
+        }
+      }
+    });
+
+    resizeObserver.observe(canvasContainerRef.current);
+    return () => resizeObserver.disconnect();
+  }, []); // Run once on mount to attach observer
+
+  // Helper to calculate Fit to Screen values
+  const getFitToScreenValues = useCallback((containerWidth: number, containerHeight: number, floorWidthM: number, floorHeightM: number) => {
+    const availableWidth = Math.max(containerWidth - 40, 100);
+    const availableHeight = Math.max(containerHeight - 40, 100);
+
+    const pixelsPerMeter = GRID_CELL_SIZE / GRID_CELL_METERS; // 8px per meter
+    const floorWidthPx = floorWidthM * pixelsPerMeter;
+    const floorHeightPx = floorHeightM * pixelsPerMeter;
+
+    const zoomX = availableWidth / floorWidthPx;
+    const zoomY = availableHeight / floorHeightPx;
+    // Cap zoom at 1.5x (reasonable max) and floor at 0.1x
+    const newZoom = Math.min(Math.max(Math.min(zoomX, zoomY), 0.1), 1.5);
+
+    // Center the floor
+    const newPanX = (containerWidth - floorWidthPx * newZoom) / 2;
+    const newPanY = (containerHeight - floorHeightPx * newZoom) / 2;
+
+    return { zoom: newZoom, pan: { x: newPanX, y: newPanY } };
+  }, []);
+
+  // Update ResizeObserver to ALSO update Zoom/Pan to fit
+  useEffect(() => {
+    if (!canvasContainerRef.current) return;
+
+    const resizeObserver = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        if (entry.contentBoxSize) {
+          const { inlineSize: width, blockSize: height } = entry.contentBoxSize[0];
+
+          // Calculate dimensions in meters
+          const availableWidth = Math.max(width - 40, 100);
+          const availableHeight = Math.max(height - 40, 100);
+
+          const newFloorWidth = Math.floor(availableWidth / GRID_CELL_SIZE) * GRID_CELL_METERS;
+          const newFloorHeight = Math.floor(availableHeight / GRID_CELL_SIZE) * GRID_CELL_METERS;
+
+          // Calculate Fit to Screen values using NEW floor size
+          const { zoom: newZoom, pan: newPan } = getFitToScreenValues(width, height, newFloorWidth, newFloorHeight);
+
+          // Batch updates
+          setInputs(prev => {
+            if (prev.floorWidth === newFloorWidth && prev.floorHeight === newFloorHeight) {
+              return prev;
+            }
+            return {
+              ...prev,
+              floorWidth: newFloorWidth,
+              floorHeight: newFloorHeight,
+            };
+          });
+
+          setZoom(newZoom);
+          setPan(newPan);
+        }
+      }
+    });
+
+    resizeObserver.observe(canvasContainerRef.current);
+    return () => resizeObserver.disconnect();
+  }, [getFitToScreenValues]);
+
+  // Initial Fit to Screen is handled by ResizeObserver (it fires on mount)
+
 
   // Operator density (m² per operator) for each department type
   // Based on PRD §3.2.4 and typical factory configurations
@@ -203,13 +297,41 @@ export function FloorLayoutPage() {
 
   // Reset layout
   const handleReset = useCallback(() => {
-    setInputs(defaultFloorLayoutInputs);
+    // 1. Reset standard fields
     setDepartments([]);
     setSelectedDepartmentId(null);
     setActiveFloorIndex(0);
-    setZoom(1);
-    setPan({ x: 20, y: 20 });
-  }, []);
+    setCanvasObjects([]); // Clear drawn objects too? User didn't specify but implies "Reset". Let's clear objects.
+    // Wait, original handleReset didn't clear canvasObjects. Does "Reset" mean "Clear All" or just "Reset View"?
+    // The user context says "Reset" button.
+    // Original code: setInputs(default), setDepartments([]), setZoom/Pan.
+    // I should probably clear canvasObjects too if it resets departments.
+    // But let's stick to original behavior + Fit Logic.
+
+    if (canvasContainerRef.current) {
+      const { clientWidth, clientHeight } = canvasContainerRef.current;
+
+      // Recalculate floor size for this container
+      const availableWidth = Math.max(clientWidth - 40, 100);
+      const availableHeight = Math.max(clientHeight - 40, 100);
+      const newFloorWidth = Math.floor(availableWidth / GRID_CELL_SIZE) * GRID_CELL_METERS;
+      const newFloorHeight = Math.floor(availableHeight / GRID_CELL_SIZE) * GRID_CELL_METERS;
+
+      setInputs({
+        ...defaultFloorLayoutInputs,
+        floorWidth: newFloorWidth,
+        floorHeight: newFloorHeight,
+      });
+
+      const { zoom: newZoom, pan: newPan } = getFitToScreenValues(clientWidth, clientHeight, newFloorWidth, newFloorHeight);
+      setZoom(newZoom);
+      setPan(newPan);
+    } else {
+      setInputs(defaultFloorLayoutInputs);
+      setZoom(1);
+      setPan({ x: 20, y: 20 });
+    }
+  }, [getFitToScreenValues]);
 
   // Remove department
   const handleRemoveDepartment = useCallback(
@@ -383,9 +505,16 @@ export function FloorLayoutPage() {
   const handleZoomIn = useCallback(() => setZoom(z => Math.min(2, z + 0.25)), []);
   const handleZoomOut = useCallback(() => setZoom(z => Math.max(0.25, z - 0.25)), []);
   const handleFitToScreen = useCallback(() => {
-    setZoom(0.8);
-    setPan({ x: 20, y: 20 });
-  }, []);
+    if (canvasContainerRef.current) {
+      const { clientWidth, clientHeight } = canvasContainerRef.current;
+      const { zoom: newZoom, pan: newPan } = getFitToScreenValues(clientWidth, clientHeight, inputs.floorWidth, inputs.floorHeight);
+      setZoom(newZoom);
+      setPan(newPan);
+    } else {
+      setZoom(0.8);
+      setPan({ x: 20, y: 20 });
+    }
+  }, [inputs.floorWidth, inputs.floorHeight, getFitToScreenValues]);
 
   const handleFullScreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -713,7 +842,7 @@ export function FloorLayoutPage() {
               className="px-4 py-2 rounded-full text-sm font-medium
                 bg-glass-heavy text-text-primary hover:bg-surface border border-glass-border shadow-float transition-all backdrop-blur-md"
             >
-              Exit Presentation
+              <X size={18} />
             </button>
           </motion.div>
         )}
@@ -732,7 +861,10 @@ export function FloorLayoutPage() {
           </div>
 
           {/* Canvas Area */}
-          <div className="flex-1 flex flex-col gap-3 min-w-0 relative">
+          <div
+            ref={canvasContainerRef}
+            className="flex-1 flex flex-col gap-3 min-w-0 relative"
+          >
             {/* Floor Tabs & Tools */}
             <div className="flex items-center justify-between z-10">
               <FloorTabs
