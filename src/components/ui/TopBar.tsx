@@ -1,4 +1,5 @@
-import { Search, Sun, Moon, Bell, Aperture, Mic } from 'lucide-react';
+import { Search, Sun, Moon, Bell, Mic } from 'lucide-react';
+import appLogo from '../../assets/Logo.jpg';
 import { useState, useEffect } from 'react';
 import { useUI } from '../../contexts/UIContextDefinition';
 import { useNavigate } from 'react-router-dom';
@@ -63,10 +64,10 @@ export function TopBar() {
           flex items-center justify-center w-12 h-12 rounded-2xl 
           bg-primary text-white shadow-glow-primary 
           transition-all duration-300 group-hover:scale-105 group-active:scale-95
-          ${isSidebarExpanded ? 'rotate-90' : 'rotate-0'}
+          ${isSidebarExpanded ? 'rotate-360' : 'rotate-0'}
         `}
         >
-          <Aperture size={28} />
+          <img src={appLogo} alt="APPAREL Logo" className="w-full h-full object-cover scale-95 rounded-2xl" />
         </div>
         <div className="flex flex-col justify-center">
           <h1 className="text-xl font-black text-text-primary tracking-[0.35em] leading-none ml-1">

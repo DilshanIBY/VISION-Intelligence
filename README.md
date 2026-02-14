@@ -54,6 +54,7 @@ npm run tauri dev    # Desktop app
 | `npm run lint` | Run ESLint |
 | `npm run format` | Format with Prettier |
 | `npm run test:workflows` | Run CI locally (Docker required) |
+| `npm run generate-icons` | Generate icons from Logo.jpg |
 
 ## 🎨 Design
 
