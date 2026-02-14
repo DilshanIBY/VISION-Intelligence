@@ -113,8 +113,13 @@ jobs:
           # Update package.json
           npm version "$VERSION" --no-git-tag-version --allow-same-version
 
-          # Update Cargo.toml
-          sed -i "s/^version = \".*\"/version = \"$VERSION\"/" src-tauri/Cargo.toml
+          # Update Cargo.toml (using node for cross-platform compatibility)
+          node -e "
+            const fs = require('fs');
+            let toml = fs.readFileSync('src-tauri/Cargo.toml', 'utf8');
+            toml = toml.replace(/^version = \".*\"/m, 'version = \"$VERSION\"');
+            fs.writeFileSync('src-tauri/Cargo.toml', toml);
+          " 
 
           echo "✅ All config files patched to version $VERSION"
 
