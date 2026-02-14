@@ -85,11 +85,37 @@ jobs:
       - name: Build frontend
         run: npm run build
 
+      # ── Windows Code Signing ──────────────────────────────────────
+      # To enable: Add these GitHub Secrets to your repository:
+      #   WINDOWS_CERTIFICATE       - Base64-encoded .pfx certificate
+      #   WINDOWS_CERTIFICATE_PASSWORD - Password for the .pfx file
+      #   WINDOWS_CERTIFICATE_THUMBPRINT - SHA-1 thumbprint of the cert
+      #
+      # To get the thumbprint after importing the cert:
+      #   certutil -dump yourcert.pfx | findstr "Cert Hash"
+      #
+      # To base64-encode for the secret:
+      #   certutil -encode yourcert.pfx encoded.txt
+      # ─────────────────────────────────────────────────────────────
+      - name: Import Windows code signing certificate
+        if: matrix.settings.os == 'windows-latest' && env.WINDOWS_CERTIFICATE != ''
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          $pfxBytes = [Convert]::FromBase64String($env:WINDOWS_CERTIFICATE)
+          $pfxPath = Join-Path $env:RUNNER_TEMP "certificate.pfx"
+          [IO.File]::WriteAllBytes($pfxPath, $pfxBytes)
+          Import-PfxCertificate -FilePath $pfxPath -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -AsPlainText -Force)
+          Remove-Item $pfxPath
+
       - name: Build Tauri app (Release)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: ${{ github.ref_name }}
           releaseName: 'APPAREL ${{ github.ref_name }}'
@@ -103,6 +129,8 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: 'v0.1.${{ github.run_number }}'
           releaseName: 'APPAREL v0.1.${{ github.run_number }}'

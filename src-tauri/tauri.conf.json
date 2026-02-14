@@ -38,19 +38,19 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "publisher": "APPAREL Team",
+    "publisher": "UNIVERSE Team",
     "category": "Business",
     "shortDescription": "Apparel Industry Consulting Tools",
     "longDescription": "APPAREL is a premium desktop application providing real-time machinery calculation, interactive floor layout planning, and presentation-ready dashboards for apparel industry consultants.",
-    "copyright": "Copyright © 2026 APPAREL Team",
+    "copyright": "Copyright © 2026 UNIVERSE Team",
     "windows": {
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",
-      "timestampUrl": "",
+      "timestampUrl": "http://timestamp.sectigo.com",
       "wix": null,
       "nsis": {
         "installerIcon": "icons/icon.ico",
-        "installMode": "currentUser",
+        "installMode": "perMachine",
         "languages": [
           "English"
         ],

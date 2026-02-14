@@ -740,7 +740,7 @@ export function GridCanvas({
 
             setHoveredTarget({
               id: target.id as string,
-              type: target.type as any,
+              type: target.type as 'object' | 'department',
               x: targetX,
               y: targetY,
               width: targetW,

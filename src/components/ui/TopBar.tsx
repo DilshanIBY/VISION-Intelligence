@@ -1,5 +1,5 @@
 import { Search, Sun, Moon, Bell, Mic } from 'lucide-react';
-import appLogo from '../../assets/Logo.jpg';
+import appLogo from '../../assets/logo.jpg';
 import { useState, useEffect } from 'react';
 import { useUI } from '../../contexts/UIContextDefinition';
 import { useNavigate } from 'react-router-dom';
