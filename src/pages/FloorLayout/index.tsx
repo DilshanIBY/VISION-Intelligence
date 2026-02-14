@@ -180,25 +180,33 @@ export function FloorLayoutPage() {
   }, []); // Run once on mount to attach observer
 
   // Helper to calculate Fit to Screen values
-  const getFitToScreenValues = useCallback((containerWidth: number, containerHeight: number, floorWidthM: number, floorHeightM: number) => {
-    const availableWidth = Math.max(containerWidth - 40, 100);
-    const availableHeight = Math.max(containerHeight - 40, 100);
+  const getFitToScreenValues = useCallback(
+    (
+      containerWidth: number,
+      containerHeight: number,
+      floorWidthM: number,
+      floorHeightM: number
+    ) => {
+      const availableWidth = Math.max(containerWidth - 40, 100);
+      const availableHeight = Math.max(containerHeight - 40, 100);
 
-    const pixelsPerMeter = GRID_CELL_SIZE / GRID_CELL_METERS; // 8px per meter
-    const floorWidthPx = floorWidthM * pixelsPerMeter;
-    const floorHeightPx = floorHeightM * pixelsPerMeter;
+      const pixelsPerMeter = GRID_CELL_SIZE / GRID_CELL_METERS; // 8px per meter
+      const floorWidthPx = floorWidthM * pixelsPerMeter;
+      const floorHeightPx = floorHeightM * pixelsPerMeter;
 
-    const zoomX = availableWidth / floorWidthPx;
-    const zoomY = availableHeight / floorHeightPx;
-    // Cap zoom at 1.5x (reasonable max) and floor at 0.1x
-    const newZoom = Math.min(Math.max(Math.min(zoomX, zoomY), 0.1), 1.5);
+      const zoomX = availableWidth / floorWidthPx;
+      const zoomY = availableHeight / floorHeightPx;
+      // Cap zoom at 1.5x (reasonable max) and floor at 0.1x
+      const newZoom = Math.min(Math.max(Math.min(zoomX, zoomY), 0.1), 1.5);
 
-    // Center the floor
-    const newPanX = (containerWidth - floorWidthPx * newZoom) / 2;
-    const newPanY = (containerHeight - floorHeightPx * newZoom) / 2;
+      // Center the floor
+      const newPanX = (containerWidth - floorWidthPx * newZoom) / 2;
+      const newPanY = (containerHeight - floorHeightPx * newZoom) / 2;
 
-    return { zoom: newZoom, pan: { x: newPanX, y: newPanY } };
-  }, []);
+      return { zoom: newZoom, pan: { x: newPanX, y: newPanY } };
+    },
+    []
+  );
 
   // Update ResizeObserver to ALSO update Zoom/Pan to fit
   useEffect(() => {
@@ -217,7 +225,12 @@ export function FloorLayoutPage() {
           const newFloorHeight = Math.floor(availableHeight / GRID_CELL_SIZE) * GRID_CELL_METERS;
 
           // Calculate Fit to Screen values using NEW floor size
-          const { zoom: newZoom, pan: newPan } = getFitToScreenValues(width, height, newFloorWidth, newFloorHeight);
+          const { zoom: newZoom, pan: newPan } = getFitToScreenValues(
+            width,
+            height,
+            newFloorWidth,
+            newFloorHeight
+          );
 
           // Batch updates
           setInputs(prev => {
@@ -242,7 +255,6 @@ export function FloorLayoutPage() {
   }, [getFitToScreenValues]);
 
   // Initial Fit to Screen is handled by ResizeObserver (it fires on mount)
-
 
   // Operator density (m² per operator) for each department type
   // Based on PRD §3.2.4 and typical factory configurations
@@ -323,7 +335,12 @@ export function FloorLayoutPage() {
         floorHeight: newFloorHeight,
       });
 
-      const { zoom: newZoom, pan: newPan } = getFitToScreenValues(clientWidth, clientHeight, newFloorWidth, newFloorHeight);
+      const { zoom: newZoom, pan: newPan } = getFitToScreenValues(
+        clientWidth,
+        clientHeight,
+        newFloorWidth,
+        newFloorHeight
+      );
       setZoom(newZoom);
       setPan(newPan);
     } else {
@@ -507,7 +524,12 @@ export function FloorLayoutPage() {
   const handleFitToScreen = useCallback(() => {
     if (canvasContainerRef.current) {
       const { clientWidth, clientHeight } = canvasContainerRef.current;
-      const { zoom: newZoom, pan: newPan } = getFitToScreenValues(clientWidth, clientHeight, inputs.floorWidth, inputs.floorHeight);
+      const { zoom: newZoom, pan: newPan } = getFitToScreenValues(
+        clientWidth,
+        clientHeight,
+        inputs.floorWidth,
+        inputs.floorHeight
+      );
       setZoom(newZoom);
       setPan(newPan);
     } else {
@@ -792,9 +814,10 @@ export function FloorLayoutPage() {
                   onClick={() => setIsEditing(!isEditing)}
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                    ${isEditing
-                      ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                    ${
+                      isEditing
+                        ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                        : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                     }
                   `}
                   whileHover={{ scale: 1.05 }}
@@ -824,7 +847,6 @@ export function FloorLayoutPage() {
                 >
                   <Presentation size={18} />
                 </motion.button>
-
               </div>
             </motion.div>
           )}
@@ -861,10 +883,7 @@ export function FloorLayoutPage() {
           </div>
 
           {/* Canvas Area */}
-          <div
-            ref={canvasContainerRef}
-            className="flex-1 flex flex-col gap-3 min-w-0 relative"
-          >
+          <div ref={canvasContainerRef} className="flex-1 flex flex-col gap-3 min-w-0 relative">
             {/* Floor Tabs & Tools */}
             <div className="flex items-center justify-between z-10">
               <FloorTabs
@@ -882,9 +901,10 @@ export function FloorLayoutPage() {
                     onClick={() => setActiveSidebar('validation')}
                     className={`
                       h-9 px-3 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors border
-                      ${warnings.length > 0
-                        ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
-                        : 'bg-surface text-text-secondary border-transparent hover:bg-white'
+                      ${
+                        warnings.length > 0
+                          ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
+                          : 'bg-surface text-text-secondary border-transparent hover:bg-white'
                       }
                     `}
                     whileHover={{ scale: 1.02 }}

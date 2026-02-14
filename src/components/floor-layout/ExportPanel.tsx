@@ -82,10 +82,11 @@ export function ExportPanel({ onExport, className = '' }: ExportPanelProps) {
               onClick={() => setOptions({ ...options, quality: key })}
               className={`
                           w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all
-                          ${options.quality === key
-                  ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
-                  : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
-                }
+                          ${
+                            options.quality === key
+                              ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
+                              : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
+                          }
                         `}
             >
               <div className="text-left">
@@ -170,9 +171,10 @@ function FormatButton({ icon, label, description, isSelected, onClick }: FormatB
       onClick={onClick}
       className={`
         flex flex-col items-center gap-1 p-4 rounded-xl transition-all
-        ${isSelected
-          ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
-          : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
+        ${
+          isSelected
+            ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
+            : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
         }
       `}
       whileHover={{ scale: 1.02 }}

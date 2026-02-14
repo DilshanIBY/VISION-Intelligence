@@ -67,7 +67,11 @@ export function TopBar() {
           ${isSidebarExpanded ? 'rotate-360' : 'rotate-0'}
         `}
         >
-          <img src={appLogo} alt="APPAREL Logo" className="w-full h-full object-cover scale-95 rounded-2xl" />
+          <img
+            src={appLogo}
+            alt="APPAREL Logo"
+            className="w-full h-full object-cover scale-95 rounded-2xl"
+          />
         </div>
         <div className="flex flex-col justify-center">
           <h1 className="text-xl font-black text-text-primary tracking-[0.35em] leading-none ml-1">
@@ -130,7 +134,7 @@ export function TopBar() {
           <NotificationPopover
             isOpen={isNotificationsOpen}
             onClose={() => setIsNotificationsOpen(false)}
-            onMarkAllRead={() => { }}
+            onMarkAllRead={() => {}}
           />
         </div>
 

@@ -165,10 +165,11 @@ export function DashboardPage() {
                 onClick={() => setIsEditing(!isEditing)}
                 className={`
                       w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                      ${isEditing
-                    ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                  }
+                      ${
+                        isEditing
+                          ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                          : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                      }
                     `}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -181,9 +182,10 @@ export function DashboardPage() {
                 onClick={() => setActiveSidebar('export')}
                 className={`
                   w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                  ${activeSidebar === 'export'
-                    ? 'bg-primary text-white shadow-lg'
-                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  ${
+                    activeSidebar === 'export'
+                      ? 'bg-primary text-white shadow-lg'
+                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                   }
                 `}
                 whileHover={{ scale: 1.05 }}

@@ -268,21 +268,21 @@ function CanvasObjectItem({
             object.type === 'arrow' ||
             object.type === 'curved-arrow' ||
             object.type === 'text') && (
-              <div className="flex items-center gap-1 border-r border-slate-200 pr-1 mr-1">
-                {COLORS.map(c => (
-                  <button
-                    key={c}
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleColorSelect(c);
-                    }}
-                    className={`w-4 h-4 rounded-full border border-slate-300 transition-transform hover:scale-110 ${object.color === c ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
-                    style={{ backgroundColor: c }}
-                    title={c}
-                  />
-                ))}
-              </div>
-            )}
+            <div className="flex items-center gap-1 border-r border-slate-200 pr-1 mr-1">
+              {COLORS.map(c => (
+                <button
+                  key={c}
+                  onClick={e => {
+                    e.stopPropagation();
+                    handleColorSelect(c);
+                  }}
+                  className={`w-4 h-4 rounded-full border border-slate-300 transition-transform hover:scale-110 ${object.color === c ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
+                  style={{ backgroundColor: c }}
+                  title={c}
+                />
+              ))}
+            </div>
+          )}
 
           {/* Delete */}
           <button
@@ -466,14 +466,14 @@ interface GridCanvasProps {
   onPanChange: (pan: { x: number; y: number }) => void;
   onZoomChange: (zoom: number, epicenter?: { x: number; y: number }) => void;
   activeTool:
-  | 'select'
-  | 'pan'
-  | 'shape-rect'
-  | 'shape-circle'
-  | 'text'
-  | 'note'
-  | 'arrow'
-  | 'curved-arrow';
+    | 'select'
+    | 'pan'
+    | 'shape-rect'
+    | 'shape-circle'
+    | 'text'
+    | 'note'
+    | 'arrow'
+    | 'curved-arrow';
   className?: string;
 }
 
@@ -727,7 +727,12 @@ export function GridCanvas({
 
             if (target.type === 'object') {
               const obj = canvasObjects.find(o => o.id === target.id);
-              if (obj) { targetW = obj.width; targetH = obj.height; targetX = obj.x; targetY = obj.y; }
+              if (obj) {
+                targetW = obj.width;
+                targetH = obj.height;
+                targetX = obj.x;
+                targetY = obj.y;
+              }
             } else {
               const dept = floorDepartments.find(d => d.id === target.id);
               if (dept) {
@@ -744,7 +749,7 @@ export function GridCanvas({
               x: targetX,
               y: targetY,
               width: targetW,
-              height: targetH
+              height: targetH,
             });
           } else {
             setHoveredTarget(null);
@@ -763,7 +768,19 @@ export function GridCanvas({
         }));
       }
     },
-    [isPanning, panStart, onPanChange, creationStart, tempObject, zoom, pan, activeTool, findTargetAtPosition, canvasObjects, floorDepartments]
+    [
+      isPanning,
+      panStart,
+      onPanChange,
+      creationStart,
+      tempObject,
+      zoom,
+      pan,
+      activeTool,
+      findTargetAtPosition,
+      canvasObjects,
+      floorDepartments,
+    ]
   );
 
   const handleMouseUp = useCallback(() => {
@@ -1043,12 +1060,10 @@ export function GridCanvas({
               top: hoveredTarget.y - 4,
               width: hoveredTarget.width + 8,
               height: hoveredTarget.height + 8,
-              boxShadow: '0 0 0 4px rgba(59, 130, 246, 0.2)'
+              boxShadow: '0 0 0 4px rgba(59, 130, 246, 0.2)',
             }}
           />
         )}
-
-
       </motion.div>
 
       {/* Empty State */}

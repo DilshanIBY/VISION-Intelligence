@@ -268,10 +268,12 @@ body {
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(90deg,
-      var(--color-glass) 0%,
-      var(--color-glass-border) 50%,
-      var(--color-glass) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--color-glass) 0%,
+    var(--color-glass-border) 50%,
+    var(--color-glass) 100%
+  );
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s ease-in-out infinite;
 }
