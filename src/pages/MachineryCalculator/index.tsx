@@ -174,11 +174,10 @@ export function MachineryCalculatorPage() {
                   onClick={() => setIsEditing(!isEditing)}
                   className={`
                   w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                  ${
-                    isEditing
+                  ${isEditing
                       ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
                       : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                  }
+                    }
                 `}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -191,11 +190,10 @@ export function MachineryCalculatorPage() {
                   onClick={() => setActiveSidebar('export')}
                   className={`
                   w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                  ${
-                    activeSidebar === 'export'
+                  ${activeSidebar === 'export'
                       ? 'bg-primary text-white shadow-lg'
                       : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                  }
+                    }
                 `}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -269,18 +267,21 @@ export function MachineryCalculatorPage() {
             </div>
 
             <div className="flex gap-3 overflow-x-auto pb-1">
-              {scenarios.map(scenario => (
-                <ScenarioCard
-                  key={scenario.id}
-                  scenario={scenario}
-                  baseline={undefined} // Adjust if baseline logic needed
-                  onSelect={() => handleApplyScenario(scenario)}
-                  onRemove={() => handleRemoveScenario(scenario.id)}
-                  onRename={newName => handleRenameScenario(scenario.id, newName)}
-                  isSelected={selectedScenarioId === scenario.id}
-                  className="flex-shrink-0 w-48"
-                />
-              ))}
+              {scenarios.map(scenario => {
+                const baselineScenario = scenarios.find(s => s.isBaseline);
+                return (
+                  <ScenarioCard
+                    key={scenario.id}
+                    scenario={scenario}
+                    baseline={scenario.isBaseline ? undefined : baselineScenario?.outputs}
+                    onSelect={() => handleApplyScenario(scenario)}
+                    onRemove={() => handleRemoveScenario(scenario.id)}
+                    onRename={newName => handleRenameScenario(scenario.id, newName)}
+                    isSelected={selectedScenarioId === scenario.id}
+                    className="flex-shrink-0 w-48"
+                  />
+                );
+              })}
 
               {/* Add Scenario Button */}
               <motion.button

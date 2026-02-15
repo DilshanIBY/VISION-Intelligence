@@ -311,9 +311,9 @@ export function calculateDepartmentAreas(inputs: FloorLayoutInputs): CalculatedD
         area = deptType.minArea;
     }
 
-    // Calculate grid dimensions (assuming 5m² per grid cell)
-    const gridCellSize = 5;
-    const totalCells = Math.ceil(area / gridCellSize);
+    // Calculate grid dimensions (each grid cell = 5m × 5m = 25 m²)
+    const gridCellArea = 25;
+    const totalCells = Math.ceil(area / gridCellArea);
     const gridWidth = Math.ceil(Math.sqrt(totalCells * 1.5)); // Slightly wider than tall
     const gridHeight = Math.ceil(totalCells / gridWidth);
 
@@ -334,8 +334,8 @@ export function calculateDepartmentAreas(inputs: FloorLayoutInputs): CalculatedD
   if (utilitiesDeptType && productType.departments.includes('utilities')) {
     const totalOtherAreas = results.reduce((sum, d) => sum + d.calculatedArea, 0);
     const utilitiesArea = Math.max(utilitiesDeptType.minArea, totalOtherAreas * 0.08);
-    const gridCellSize = 5;
-    const totalCells = Math.ceil(utilitiesArea / gridCellSize);
+    const gridCellArea = 25;
+    const totalCells = Math.ceil(utilitiesArea / gridCellArea);
     const gridWidth = Math.ceil(Math.sqrt(totalCells * 1.5));
     const gridHeight = Math.ceil(totalCells / gridWidth);
 

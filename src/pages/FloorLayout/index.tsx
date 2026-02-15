@@ -574,15 +574,17 @@ export function FloorLayoutPage() {
       // Apply template inputs
       setInputs(prev => ({ ...prev, ...template.inputs }));
 
-      // Apply template departments
+      // Apply template departments with corrected dimensions from area calculation
+      const areas = calculateDepartmentAreas({ ...inputs, ...template.inputs });
       const newDepartments: PlacedDepartment[] = template.departments.map((d, i) => {
-        const areaInfo = calculateDepartmentAreas({ ...inputs, ...template.inputs }).find(
-          a => a.departmentTypeId === d.departmentTypeId
-        );
+        const areaInfo = areas.find(a => a.departmentTypeId === d.departmentTypeId);
 
         return {
           ...d,
           id: `dept-${Date.now()}-${i}`,
+          // Use corrected grid dimensions from the area calculation
+          width: areaInfo?.gridWidth ?? d.width,
+          height: areaInfo?.gridHeight ?? d.height,
           calculatedArea: areaInfo?.calculatedArea || 100,
         };
       });
@@ -814,10 +816,9 @@ export function FloorLayoutPage() {
                   onClick={() => setIsEditing(!isEditing)}
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                    ${
-                      isEditing
-                        ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                        : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                    ${isEditing
+                      ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                     }
                   `}
                   whileHover={{ scale: 1.05 }}
@@ -901,10 +902,9 @@ export function FloorLayoutPage() {
                     onClick={() => setActiveSidebar('validation')}
                     className={`
                       h-9 px-3 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors border
-                      ${
-                        warnings.length > 0
-                          ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
-                          : 'bg-surface text-text-secondary border-transparent hover:bg-white'
+                      ${warnings.length > 0
+                        ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
+                        : 'bg-surface text-text-secondary border-transparent hover:bg-white'
                       }
                     `}
                     whileHover={{ scale: 1.02 }}

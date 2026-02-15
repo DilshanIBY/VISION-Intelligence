@@ -67,10 +67,9 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
               className={`
                 flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-[var(--radius-lg)] text-sm font-medium
                 transition-all duration-200
-                ${
-                  activeTab === 'basic'
-                    ? 'bg-[var(--color-primary)] text-white shadow-md'
-                    : 'bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-glass)]'
+                ${activeTab === 'basic'
+                  ? 'bg-[var(--color-primary)] text-white shadow-md'
+                  : 'bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-glass)]'
                 }
               `}
               whileTap={{ scale: 0.98 }}
@@ -83,10 +82,9 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
               className={`
                 flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-[var(--radius-lg)] text-sm font-medium
                 transition-all duration-200
-                ${
-                  activeTab === 'embroidery'
-                    ? 'bg-[var(--color-secondary)] text-white shadow-md'
-                    : 'bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-glass)]'
+                ${activeTab === 'embroidery'
+                  ? 'bg-[var(--color-secondary)] text-white shadow-md'
+                  : 'bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-glass)]'
                 }
               `}
               whileTap={{ scale: 0.98 }}
@@ -153,6 +151,7 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                     const [hours, minutes] = time.split(':').map(Number);
                     onInputChange('workingHoursPerDay', hours + minutes / 60);
                   }}
+                  use24Hour
                 />
               </div>
 

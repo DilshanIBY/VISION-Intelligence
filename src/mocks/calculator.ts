@@ -369,13 +369,27 @@ export const mockCostBreakdown: CostCategory[] = [
 // =====================================================
 
 export function calculateMockResults(inputs: CalculatorInputs): CalculatorOutputs {
-  // Simple mock calculation - not production logic
-  const baseTime = inputs.punchCount / (inputs.machineSpeed * inputs.headCount);
+  // Guard against invalid inputs
+  const machineSpeed = Math.max(1, inputs.machineSpeed);
+  const headCount = Math.max(1, inputs.headCount);
+  const efficiencyFactor = Math.max(0.01, Math.min(1, inputs.efficiencyFactor));
+  const workingHours = Math.max(0.5, Math.min(24, inputs.workingHoursPerDay));
+  const targetQuantity = Math.max(1, inputs.targetQuantity);
+
+  // Time per piece (minutes) — each head embroiders one piece at a time
+  // punchCount / machineSpeed = minutes of stitching per piece per head
+  const baseTime = inputs.punchCount / machineSpeed;
+  // ~30 seconds per color change
   const colorChangeTime = (inputs.threadColors - 1) * 0.5;
   const totalTimePerPiece = baseTime + colorChangeTime;
 
-  const piecesPerHourPerMachine = (60 / totalTimePerPiece) * inputs.efficiencyFactor;
-  const piecesPerDayPerMachine = piecesPerHourPerMachine * inputs.workingHoursPerDay;
+  // Guard against zero/negative time per piece
+  const safeTimePerPiece = Math.max(0.01, totalTimePerPiece);
+
+  // Throughput: each machine has `headCount` heads working in parallel
+  // So pieces per hour = (60 / timePerPiece) × headCount × efficiency
+  const piecesPerHourPerMachine = (60 / safeTimePerPiece) * headCount * efficiencyFactor;
+  const piecesPerDayPerMachine = piecesPerHourPerMachine * workingHours;
 
   // Calculate days until deadline
   const today = new Date();
@@ -385,12 +399,14 @@ export function calculateMockResults(inputs: CalculatorInputs): CalculatorOutput
     Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
   );
 
-  const requiredDailyOutput = inputs.targetQuantity / availableDays;
-  const machinesRequired = Math.max(1, Math.ceil(requiredDailyOutput / piecesPerDayPerMachine));
+  const requiredDailyOutput = targetQuantity / availableDays;
+  const safeDailyPerMachine = Math.max(1, piecesPerDayPerMachine);
+  const machinesRequired = Math.max(1, Math.ceil(requiredDailyOutput / safeDailyPerMachine));
 
   const actualDailyOutput = Math.round(machinesRequired * piecesPerDayPerMachine);
-  const actualDays = Math.ceil(inputs.targetQuantity / actualDailyOutput);
-  const utilizationRate = requiredDailyOutput / (machinesRequired * piecesPerDayPerMachine);
+  const safeActualDaily = Math.max(1, actualDailyOutput);
+  const actualDays = Math.ceil(targetQuantity / safeActualDaily);
+  const utilizationRate = requiredDailyOutput / (machinesRequired * safeDailyPerMachine);
 
   const costPerMachineDay = 450; // Mock cost
   const costEstimate = machinesRequired * actualDays * costPerMachineDay;
@@ -399,12 +415,12 @@ export function calculateMockResults(inputs: CalculatorInputs): CalculatorOutput
     machinesRequired,
     totalProductionDays: actualDays,
     dailyOutput: actualDailyOutput,
-    utilizationRate: Math.min(1, utilizationRate),
+    utilizationRate: Math.min(1, Math.max(0, utilizationRate)),
     costEstimate,
     timePerPiece: {
-      stitching: baseTime,
-      colorChanges: colorChangeTime,
-      total: totalTimePerPiece,
+      stitching: Math.round(baseTime * 100) / 100,
+      colorChanges: Math.round(colorChangeTime * 100) / 100,
+      total: Math.round(safeTimePerPiece * 100) / 100,
     },
   };
 }
