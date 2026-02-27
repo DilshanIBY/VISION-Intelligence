@@ -1,19 +1,17 @@
 /**
  * InputsPanel - Left panel containing all calculator input controls
- * @requirement P3-PG-CALC-002 to P3-PG-CALC-010
+ * Updated for VISION Intelligence v2.0
+ * Supports 3 tabs: Basic (Sewing), Embroidery, Fusing
  */
 
 import { forwardRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings2, Palette, Gauge } from 'lucide-react';
+import { Settings2, Palette, Gauge, Flame } from 'lucide-react';
 
 // UI Components
 import { Select } from '@components/ui/inputs/Select';
 import { NumberInput } from '@components/ui/inputs/NumberInput';
 import { Slider } from '@components/ui/inputs/Slider';
-import { DatePicker } from '@components/ui/inputs/DatePicker';
-import { TimePicker } from '@components/ui/inputs/TimePicker';
-import { ColorPicker } from '@components/ui/inputs/ColorPicker';
 
 // Calculator Components
 import { HeadCountSelector } from './HeadCountSelector';
@@ -23,8 +21,10 @@ import { ValidationWarnings } from './ValidationWarnings';
 // Mock Data
 import {
   mockMachineTypes,
-  mockThreadColors,
+  durationOptions,
+  fusingProductCategories,
   type CalculatorInputs,
+  type CalculationTab,
   type ValidationWarning,
 } from '@mocks/calculator';
 import { VALIDATION_LIMITS } from '@/types/validation/calculation-schemas';
@@ -39,19 +39,37 @@ export interface InputsPanelProps {
 
 export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
   ({ inputs, onInputChange, warnings, onDismissWarning, className = '' }, ref) => {
-    const [activeTab, setActiveTab] = useState<'basic' | 'embroidery'>('basic');
+    const [activeTab, setActiveTab] = useState<CalculationTab>(inputs.activeTab || 'basic');
 
-    // Convert machine types to Select options
-    const machineOptions = mockMachineTypes.map(mt => ({
+    const handleTabChange = (tab: CalculationTab) => {
+      setActiveTab(tab);
+      onInputChange('activeTab', tab);
+    };
+
+    // Filter machine types by active tab category
+    const filteredMachineTypes = mockMachineTypes.filter(mt => {
+      if (activeTab === 'basic') return mt.category === 'sewing' || mt.category === 'cutting' || mt.category === 'finishing';
+      if (activeTab === 'embroidery') return mt.category === 'embroidery';
+      if (activeTab === 'fusing') return mt.category === 'fusing';
+      return true;
+    });
+
+    const machineOptions = filteredMachineTypes.map(mt => ({
       value: mt.id,
       label: mt.name,
       group: mt.category.charAt(0).toUpperCase() + mt.category.slice(1),
     }));
 
-    // Convert thread colors to ColorPicker format
-    const threadColorOptions = mockThreadColors.map(tc => ({
-      value: tc.hex,
-      label: tc.name,
+    // Duration options for Select
+    const durationSelectOptions = durationOptions.map(d => ({
+      value: d.value,
+      label: d.label,
+    }));
+
+    // Fusing product category options
+    const fusingCategoryOptions = fusingProductCategories.map(c => ({
+      value: c.value,
+      label: c.label,
     }));
 
     return (
@@ -59,13 +77,13 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
         ref={ref}
         className={`flex flex-col bg-[var(--color-glass)] backdrop-blur-md rounded-[var(--radius-2xl)] border border-[var(--color-glass-border)] overflow-hidden ${className}`}
       >
-        {/* Panel Header with Tabs */}
+        {/* Panel Header with 3 Tabs */}
         <div className="flex-none p-4 border-b border-[var(--color-glass-border)]">
           <div className="flex gap-2">
             <motion.button
-              onClick={() => setActiveTab('basic')}
+              onClick={() => handleTabChange('basic')}
               className={`
-                flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-[var(--radius-lg)] text-sm font-medium
+                flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-[var(--radius-lg)] text-sm font-medium
                 transition-all duration-200
                 ${activeTab === 'basic'
                   ? 'bg-[var(--color-primary)] text-white shadow-md'
@@ -75,12 +93,12 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
               whileTap={{ scale: 0.98 }}
             >
               <Settings2 size={16} />
-              Basic
+              Sewing
             </motion.button>
             <motion.button
-              onClick={() => setActiveTab('embroidery')}
+              onClick={() => handleTabChange('embroidery')}
               className={`
-                flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-[var(--radius-lg)] text-sm font-medium
+                flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-[var(--radius-lg)] text-sm font-medium
                 transition-all duration-200
                 ${activeTab === 'embroidery'
                   ? 'bg-[var(--color-secondary)] text-white shadow-md'
@@ -92,6 +110,21 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
               <Palette size={16} />
               Embroidery
             </motion.button>
+            <motion.button
+              onClick={() => handleTabChange('fusing')}
+              className={`
+                flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-[var(--radius-lg)] text-sm font-medium
+                transition-all duration-200
+                ${activeTab === 'fusing'
+                  ? 'bg-[var(--color-accent)] text-white shadow-md'
+                  : 'bg-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-glass)]'
+                }
+              `}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Flame size={16} />
+              Fusing
+            </motion.button>
           </div>
         </div>
 
@@ -101,10 +134,11 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
           <ValidationWarnings warnings={warnings} onDismiss={onDismissWarning} />
 
           {activeTab === 'basic' ? (
-            // Basic Parameters
+            // =====================================================
+            // BASIC (SEWING) PARAMETERS
+            // =====================================================
             <div className="space-y-5">
-              {/* Machine Type - P3-PG-CALC-002 */}
-              {/* Machine Type - P3-PG-CALC-002 */}
+              {/* Machine Type */}
               <div className="relative z-50">
                 <Select
                   label="Machine Type"
@@ -116,9 +150,63 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                 />
               </div>
 
-              {/* Target Quantity - P3-PG-CALC-003 */}
-              {/* Target Quantity - P3-PG-CALC-003 */}
+              {/* SMV (Standard Minute Value) — PRIMARY INPUT */}
               <div className="space-y-2 relative z-40">
+                <NumberInput
+                  label="SMV (Standard Minute Value)"
+                  value={inputs.smv}
+                  onChange={value => onInputChange('smv', value)}
+                  min={0.1}
+                  max={200}
+                  step={0.5}
+                />
+                <Slider
+                  value={inputs.smv}
+                  onChange={value => onInputChange('smv', value)}
+                  min={0.5}
+                  max={100}
+                  step={0.5}
+                  showTooltip
+                  showValue={false}
+                  formatValue={v => `${v} min`}
+                  marks={[
+                    { value: 10, label: '10' },
+                    { value: 25, label: '25' },
+                    { value: 50, label: '50' },
+                    { value: 100, label: '100' },
+                  ]}
+                />
+              </div>
+
+              {/* Number of Operators */}
+              <div className="space-y-2 relative z-30">
+                <NumberInput
+                  label="Number of Operators"
+                  value={inputs.numberOfOperators}
+                  onChange={value => onInputChange('numberOfOperators', value)}
+                  min={1}
+                  max={10000}
+                  step={1}
+                />
+                <Slider
+                  value={inputs.numberOfOperators}
+                  onChange={value => onInputChange('numberOfOperators', value)}
+                  min={1}
+                  max={500}
+                  step={1}
+                  showTooltip
+                  showValue={false}
+                  marks={[
+                    { value: 50, label: '50' },
+                    { value: 150, label: '150' },
+                    { value: 300, label: '300' },
+                    { value: 500, label: '500' },
+                  ]}
+                />
+              </div>
+
+              {/* Target Quantity */}
+              <div className="space-y-2 relative z-20">
                 <NumberInput
                   label="Target Quantity"
                   value={inputs.targetQuantity}
@@ -138,37 +226,65 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                 />
               </div>
 
-              {/* Working Hours/Day - P3-PG-CALC-004 */}
-              <div className="relative z-30">
-                <TimePicker
-                  label="Working Hours/Day"
-                  value={`${Math.floor(inputs.workingHoursPerDay)}:${Math.round(
-                    (inputs.workingHoursPerDay % 1) * 60
-                  )
-                    .toString()
-                    .padStart(2, '0')}`}
-                  onChange={time => {
-                    const [hours, minutes] = time.split(':').map(Number);
-                    onInputChange('workingHoursPerDay', hours + minutes / 60);
+              {/* Working Hours/Day */}
+              <NumberInput
+                label="Working Hours / Day"
+                value={inputs.workingHoursPerDay}
+                onChange={value => onInputChange('workingHoursPerDay', value)}
+                min={1}
+                max={24}
+                step={0.5}
+              />
+
+              {/* Duration */}
+              <div className="relative z-10">
+                <Select
+                  label="Duration"
+                  options={durationSelectOptions}
+                  value={inputs.duration}
+                  onChange={value => {
+                    onInputChange('duration', value as CalculatorInputs['duration']);
+                    // Auto-set default working days
+                    const opt = durationOptions.find(d => d.value === value);
+                    if (opt) onInputChange('workingDays', opt.defaultDays);
                   }}
-                  use24Hour
                 />
               </div>
 
-              {/* Deadline - P3-PG-CALC-005 */}
-              {/* Deadline - P3-PG-CALC-005 */}
-              <div className="relative z-20">
-                <DatePicker
-                  label="Production Deadline"
-                  value={new Date(inputs.deadline)}
-                  onChange={date => {
-                    if (date) onInputChange('deadline', date.toISOString());
-                  }}
-                  minDate={new Date()}
+              {/* Working Days */}
+              <div className="space-y-2">
+                <NumberInput
+                  label="Working Days"
+                  value={inputs.workingDays}
+                  onChange={value => onInputChange('workingDays', value)}
+                  min={1}
+                  max={31}
+                  step={1}
                 />
+                {/* Sat/Sun toggles */}
+                <div className="flex gap-4 mt-2">
+                  <label className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={inputs.saturdayWork}
+                      onChange={e => onInputChange('saturdayWork', e.target.checked)}
+                      className="w-4 h-4 rounded border-[var(--color-glass-border)] text-[var(--color-primary)] accent-[var(--color-primary)]"
+                    />
+                    Saturday
+                  </label>
+                  <label className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={inputs.sundayWork}
+                      onChange={e => onInputChange('sundayWork', e.target.checked)}
+                      className="w-4 h-4 rounded border-[var(--color-glass-border)] text-[var(--color-primary)] accent-[var(--color-primary)]"
+                    />
+                    Sunday
+                  </label>
+                </div>
               </div>
 
-              {/* Efficiency Factor - P3-PG-CALC-006 */}
+              {/* Efficiency Factor */}
               <Slider
                 label="Efficiency Factor"
                 value={inputs.efficiencyFactor * 100}
@@ -184,13 +300,27 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                 ]}
               />
             </div>
-          ) : (
-            // Embroidery Parameters
+          ) : activeTab === 'embroidery' ? (
+            // =====================================================
+            // EMBROIDERY PARAMETERS
+            // =====================================================
             <div className="space-y-5">
-              {/* Punch Count - P3-PG-CALC-007 */}
+              {/* Order Quantity */}
               <div className="space-y-2">
                 <NumberInput
-                  label="Punch Count (Stitches)"
+                  label="Order Quantity"
+                  value={inputs.targetQuantity}
+                  onChange={value => onInputChange('targetQuantity', value)}
+                  min={1}
+                  max={1000000}
+                  step={100}
+                />
+              </div>
+
+              {/* Punch Count */}
+              <div className="space-y-2">
+                <NumberInput
+                  label="Punch Count (stitches/logo)"
                   value={inputs.punchCount}
                   onChange={value => onInputChange('punchCount', value)}
                   min={VALIDATION_LIMITS.PUNCH_COUNT_MIN}
@@ -211,7 +341,6 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                     { value: 50000, label: '50K' },
                   ]}
                 />
-                {/* Visual scale indicator */}
                 <div className="flex items-center gap-2 text-xs text-[var(--color-text-muted)]">
                   <Gauge size={12} />
                   <span>
@@ -227,51 +356,51 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                 </div>
               </div>
 
-              {/* Thread Colors - P3-PG-CALC-008 */}
-              <div className="space-y-2 relative z-40">
-                <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium text-[var(--color-text-secondary)]">
-                    Thread Colors
-                  </label>
-                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">
-                    {inputs.threadColors} colors
-                  </span>
-                </div>
-                <ColorPicker
-                  colors={threadColorOptions}
-                  value={inputs.selectedThreadColors || []}
-                  onChange={colors => {
-                    onInputChange('selectedThreadColors', colors);
-                    onInputChange('threadColors', colors.length);
-                  }}
-                  maxSelection={VALIDATION_LIMITS.THREAD_COLORS_MAX}
-                />
-                <Slider
-                  value={inputs.threadColors}
-                  min={1}
-                  max={VALIDATION_LIMITS.THREAD_COLORS_MAX}
-                  step={1}
-                  onChange={val => {
-                    onInputChange('threadColors', val);
-                    // Update selected colors array to match count
-                    const current = inputs.selectedThreadColors || [];
-                    let newColors = [...current];
-                    if (val < current.length) {
-                      newColors = newColors.slice(0, val);
-                    } else if (val > current.length) {
-                      // Add colors from palette that aren't already selected
-                      const available = threadColorOptions
-                        .map(o => o.value)
-                        .filter(c => !current.includes(c));
-                      newColors = [...newColors, ...available.slice(0, val - current.length)];
-                    }
-                    onInputChange('selectedThreadColors', newColors);
-                  }}
-                  showValue={false}
-                />
-              </div>
+              {/* Machine Speed (Embroidery only) */}
+              <SpeedPresets
+                value={inputs.machineSpeed}
+                onChange={speed => onInputChange('machineSpeed', speed)}
+                min={VALIDATION_LIMITS.MACHINE_SPEED_MIN}
+                max={VALIDATION_LIMITS.MACHINE_SPEED_MAX}
+              />
 
-              {/* Head Count - P3-PG-CALC-009 */}
+              {/* Handling Time Per Piece */}
+              <NumberInput
+                label="Handling Time / Piece (min)"
+                value={inputs.handlingTimePerPiece}
+                onChange={value => onInputChange('handlingTimePerPiece', value)}
+                min={0}
+                max={30}
+                step={0.5}
+              />
+
+              {/* Shift Hours */}
+              <NumberInput
+                label="Shift Hours"
+                value={inputs.workingHoursPerDay}
+                onChange={value => onInputChange('workingHoursPerDay', value)}
+                min={1}
+                max={24}
+                step={0.5}
+              />
+
+              {/* Efficiency */}
+              <Slider
+                label="Efficiency"
+                value={inputs.efficiencyFactor * 100}
+                onChange={value => onInputChange('efficiencyFactor', value / 100)}
+                min={50}
+                max={100}
+                step={1}
+                formatValue={v => `${v}%`}
+                marks={[
+                  { value: 50, label: '50%' },
+                  { value: 80, label: '80%' },
+                  { value: 100, label: '100%' },
+                ]}
+              />
+
+              {/* Heads Per Machine */}
               <HeadCountSelector
                 value={inputs.headCount}
                 onChange={count => onInputChange('headCount', count)}
@@ -279,12 +408,100 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                 max={VALIDATION_LIMITS.HEAD_COUNT_MAX}
               />
 
-              {/* Machine Speed - P3-PG-CALC-010 */}
-              <SpeedPresets
-                value={inputs.machineSpeed}
-                onChange={speed => onInputChange('machineSpeed', speed)}
-                min={VALIDATION_LIMITS.MACHINE_SPEED_MIN}
-                max={VALIDATION_LIMITS.MACHINE_SPEED_MAX}
+              {/* Thread Colors (Number only, no color picker) */}
+              <div className="space-y-2">
+                <NumberInput
+                  label="Number of Colors"
+                  value={inputs.threadColors}
+                  onChange={value => onInputChange('threadColors', value)}
+                  min={1}
+                  max={VALIDATION_LIMITS.THREAD_COLORS_MAX}
+                  step={1}
+                />
+              </div>
+            </div>
+          ) : (
+            // =====================================================
+            // FUSING & SUPPLEMENTARY PARAMETERS
+            // =====================================================
+            <div className="space-y-5">
+              {/* Product Category */}
+              <div className="relative z-50">
+                <Select
+                  label="Product Category"
+                  options={fusingCategoryOptions}
+                  value={inputs.fusingProductCategory}
+                  onChange={value => onInputChange('fusingProductCategory', value)}
+                />
+              </div>
+
+              {/* Fusing Time Per Piece (seconds) */}
+              <div className="space-y-2">
+                <NumberInput
+                  label="Fusing Time / Piece (seconds)"
+                  value={inputs.fusingTimePerPiece}
+                  onChange={value => onInputChange('fusingTimePerPiece', value)}
+                  min={1}
+                  max={300}
+                  step={1}
+                />
+                <Slider
+                  value={inputs.fusingTimePerPiece}
+                  onChange={value => onInputChange('fusingTimePerPiece', value)}
+                  min={5}
+                  max={120}
+                  step={1}
+                  showTooltip
+                  showValue={false}
+                  formatValue={v => `${v}s`}
+                />
+              </div>
+
+              {/* Working Hours */}
+              <NumberInput
+                label="Working Hours / Day"
+                value={inputs.workingHoursPerDay}
+                onChange={value => onInputChange('workingHoursPerDay', value)}
+                min={1}
+                max={24}
+                step={0.5}
+              />
+
+              {/* Daily Quantity */}
+              <div className="space-y-2">
+                <NumberInput
+                  label="Daily Quantity Required"
+                  value={inputs.fusingDailyQuantity}
+                  onChange={value => onInputChange('fusingDailyQuantity', value)}
+                  min={1}
+                  max={100000}
+                  step={100}
+                />
+                <Slider
+                  value={inputs.fusingDailyQuantity}
+                  onChange={value => onInputChange('fusingDailyQuantity', value)}
+                  min={100}
+                  max={10000}
+                  step={100}
+                  showTooltip
+                  showValue={false}
+                />
+              </div>
+
+              {/* Efficiency */}
+              <Slider
+                label="Efficiency"
+                value={inputs.efficiencyFactor * 100}
+                onChange={value => onInputChange('efficiencyFactor', value / 100)}
+                min={50}
+                max={100}
+                step={1}
+                formatValue={v => `${v}%`}
+                marks={[
+                  { value: 50, label: '50%' },
+                  { value: 80, label: '80%' },
+                  { value: 100, label: '100%' },
+                ]}
               />
             </div>
           )}

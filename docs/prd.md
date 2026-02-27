@@ -1,25 +1,30 @@
-# APPAREL
-## Product Requirements Document v1.0
+# VISION Intelligence
+## Product Requirements Document v2.0
 
-> *Where Apparel Intelligence Meets Elegant Design*
+> *Precision Calculations for Apparel Industry Consultants*
 
 ---
 
 # 1. Executive Summary
 
 ## 1.1 Problem Statement
-Apparel industry consultants lack specialized software tools to quickly calculate machinery requirements, plan factory floor layouts, and present data-driven recommendations to clients during live business meetings. Current methods rely on manual Excel calculations, which are slow, error-prone, and unprofessional for Industry 4.0 consulting engagements.
+Apparel industry consultants at firms like VISION International Consultancy advise investors on setting up new garment factories. During live client meetings, investors ask rapid-fire questions: *"How many machines do I need for 100,000 shirts per month?"*, *"What if I go with innerwear instead?"*, *"How much factory floor space do I need?"*
+
+Currently, consultants answer these questions using **Excel spreadsheets and physical calculators** — a slow, error-prone, and stressful process that undermines their professional credibility. They need a system that provides **instant, accurate answers** to any configuration question a client can ask.
 
 ## 1.2 Solution Overview
-**APPAREL** is a premium desktop application providing real-time machinery calculation, interactive floor layout planning, and presentation-ready dashboards for apparel industry consultants.
+**VISION Intelligence** is a premium desktop application that replaces manual Excel-based calculations with an intelligent, real-time computation engine for apparel industry consultants. The system focuses on **new factory planning** — helping consultants advise investors on machinery requirements, production capacity, and floor layout sizing.
+
+> **Important Context**: This application is for consultants helping clients (investors) **start new factories**. It is NOT for managing or maintaining existing production operations.
 
 ## 1.3 Key Goals
 | Goal | Success Metric |
 |------|----------------|
 | Instant Calculations | < 2 seconds for any machinery/layout computation |
-| Professional Presentations | Dashboard directly usable in client meetings |
-| Accuracy | Zero manual calculation errors |
-| User Adoption | Complete workflow in ≤ 5 clicks |
+| Live Meeting Ready | Consultant can answer any client question on-the-spot |
+| Accuracy | Results match VISION's proven Excel formulas exactly |
+| Bi-directional Solving | Solve for ANY variable in the formula |
+| Data Export | Export results as PNG, PDF, or Excel for client handoff |
 
 ## 1.4 Technology Stack
 | Layer | Technology |
@@ -34,171 +39,249 @@ Apparel industry consultants lack specialized software tools to quickly calculat
 
 # 2. User Personas
 
-## 2.1 Primary: Industry Consultant
-- **Role**: Senior consultant at apparel consulting firm
-- **Goals**: Quick calculations during client meetings, professional presentations
-- **Pain Points**: Manual Excel work, unprofessional tools, slow what-if analysis
-- **Tech Level**: Intermediate (comfortable with business software)
+## 2.1 Primary: Apparel Industry Consultant
+- **Role**: Senior consultant at VISION International Consultancy (or similar firms)
+- **Context**: Advises investors on setting up new garment factories
+- **Goals**: Instantly answer investor questions about machinery, capacity, and floor space during live meetings
+- **Pain Points**: Manual Excel calculations are slow, stressful, and unprofessional during client presentations
+- **Tech Level**: Intermediate (comfortable with Excel and business software)
 
-## 2.2 Secondary: Factory Planner
-- **Role**: In-house planning team at manufacturing facility
-- **Goals**: Optimize floor layouts, capacity planning
-- **Pain Points**: Trial-and-error layouts, capacity bottlenecks
+## 2.2 Secondary: Managing Director / Firm Leadership
+- **Role**: MD of the consultancy firm
+- **Goals**: Review client dashboards, access historical project data, ensure consistency across consultants
+- **Pain Points**: Scattered Excel files, no centralized project history
 - **Tech Level**: Basic to Intermediate
 
 ---
 
 # 3. Core Modules
 
-## 3.1 Module 1: Machinery Calculator
+## 3.1 Module 1: Machine Requirement Calculator
 
 ### 3.1.1 Overview
-Calculates machine requirements based on production parameters with special focus on embroidery operations.
+Comprehensive calculation engine for determining machinery requirements when planning new apparel factories. Supports three calculation types: **Sewing Machine Requirements**, **Embroidery Capacity**, and **Fusing/Supplementary Machine Capacity**. All calculations support **bi-directional solving** — the consultant can solve for any unknown variable.
 
-### 3.1.2 Input Parameters
+> **Real-world context**: An investor says *"I need 100,000 shirts per month — how many machines do I need?"* The consultant enters the parameters and gets an instant answer. Or the investor says *"I have 50 machines — what's my monthly output?"* The system solves it either way.
 
-#### Basic Machine Calculation
-| Parameter | Type | Validation | UI Component |
-|-----------|------|------------|--------------|
-| Machine Type | Select | Required | Searchable Dropdown |
-| Target Quantity | Number | > 0 | Numeric Input + Slider |
-| Working Hours/Day | Number | 1-24 | Time Picker |
-| Deadline | Date | ≥ Today | Calendar Picker |
-| Efficiency Factor | Percentage | 50-100% | Slider with tooltip |
+### 3.1.2 Calculation Types
 
-#### Embroidery-Specific Parameters
-| Parameter | Type | Validation | UI Component |
-|-----------|------|------------|--------------|
-| Punch Count | Number | > 0, ≤ 50000 | Numeric + Visual Scale |
-| Thread Colors | Number | 1-15 | Color Picker Grid |
-| Head Count | Number | 1-21 | Visual Head Selector |
-| Machine Speed (SPM) | Number | 100-1200 | Preset + Custom |
+#### Tab 1: Sewing Machine Calculation (Basic)
 
-### 3.1.3 Output Display
+**Core Formula (from VISION Excel data):**
+```
+Daily_Output = (No_of_Operators × Working_Minutes_Per_Day × Efficiency) / SMV
+Machines_Required = Target_Quantity / (Daily_Output × Working_Days)
+```
+
+| Parameter | Type | Validation | UI Component | Direction |
+|-----------|------|------------|--------------|-----------|
+| Machine Type | Select | Required, CRUD | Searchable Dropdown + Add/Edit | Input only |
+| SMV (Standard Minute Value) | Number | > 0 | Numeric Input | Input ↔ Output |
+| No. of Operators | Number | ≥ 1 | Numeric Input + Slider | Input ↔ Output |
+| Working Hours/Day | Number | 1-24 | Numeric (default 9) | Input |
+| Duration | Select | Required | Dropdown: daily/weekly/monthly | Input |
+| Working Days | Number | 1-31 | Numeric + Sat/Sun toggle | Input |
+| Efficiency Factor | Percentage | 50-100% | Slider (default 80%) | Input |
+| Target Quantity | Number | > 0 | Numeric Input + Slider | Input ↔ Output |
+| **Machines Required** | Number | Calculated | **Large number display** | **Output ↔ Input** |
+
+**Bi-directional examples:**
+- Given Target_Quantity + SMV + Operators → Find **Machines_Required**
+- Given Machines_Required + SMV + Operators → Find **Target_Quantity (max output)**
+- Given Target_Quantity + Machines → Find **Working_Days needed**
+
+#### Tab 2: Embroidery Capacity Calculation
+
+**Core Formula (from VISION Excel data):**
+```
+Stitching_Time_Per_Piece = Punch_Count / Machine_Speed
+Total_Time_Per_Piece = Stitching_Time + Handling_Time
+Available_Minutes_Per_Shift = Shift_Hours × 60 × (Efficiency / 100)
+Output_Per_Head_Per_Day = Available_Minutes / Total_Time
+Output_Per_Machine_Per_Day = Output_Per_Head × Head_Count
+Machines_Required = Order_Quantity / Output_Per_Machine
+```
+
+| Parameter | Type | Validation | UI Component | Direction |
+|-----------|------|------------|--------------|-----------|
+| Order Quantity | Number | > 0 | Numeric Input | Input ↔ Output |
+| Punch Count (stitches/logo) | Number | 1-50,000 | Numeric Input | Input |
+| Machine Speed (stitches/min) | Number | 100-1200 | Preset + Custom slider | Input |
+| Handling Time Per Piece (min) | Number | ≥ 0 | Numeric Input | Input |
+| Shift Hours | Number | 1-24 | Numeric (default 9) | Input |
+| Efficiency (%) | Number | 50-100 | Slider (default 80%) | Input |
+| Heads Per Machine | Number | 1-21 | Visual Head Selector | Input |
+| No. of Colors | Number | 1-15 | Numeric counter | Input |
+| **Machines Required** | Number | Calculated | **Large number display** | **Output** |
+
+#### Tab 3: Fusing & Supplementary Machine Calculation
+
+**Core Formula (from VISION Excel data):**
+```
+Available_Seconds = Working_Hours × 3600 × (Efficiency / 100)
+Capacity_Per_Machine = Available_Seconds / Seconds_Per_Piece
+Machines_Required = Daily_Quantity / Capacity_Per_Machine
+```
+
+| Parameter | Type | Validation | UI Component | Direction |
+|-----------|------|------------|--------------|-----------|
+| Product Category | Select | Required | Dropdown (Trouser/Shirt/T-shirt/Apron/Cap) | Input |
+| Fusing Time Per Piece (seconds) | Number | > 0 | Numeric Input | Input |
+| Working Hours | Number | 1-24 | Numeric (default 9) | Input |
+| Efficiency (%) | Number | 50-100 | Slider (default 90%) | Input |
+| Daily Quantity | Number | > 0 | Numeric Input | Input ↔ Output |
+| **Machines Required** | Number | Calculated | **Large number display** | **Output** |
+
+### 3.1.3 Machine Type Management (CRUD)
+Consultants must be able to create custom machine types per project because:
+- Different factories use different machine sets
+- Machine types vary by product and operation
+- Pre-defined lists cannot cover all scenarios
+
+| Feature | Description |
+|---------|-------------|
+| Add Machine Type | Name, category, default SMV, default efficiency |
+| Edit Machine Type | Modify any property |
+| Remove Machine Type | Soft-delete (hide from dropdowns) |
+| Per-Project | Machine types are scoped to the active project |
+| Import/Presets | Start with VISION's standard machine list |
+
+### 3.1.4 Output Display
 | Output | Visualization |
 |--------|---------------|
-| Machines Required | Large number + icon grid |
-| Production Timeline | Gantt-style bar |
-| Daily Output Rate | Progress arc |
-| Utilization Rate | Gauge chart |
-| Cost Estimate | Currency display with breakdown |
+| Machines Required | Large number + machine icon grid |
+| Daily Output | Progress bar with target comparison |
+| Utilization Rate | Gauge chart (0-100%) |
+| Cost Estimate | Currency display with breakdown bar |
 
-### 3.1.4 What-If Playground
-- **Dynamic Sliders**: Adjust any input parameter in real-time
-- **Comparison Cards**: Save up to 4 scenarios side-by-side
-- **Impact Indicators**: Show +/- changes with color coding
+> **Removed from v1.0**: Production Timeline (Gantt), Deadline picker — not relevant for new factory planning.
 
-### 3.1.5 Validation Rules
+### 3.1.5 What-If Playground
+- **Dynamic Parameters**: Adjust any input and see results update in real-time
+- **Scenario Comparison**: Save up to 4 scenarios side-by-side
+- **Delta Indicators**: Show +/- changes from baseline with color coding
+- **Quick Toggle**: "What if 80% efficiency instead of 85%?" — instant comparison
+
+### 3.1.6 Data Export
+| Format | Contents |
+|--------|----------|
+| PNG | Screenshot of calculation results with branding |
+| PDF | Full report with inputs, outputs, and breakdown |
+| Excel | Raw data in spreadsheet format (familiar to consultants) |
+
+### 3.1.7 Validation Rules
 ```
-RULE: Head Count Capacity
-IF target_quantity / available_time > head_count * machine_speed
-THEN show_warning("Head count insufficient for target")
+RULE: Operator Capacity
+IF (operators × working_minutes / SMV × efficiency) < target_quantity / working_days
+THEN show_warning("Insufficient operators for target quantity")
 
-RULE: Realistic Timeline  
-IF calculated_days < 1
-THEN show_info("Consider batching with other orders")
+RULE: Embroidery Head Utilization
+IF output_per_machine > practical_max_capacity
+THEN show_warning("Consider reducing target or adding machines")
 
-RULE: Color Change Time
-IF thread_colors > 8
-THEN add_warning("High color count significantly impacts time")
+RULE: Efficiency Range
+IF efficiency > 95%
+THEN show_info("Efficiency above 95% is rarely achievable in practice")
 ```
 
 ---
 
-## 3.2 Module 2: Floor Layout Planner
+## 3.2 Module 2: Floor Layout Calculator
 
 ### 3.2.1 Overview
-Visual drag-and-drop factory floor planning with automatic space calculations.
+Calculates production section sizes and arrangements based on available floor space, product type, and machinery requirements. Unlike a design tool, this is a **visual calculator** — it computes the optimal section sizes and renders them proportionally for the consultant to discuss with the investor.
 
-### 3.2.2 Input Parameters
-| Parameter | Type | Validation | UI Component |
-|-----------|------|------------|--------------|
-| Total Operators | Number | 10-10000 | Slider + Input |
-| Product Type | Select | Required | Visual Card Select |
-| Working Hours | Number | 1-24 | Time Picker |
-| Building Floors | Number | 1-10 | Floor Stack Visual |
-| Floor Dimensions | Number | > 0 | Dimension Input |
+> **Note**: Consultants have qualified AutoCAD professionals for detailed layout design. This module focuses on **instant calculations** during meetings — "Given this much space, how many machines can fit? What sections do I need?"
 
-### 3.2.3 Product Type Categories
-| Type | Code | Space Modifier | Departments |
-|------|------|----------------|-------------|
-| Innerwear | IW | 0.85x | Standard |
-| Outerwear | OW | 1.15x | + Heavy Cutting |
-| Casual | CS | 1.0x | Standard |
-| Wash & Casual | WC | 1.25x | + Wash Bay |
-| Sportswear | SW | 1.1x | + Sublimation |
+### 3.2.2 Real-World Scenarios
+1. *"I have 500 sqm per floor — what sections do I need for shirts, and how big should each be?"*
+2. *"Using this land, what is the maximum production floor I can build?"*
+3. *"I have 3 floors of 400 sqm each — can I fit cutting + sewing + packing on one floor?"*
 
-### 3.2.4 Department Space Rules
-| Department | Base Formula | Min Area |
-|------------|--------------|----------|
-| Warehouse | operators × 0.8 m² | 100 m² |
-| Cutting | sewing_area × 0.25 | 50 m² |
-| Sewing | operators × 6 m² | 200 m² |
-| Embroidery | machines × 15 m² | 30 m² |
-| Finishing | sewing_area × 0.18 | 40 m² |
-| Packing | sewing_area × 0.12 | 30 m² |
-| Utilities | total × 0.08 | 20 m² |
+### 3.2.3 Input Parameters
+| Parameter | Type | Validation | UI Component | Category |
+|-----------|------|------------|--------------|----------|
+| Product Type | Select | Required | Visual Card Select | Product |
+| Land Size (W × L) | Number pair | > 0 | Dimension Input (meters) | Area |
+| Production Floor Size (W × L) | Number pair | > 0 | Dimension Input (meters) | Area |
+| Number of Floors Available | Number | 1-10 | Floor Stack Visual | Area |
+| Machine Size (W × L) | Number pair | > 0 | Dimension Input (meters) | Machines |
+| Number of Machines | Number | ≥ 1 | Numeric Input | Machines |
+| Operator Working Space (W × L) | Number pair | > 0 | Dimension Input (meters) | Operators |
+| Number of Operators | Number | ≥ 1 | Numeric Input | Operators |
 
-### 3.2.5 Visual Floor Planner Features
-- **Drag & Drop Departments**: Place colored blocks on grid
-- **Auto-Snap**: Departments snap to grid alignment
-- **Flow Arrows**: Visual material flow indicators
-- **Collision Detection**: Prevent overlapping departments
-- **Multi-Floor View**: 3D isometric or floor tabs
-- **Zoom & Pan**: Canvas navigation controls
-- **Export**: PNG/PDF for presentations
+> **Changed from v1.0**: All dimensions use **Width × Length** (not Height). Removed Working_Hours (not relevant for space calculation).
 
-### 3.2.6 Bottleneck Detection
-```
-RULE: Cutting-Sewing Balance
-IF cutting_capacity > sewing_capacity * 1.2
-THEN highlight_bottleneck("Cutting", "Over-capacity vs Sewing")
+### 3.2.4 Output Results
+| Output | Description |
+|--------|-------------|
+| Required Sections | List of production sections based on Product_Type |
+| Section Sizes | Calculated area for each section (m²) |
+| Section Proportions | Visual rendering showing relative sizes |
+| Floor Assignments | Which sections fit on which floors |
 
-RULE: Finishing Constraint
-IF finishing_area < sewing_area * 0.15
-THEN highlight_bottleneck("Finishing", "Undersized for production")
+### 3.2.5 Visual Calculator Canvas
+The canvas is a **static, contained view** (not an infinite scrollable canvas):
+- Fit-to-container rendering (no scroll, no zoom required)
+- Proportional section blocks showing calculated sizes
+- Width × Length labels on each section
+- Sections can be repositioned within the floor boundary
+- Sections can have width/length adjusted (while maintaining calculated area)
+- Percentage indicators: "Cutting takes 25% of floor area"
+- Color-coded by section type (consistent with department palette)
 
-RULE: Flow Efficiency
-IF department_adjacency_score < 0.7
-THEN suggest_optimization("Consider rearranging for better flow")
-```
+### 3.2.6 Product Type → Section Mapping
+| Product Type | Required Sections |
+|-------------|-------------------|
+| Innerwear | Cutting, Sewing, Finishing & Packing, Stores |
+| Outerwear | Cutting, Sewing, Embroidery, Finishing & Packing, Stores, Heavy Cutting |
+| Casual | Cutting, Sewing, Finishing & Packing, Stores |
+| Sportswear | Cutting, Sewing, Sublimation, Finishing & Packing, Stores |
+
+> **Note**: Exact section formulas will be provided by VISION consultancy team in Excel format.
 
 ---
 
-## 3.3 Module 3: Analytics Dashboard
+## 3.3 Module 3: Client Dashboard
 
 ### 3.3.1 Overview
-Presentation-ready dashboards with draggable widgets for live client meetings.
+A presentation-ready dashboard designed to be shown directly to the investor (client) during meetings. Displays all calculated data in a professional, easy-to-understand format.
 
-### 3.3.2 Dashboard Components (Widgets)
+### 3.3.2 Core Dashboard Elements
+| Element | Description |
+|---------|-------------|
+| Machine Summary | All machine types needed with quantities per category |
+| Cost Estimation | Total and per-category cost breakdown |
+| Production Capacity | Expected output at different efficiency levels |
+| Floor Summary | Section overview with area utilization |
 
-| Widget | Type | Data Source | Size Options |
-|--------|------|-------------|--------------|
-| KPI Card | Static | Any metric | 1x1, 2x1 |
-| Gauge Chart | Dynamic | Utilization | 1x1 |
-| Bar Chart | Comparative | Multi-scenario | 2x2, 3x2 |
-| Timeline | Temporal | Production schedule | 3x1, 4x1 |
-| Floor Map | Visual | Layout planner | 2x2, 3x3 |
-| Cost Breakdown | Detailed | Calculations | 2x2 |
-| Comparison Table | Data | Scenarios | 2x2, 3x2 |
+### 3.3.3 Features
+- **Project-scoped**: Each dashboard is tied to a specific client project
+- **Export**: PDF, PNG for client handoff
+- **Presentation Mode**: Full-screen, clean layout for projector/screen sharing
 
-### 3.3.3 Dashboard Customization
-- **Drag to Reposition**: Move widgets freely
-- **Resize Handles**: Adjust widget dimensions
-- **Widget Library**: Add new widgets from palette
-- **Theme Presets**: Quick-apply color schemes
-- **Save Layouts**: Store named dashboard configurations
-- **Presentation Mode**: Full-screen, auto-cycle option
+> **Note**: Exact dashboard requirements will be provided by the VISION consultancy team in a future sprint.
 
-### 3.3.4 Data Visualization Principles
-| Data Type | Visualization Style |
-|-----------|---------------------|
-| Percentages | Gauge, Progress Bar, Donut |
-| Counts | Large Number, Icon Grid |
-| Comparisons | Side-by-Side Cards, Bar Chart |
-| Trends | Line Chart, Sparkline |
-| Hierarchies | Treemap, Nested Cards |
-| Geographic | Floor Map, Regional Heatmap |
+---
+
+## 3.4 Module 4: Analytics & History
+
+### 3.4.1 Overview
+Centralized storage for all calculations, projects, and historical data. Replaces the scattered Excel files consultants currently use.
+
+### 3.4.2 Core Capabilities
+| Capability | Description |
+|-----------|-------------|
+| Project History | Search and retrieve calculations from past client projects |
+| Client Lookup | Filter by client/garment-factory to see all related calculations |
+| Product Type Filter | "Show me all projects we've done for innerwear" |
+| Calculation Log | Timestamped record of every calculation performed |
+| Data Reuse | Load a past calculation as a starting point for a new project |
+
+### 3.4.3 Use Case
+*"A new client asks the same question a previous client asked 6 months ago. The consultant searches for the old project, finds the exact calculation, and shares it — with adjustments for the new client's parameters."*
+
+> **Note**: Exact analytics requirements and data structure will be provided by the VISION consultancy team in a future sprint.
 
 ---
 
@@ -265,11 +348,11 @@ APPAREL's interface draws heavy inspiration from **Apple Vision Pro's visionOS**
 | Text Input | Floating label, validation states |
 | Number Input | +/- buttons, slider sync option |
 | Select | Searchable, grouped options |
-| Date Picker | Calendar popup, range support |
-| Time Picker | 12/24hr, duration mode |
+| Dimension Input | Width × Length pair input (meters) |
 | Slider | Range, marks, value tooltip |
-| Color Picker | Grid selection for threads |
-| Toggle | Animated switch |
+| Toggle | Animated switch (Sat/Sun working days) |
+| Duration Select | Daily/Weekly/Monthly dropdown |
+| Machine Type CRUD | Add/Edit/Delete machine types per project |
 
 ### Display
 | Component | Description |
@@ -356,56 +439,51 @@ APPAREL's interface draws heavy inspiration from **Apple Vision Pro's visionOS**
 │ │  Baseline   │ │ Scenario A  │ │ Scenario B  │ │ [+] │ │
 │ │  ────────   │ │  ────────   │ │  ────────   │ └─────┘ │
 │ │  5 Machines │ │  3 Machines │ │  7 Machines │         │
-│ │  $50,000    │ │  $30,000 ↓  │ │  $70,000 ↑  │         │
-│ │  15 days    │ │  25 days ↑  │ │  10 days ↓  │         │
+│ │  85% Eff   │ │  80% Eff ↓  │ │  90% Eff ↑  │         │
+│ │  500/day   │ │  400/day ↓  │ │  700/day ↑  │         │
 │ └─────────────┘ └─────────────┘ └─────────────┘         │
 ├──────────────────────────────────────────────────────────┤
 │ PARAMETERS                                               │
 │ ┌────────────────────────────────────────────────────┐  │
-│ │ Quantity        [====●==========] 10,000           │  │
-│ │ Head Count      [==●============] 6                │  │
-│ │ Punch Count     [=======●=======] 5,000            │  │
-│ │ Thread Colors   [●==============] 2                │  │
-│ │ Deadline        [📅 Mar 15, 2026]                  │  │
+│ │ SMV             [====●==========] 24.5            │  │
+│ │ Operators       [==●============] 90              │  │
+│ │ Efficiency      [=======●=======] 80%             │  │
+│ │ Working Hours   [===●===========] 9               │  │
+│ │ Working Days    [========●======] 26              │  │
 │ └────────────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────────┘
 ```
 
-## 5.2 Visual Floor Planner
+## 5.2 Visual Floor Calculator
 
 ### Features
-- **Grid Canvas**: Zoomable, pannable workspace
-- **Department Palette**: Drag department blocks to canvas
-- **Auto-Size**: Departments sized by calculated area
-- **Connection Lines**: Show material flow paths
-- **Validation Overlay**: Highlight bottlenecks in red
-- **Multi-Floor**: Tab or 3D view for vertical factories
-- **Templates**: Pre-built layouts for common configurations
-- **Measurement Tool**: Distance and area calculations
+- **Static Canvas**: Contained view, no infinite scroll/zoom required
+- **Section Blocks**: Proportionally sized based on calculated areas
+- **Repositioning**: Drag sections within floor boundary
+- **Dimension Adjustment**: Adjust width/length while maintaining calculated area
+- **Percentage Labels**: Shows each section's share of total floor area
+- **Multi-Floor**: Tab view for each floor level
+- **Export**: PNG/PDF for presentations
 
-### Department Blocks
-| Dept | Icon | Color | Shape |
-|------|------|-------|-------|
-| Warehouse | 📦 | Yellow | Rectangle |
-| Cutting | ✂️ | Orange | Rectangle |
-| Sewing | 🧵 | Blue | Large Rectangle |
-| Embroidery | 🎨 | Purple | Square |
-| Finishing | ✅ | Green | Rectangle |
-| Packing | 📤 | Teal | Rectangle |
-| Utilities | ⚡ | Gray | Irregular |
+### Section Blocks
+| Section | Color | Shape |
+|---------|-------|-------|
+| Cutting | Orange | Rectangle |
+| Sewing | Blue | Large Rectangle |
+| Embroidery | Purple | Rectangle |
+| Finishing & Packing | Green | Rectangle |
+| Stores | Teal | Rectangle |
+| Sublimation | Pink | Rectangle |
 
 ### Interaction Flow
 ```
-1. Set Parameters (operators, product type, floors)
-2. System calculates required areas
-3. Department blocks appear in palette with sizes
-4. User drags blocks to floor grid
-5. System shows warnings for:
-   - Overlapping departments
-   - Flow inefficiencies
-   - Capacity imbalances
-6. User adjusts until validation passes
-7. Export or save layout
+1. Set Parameters (product type, floor dimensions, operators, machines)
+2. System calculates required section areas
+3. Section blocks render proportionally within floor boundary
+4. Consultant can reposition blocks within the floor
+5. Consultant can adjust width/length (maintaining area)
+6. Percentage labels update in real-time
+7. Export or save calculation
 ```
 
 ---
@@ -416,26 +494,28 @@ APPAREL's interface draws heavy inspiration from **Apple Vision Pro's visionOS**
 
 | Field | Type | Rules | Error Message |
 |-------|------|-------|---------------|
+| smv | float | > 0 | "SMV must be greater than 0" |
+| operators | int | ≥ 1 | "At least 1 operator required" |
 | punch_count | int | 1-50000 | "Punch count must be between 1-50,000" |
 | thread_colors | int | 1-15 | "Maximum 15 thread colors supported" |
 | head_count | int | 1-21 | "Head count must be 1-21" |
 | target_quantity | int | ≥1 | "Quantity must be at least 1" |
-| deadline | date | ≥today | "Deadline cannot be in the past" |
-| working_hours | float | 0.5-24 | "Working hours must be 0.5-24" |
+| working_hours | float | 1-24 | "Working hours must be 1-24" |
+| working_days | int | 1-31 | "Working days must be 1-31" |
 | efficiency | float | 0.5-1.0 | "Efficiency must be 50-100%" |
-| operators | int | 1-10000 | "Operators must be 1-10,000" |
-| floor_area | float | >0 | "Floor area must be positive" |
+| floor_width | float | > 0 | "Floor width must be positive" |
+| floor_length | float | > 0 | "Floor length must be positive" |
 
 ## 6.2 Business Rule Engine
 
 ### Capacity Validation
 ```typescript
 interface CapacityValidation {
-  rule: "HEAD_COUNT_CAPACITY";
+  rule: "OPERATOR_CAPACITY";
   check: (params) => {
-    const maxOutput = params.headCount * params.machineSpeed * params.workingHours;
-    const requiredOutput = params.targetQuantity / params.availableDays;
-    return maxOutput >= requiredOutput;
+    const dailyOutput = (params.operators * params.workingMinutes * params.efficiency) / params.smv;
+    const requiredDaily = params.targetQuantity / params.workingDays;
+    return dailyOutput >= requiredDaily;
   };
   severity: "error" | "warning";
   message: string;
@@ -557,10 +637,11 @@ IF efficiency >= 0.8 THEN severity = "success"
 |--------|------|-------------|
 | id | uuid | PK |
 | name | varchar(100) | NOT NULL |
-| category | enum | 'sewing', 'embroidery', 'cutting', 'finishing' |
-| default_speed | int | |
+| category | enum | 'sewing', 'embroidery', 'cutting', 'finishing', 'fusing' |
+| default_smv | float | SMV for the machine type |
 | default_efficiency | float | |
 | specifications | jsonb | |
+| project_id | uuid | FK → projects, nullable (null = global preset) |
 | is_active | boolean | default true |
 
 ## 7.2 Row Level Security
@@ -620,45 +701,40 @@ POST   /api/dashboards/:id/duplicate
 
 ## 8.2 Request/Response Examples
 
-### Embroidery Calculation Request
+### Sewing Machine Calculation Request
 ```json
 {
   "projectId": "uuid",
   "parameters": {
-    "punchCount": 5000,
-    "threadColors": 3,
-    "headCount": 12,
-    "machineSpeed": 800,
-    "targetQuantity": 10000,
-    "workingHoursPerDay": 8,
-    "deadline": "2026-03-15",
-    "efficiencyFactor": 0.85
+    "machineTypeId": "mt-001",
+    "smv": 24.5,
+    "numberOfOperators": 90,
+    "workingHoursPerDay": 9,
+    "duration": "monthly",
+    "workingDays": 26,
+    "efficiencyFactor": 0.80,
+    "targetQuantity": 40000
   }
 }
 ```
 
-### Embroidery Calculation Response
+### Sewing Machine Calculation Response
 ```json
 {
   "id": "calc-uuid",
-  "type": "embroidery",
+  "type": "sewing",
   "results": {
-    "machinesRequired": 4,
-    "totalProductionDays": 12,
-    "dailyOutput": 834,
-    "utilizationRate": 0.92,
-    "timePerPiece": {
-      "stitching": 6.25,
-      "colorChanges": 1.5,
-      "total": 7.75
-    },
+    "machinesRequired": 90,
+    "dailyOutput": 1585,
+    "utilizationRate": 0.80,
+    "costEstimate": 48500,
     "validation": {
       "status": "valid",
       "warnings": [],
       "errors": []
     }
   },
-  "createdAt": "2026-02-02T18:30:00Z"
+  "createdAt": "2026-02-27T08:30:00Z"
 }
 ```
 
@@ -856,7 +932,7 @@ Layout: editing → validated → exported
 
 ---
 
-## Phase 3: UI/UX Prototype
+## Phase 3: UI/UX Prototype ✅ (Current Phase — Mostly Complete)
 **Focus**: All pages, windows, flows, and states with mock data only
 
 ### Agile Loop
@@ -870,26 +946,14 @@ Layout: editing → validated → exported
 ```
 
 ### Deliverables
-- [ ] **Design System Components**: All Vision Pro-inspired components
-  - Glass cards, floating panels, pill navigation
-  - Input components (sliders, pickers, selectors)
-  - Data visualization components (gauges, charts, progress)
-  - Interactive elements (drag handles, tooltips, modals)
-- [ ] **Core Pages**:
-  - Dashboard (home with widgets)
-  - Machinery Calculator (with What-If playground)
-  - Floor Layout Planner (visual drag & drop)
-  - Analytics Dashboard (presentation mode)
-  - Settings & Profile
-- [ ] **All UI States**: Loading, empty, error, success
-- [ ] **Dark/Light Mode**: Full theme implementation
-- [ ] **Responsive Layouts**: Desktop-optimized with density options
-- [ ] **Animations & Transitions**: Micro-interactions, page transitions
-
-### Mock Data Strategy
-- All components use static JSON mock data
-- Mock data files in `/src/mocks/`
-- No API calls or database connections
+- [x] **Design System Components**: All Vision Pro-inspired components
+- [x] **Machine Requirement Calculator**: 3-tab UI (Sewing/Embroidery/Fusing), VISION formulas, What-If playground
+- [x] **Floor Layout Calculator**: Visual section calculator, static canvas
+- [x] **Client Dashboard**: Presentation-ready layout
+- [x] **Analytics & History**: Project history and data reuse
+- [x] **All UI States**: Loading, empty, error, success
+- [x] **Dark/Light Mode**: Full theme implementation
+- [x] **Animations & Transitions**: Micro-interactions, page transitions
 
 ### Exit Criteria
 - All pages navigable and visually complete
@@ -907,13 +971,13 @@ Layout: editing → validated → exported
   - organizations, users, projects
   - calculations, scenarios
   - floor_layouts, dashboards, dashboard_widgets
-  - machine_types (seed data)
+  - machine_types (with default_smv, project_id — seed data from VISION preset list)
 - [ ] **Relationships**: All foreign keys and cascades
 - [ ] **Constraints**: NOT NULL, CHECK, UNIQUE as needed
 - [ ] **Indexes**: Performance indexes for common queries
 - [ ] **Row Level Security**: Organization isolation policies
 - [ ] **Migrations**: Versioned migration files
-- [ ] **Seed Data**: Initial machine types, sample data for testing
+- [ ] **Seed Data**: VISION standard machine types, sample project data
 
 ### Exit Criteria
 - All tables created in Supabase
@@ -923,8 +987,36 @@ Layout: editing → validated → exported
 
 ---
 
-## Phase 5: Backend Logic
-**Focus**: Feature implementation with full integration
+## Phase 5: Backend Logic (Sprint-Based Delivery)
+**Focus**: Feature implementation with full integration, delivered in agile sprints
+
+### Sprint 1: Machine Requirement Calculator (Quotation Module)
+> **Timeline**: 6 weeks (3 × 2-week sprints) per quotation
+> **Priority**: This is the quoted deliverable
+
+| Sprint | Deliverable |
+|--------|-------------|
+| Sprint 1.1 | Sewing calculation engine + VISION formulas + database persistence |
+| Sprint 1.2 | Embroidery + Fusing calculation engines + validation rules |
+| Sprint 1.3 | Machine type CRUD + What-If scenarios + data export (PNG/PDF/Excel) |
+
+### Sprint 2: Floor Layout Calculator
+| Sprint | Deliverable |
+|--------|-------------|
+| Sprint 2.1 | Section sizing engine + product type → section mapping |
+| Sprint 2.2 | Visual rendering + repositioning + export |
+
+### Sprint 3: Client Dashboard & Analytics
+| Sprint | Deliverable |
+|--------|-------------|
+| Sprint 3.1 | Client dashboard with project-scoped data |
+| Sprint 3.2 | Analytics & history — search, filter, data reuse |
+
+### Sprint 4: Authentication & Integration
+| Sprint | Deliverable |
+|--------|-------------|
+| Sprint 4.1 | Supabase Auth + user profiles + organization context |
+| Sprint 4.2 | Replace all mock data with real API calls |
 
 ### Agile Loop
 ```
@@ -935,42 +1027,6 @@ Layout: editing → validated → exported
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
-
-### Deliverables by Feature Group
-
-#### 5.1 Authentication & User Management
-- [ ] Supabase Auth integration
-- [ ] User profile management
-- [ ] Organization context
-- [ ] Role-based access
-
-#### 5.2 Machinery Calculator
-- [ ] Basic machine calculation engine
-- [ ] Embroidery calculation (with head count logic)
-- [ ] Validation rule engine
-- [ ] What-If scenario management
-- [ ] Results persistence
-
-#### 5.3 Floor Layout Planner
-- [ ] Space calculation engine
-- [ ] Department positioning logic
-- [ ] Bottleneck detection algorithms
-- [ ] Flow efficiency scoring
-- [ ] Layout save/load operations
-- [ ] Export (PNG/PDF)
-
-#### 5.4 Analytics Dashboard
-- [ ] Dashboard CRUD operations
-- [ ] Widget data binding
-- [ ] Real-time updates (Supabase Realtime)
-- [ ] Presentation mode logic
-- [ ] Dashboard templates
-
-#### 5.5 Projects & Data Management
-- [ ] Project CRUD
-- [ ] Calculation history
-- [ ] Data export/import
-- [ ] Search functionality
 
 ### Testing Strategy
 | Test Type | Tool | Coverage Target |
@@ -1021,6 +1077,6 @@ Layout: editing → validated → exported
 
 ---
 
-**Document Version**: 1.1  
-**Last Updated**: 2026-02-03  
-**Status**: Draft - Pending Approval
+**Document Version**: 2.0  
+**Last Updated**: 2026-02-27  
+**Status**: Active

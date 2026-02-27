@@ -1,9 +1,9 @@
-# APPAREL Requirements Tracker
+# VISION Intelligence Requirements Tracker
 > **Single Source of Truth** for all project requirements
 
-**Last Updated**: 2026-02-06  
-**Current Phase**: Phase 3 - UI/UX Prototype  
-**Overall Progress**: 45%
+**Last Updated**: 2026-02-27  
+**Current Phase**: Phase 3 - UI/UX Prototype (Mostly Complete)  
+**Overall Progress**: 48%
 
 ---
 
@@ -155,11 +155,14 @@
 | **P3-INP-001** | Text Input (floating label, validation) | §4.3 | UI | ✅ Done |
 | **P3-INP-002** | Number Input (+/- buttons, slider sync) | §4.3 | UI | ✅ Done |
 | **P3-INP-003** | Select (searchable, grouped options) | §4.3 | UI | ✅ Done |
-| **P3-INP-004** | Date Picker (calendar popup, range) | §4.3 | UI | ✅ Done |
-| **P3-INP-005** | Time Picker (12/24hr, duration mode) | §4.3 | UI | ✅ Done |
+| **P3-INP-004** | ~~Date Picker (calendar popup, range)~~ | §4.3 | UI | ❌ Removed (v2.0) |
+| **P3-INP-005** | ~~Time Picker (12/24hr, duration mode)~~ | §4.3 | UI | ❌ Removed (v2.0) |
 | **P3-INP-006** | Slider (range, marks, value tooltip) | §4.3 | UI | ✅ Done |
-| **P3-INP-007** | Color Picker (grid selection for threads) | §4.3, §3.1 | UI | ✅ Done |
-| **P3-INP-008** | Toggle (animated switch) | §4.3 | UI | ✅ Done |
+| **P3-INP-007** | ~~Color Picker (grid selection for threads)~~ | §4.3, §3.1 | UI | ❌ Removed (v2.0) — thread colors now number counter |
+| **P3-INP-008** | Toggle (animated switch — Sat/Sun) | §4.3 | UI | ✅ Done |
+| **P3-INP-009** | Dimension Input (Width × Length pair) | §4.3 | UI | ✅ Done (v2.0) |
+| **P3-INP-010** | Duration Select (Daily/Weekly/Monthly) | §4.3 | UI | ✅ Done (v2.0) |
+| **P3-INP-011** | Machine Type CRUD (Add/Edit/Delete per project) | §3.1.3 | UI | ✅ Done (v2.0 mock) |
 
 ### 3.1.4 Display Components
 
@@ -211,49 +214,56 @@
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
-| **P3-PG-CALC-001** | Machinery calculator page layout | §3.1 | UI | ✅ Done |
-| **P3-PG-CALC-002** | Machine Type searchable dropdown | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-001** | Machine Requirement Calculator page layout | §3.1 | UI | ✅ Done |
+| **P3-PG-CALC-002** | Machine Type searchable dropdown (with CRUD) | §3.1.2, §3.1.3 | UI | ✅ Done |
 | **P3-PG-CALC-003** | Target Quantity input + slider | §3.1.2 | UI | ✅ Done |
-| **P3-PG-CALC-004** | Working Hours/Day time picker | §3.1.2 | UI | ✅ Done |
-| **P3-PG-CALC-005** | Deadline calendar picker | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-004** | Working Hours/Day number input | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-005** | ~~Deadline calendar picker~~ | §3.1.2 | UI | ❌ Removed (v2.0) |
 | **P3-PG-CALC-006** | Efficiency Factor slider with tooltip | §3.1.2 | UI | ✅ Done |
 | **P3-PG-CALC-007** | Punch Count input + visual scale (embroidery) | §3.1.2 | UI | ✅ Done |
-| **P3-PG-CALC-008** | Thread Colors picker grid (embroidery) | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-008** | ~~Thread Colors picker grid (embroidery)~~ — now number counter | §3.1.2 | UI | ✅ Done (v2.0) |
 | **P3-PG-CALC-009** | Head Count visual selector (embroidery) | §3.1.2 | UI | ✅ Done |
-| **P3-PG-CALC-010** | Machine Speed SPM preset + custom (embroidery) | §3.1.2 | UI | ✅ Done |
-| **P3-PG-CALC-011** | Machines Required output (large number + icons) | §3.1.3 | UI | ✅ Done |
-| **P3-PG-CALC-012** | Production Timeline output (Gantt bar) | §3.1.3 | UI | ✅ Done |
-| **P3-PG-CALC-013** | Daily Output Rate output (progress arc) | §3.1.3 | UI | ✅ Done |
-| **P3-PG-CALC-014** | Utilization Rate output (gauge chart) | §3.1.3 | UI | ✅ Done |
-| **P3-PG-CALC-015** | Cost Estimate output (currency + breakdown) | §3.1.3 | UI | ✅ Done |
-| **P3-PG-CALC-016** | What-If dynamic sliders (real-time update) | §3.1.4, §5.1 | UI | ✅ Done |
-| **P3-PG-CALC-017** | Comparison cards (up to 4 scenarios) | §3.1.4, §5.1 | UI | ✅ Done |
-| **P3-PG-CALC-018** | Impact indicators (+/- color coding) | §3.1.4, §5.1 | UI | ✅ Done |
-| **P3-PG-CALC-019** | Validation warnings display | §3.1.5 | UI | ✅ Done |
+| **P3-PG-CALC-010** | Machine Speed SPM preset + custom (embroidery only) | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-011** | Machines Required output (large number + icons) | §3.1.4 | UI | ✅ Done |
+| **P3-PG-CALC-012** | ~~Production Timeline output (Gantt bar)~~ | §3.1.4 | UI | ❌ Removed (v2.0) |
+| **P3-PG-CALC-013** | Daily Output Rate output (progress bar) | §3.1.4 | UI | ✅ Done |
+| **P3-PG-CALC-014** | Utilization Rate output (gauge chart) | §3.1.4 | UI | ✅ Done |
+| **P3-PG-CALC-015** | Cost Estimate output (currency + breakdown) | §3.1.4 | UI | ✅ Done |
+| **P3-PG-CALC-016** | What-If dynamic sliders (real-time update) | §3.1.5, §5.1 | UI | ✅ Done |
+| **P3-PG-CALC-017** | Comparison cards (up to 4 scenarios) | §3.1.5, §5.1 | UI | ✅ Done |
+| **P3-PG-CALC-018** | Impact indicators (+/- color coding) | §3.1.5, §5.1 | UI | ✅ Done |
+| **P3-PG-CALC-019** | Validation warnings display | §3.1.7 | UI | ✅ Done |
+| **P3-PG-CALC-020** | SMV (Standard Minute Value) input + slider | §3.1.2 | UI | ✅ Done (v2.0) |
+| **P3-PG-CALC-021** | Number of Operators input + slider | §3.1.2 | UI | ✅ Done (v2.0) |
+| **P3-PG-CALC-022** | Duration dropdown (daily/weekly/monthly) | §3.1.2 | UI | ✅ Done (v2.0) |
+| **P3-PG-CALC-023** | Working Days input + Sat/Sun toggle | §3.1.2 | UI | ✅ Done (v2.0) |
+| **P3-PG-CALC-024** | Fusing tab (Product Category, Time/Piece, Daily Qty) | §3.1.2 | UI | ✅ Done (v2.0) |
+| **P3-PG-CALC-025** | Handling Time Per Piece (embroidery) | §3.1.2 | UI | ✅ Done (v2.0) |
+| **P3-PG-CALC-026** | Data Export (PNG/PDF/Excel) | §3.1.6 | UI | ⬜ To Do |
 
-### 3.2.3 Floor Layout Planner
+### 3.2.3 Floor Layout Calculator
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
-| **P3-PG-FLOOR-001** | Floor layout planner page layout | §3.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-002** | Total Operators slider + input | §3.2.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-003** | Product Type visual card select | §3.2.2, §3.2.3 | UI | ✅ Done |
-| **P3-PG-FLOOR-004** | Working Hours time picker | §3.2.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-005** | Building Floors stack visual | §3.2.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-006** | Floor Dimensions input | §3.2.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-007** | Grid canvas (zoomable, pannable) | §5.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-008** | Department palette (drag blocks) | §5.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-009** | Department blocks with icons/colors | §5.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-001** | Floor layout calculator page layout | §3.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-002** | Total Operators slider + input | §3.2.3 | UI | ✅ Done |
+| **P3-PG-FLOOR-003** | Product Type visual card select | §3.2.3 | UI | ✅ Done |
+| **P3-PG-FLOOR-004** | ~~Working Hours time picker~~ | §3.2 | UI | ❌ Removed (v2.0) |
+| **P3-PG-FLOOR-005** | Building Floors stack visual | §3.2.3 | UI | ✅ Done |
+| **P3-PG-FLOOR-006** | Floor Dimensions input (Width × Length) | §3.2.3 | UI | ✅ Done |
+| **P3-PG-FLOOR-007** | Static canvas (fit-to-container, no scroll) | §3.2.5 | UI | ✅ Done (v2.0) |
+| **P3-PG-FLOOR-008** | Section blocks (proportional rendering) | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-009** | Section blocks with colors | §3.2.5 | UI | ✅ Done |
 | **P3-PG-FLOOR-010** | Auto-snap to grid | §3.2.5 | UI | ✅ Done |
-| **P3-PG-FLOOR-011** | Flow arrows (material flow) | §3.2.5 | UI | ✅ Done |
-| **P3-PG-FLOOR-012** | Collision detection (overlap prevention) | §3.2.5 | UI | ✅ Done |
-| **P3-PG-FLOOR-013** | Multi-floor view (tabs or 3D isometric) | §3.2.5, §5.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-014** | Zoom & pan canvas controls | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-011** | ~~Flow arrows (material flow)~~ | §3.2 | UI | ⏸️ Deferred |
+| **P3-PG-FLOOR-012** | ~~Collision detection~~ | §3.2 | UI | ⏸️ Deferred |
+| **P3-PG-FLOOR-013** | Multi-floor view (tabs) | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-014** | ~~Zoom & pan canvas~~ (now static fit-to-container) | §3.2.5 | UI | ❌ Removed (v2.0) |
 | **P3-PG-FLOOR-015** | Export layout (PNG/PDF) | §3.2.5 | UI | ✅ Done |
-| **P3-PG-FLOOR-016** | Templates (pre-built layouts) | §5.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-017** | Measurement tool | §5.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-018** | Bottleneck detection overlay | §3.2.6, §5.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-019** | Validation warnings display | §3.2.6 | UI | ✅ Done |
+| **P3-PG-FLOOR-016** | ~~Templates (pre-built layouts)~~ | §3.2 | UI | ⏸️ Deferred |
+| **P3-PG-FLOOR-017** | ~~Measurement tool~~ | §3.2 | UI | ⏸️ Deferred |
+| **P3-PG-FLOOR-018** | ~~Bottleneck detection overlay~~ | §3.2 | UI | ⏸️ Deferred |
+| **P3-PG-FLOOR-019** | Percentage labels (section share of total area) | §3.2.5 | UI | ✅ Done (v2.0) |
 
 ### 3.2.4 Analytics Dashboard
 
@@ -472,14 +482,14 @@
 
 # Progress Summary
 
-| Phase | Total | ⬜ To Do | 🔄 In Progress | 🧪 Code Test | 🧑‍💻 User Test | ✅ Done | % Complete |
-|-------|-------|---------|----------------|--------------|---------------|--------|------------|
-| Phase 1: Skeleton | 8 | 0 | 0 | - | - | 8 | 100% |
-| Phase 2: Domain | 22 | 6 | 0 | - | - | 16 | 73% |
-| Phase 3: UI/UX | 76 | 54 | 0 | - | 9 | 13 | 29% |
-| Phase 4: Database | 15 | 15 | 0 | - | - | 0 | 0% |
+| Phase | Total | ⬜ To Do | 🔄 In Progress | ❌ Removed | ⏸️ Deferred | ✅ Done | % Complete |
+|-------|-------|---------|----------------|-----------|-------------|--------|------------|
+| Phase 1: Skeleton | 8 | 0 | 0 | 0 | 0 | 8 | 100% |
+| Phase 2: Domain | 22 | 0 | 0 | 0 | 0 | 22 | 100% |
+| Phase 3: UI/UX | 84 | 2 | 0 | 6 | 4 | 72 | 86% |
+| Phase 4: Database | 15 | 15 | 0 | 0 | 0 | 0 | 0% |
 | Phase 5: Backend | 48 | 48 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **170** | **124** | **0** | **0** | **9** | **37** | **27%** |
+| **TOTAL** | **177** | **65** | **0** | **6** | **4** | **102** | **58%** |
 
 ---
 
@@ -493,6 +503,7 @@
 | 2026-02-03 | 1.3 | Phase 2.1: Entities completed (P2-ENT-001 to P2-ENT-010) | Agent |
 | 2026-02-03 | 1.4 | Phase 2.2: State Machines completed (P2-STA-001 to P2-STA-003) | Agent |
 | 2026-02-03 | 1.5 | Phase 2.3: Events & Triggers completed (P2-EVT-001 to P2-EVT-003) | Agent |
+| 2026-02-27 | 2.0 | **v2.0 Pivot**: Renamed to VISION Intelligence. Marked removed items (Deadline, Color Picker, SPM basic, Production Timeline, Working Hours floor). Added new items (SMV, Operators, Duration, Working Days, Fusing tab, Machine CRUD). Updated Floor Layout to Calculator. Updated progress. | Agent |
 
 
 ---

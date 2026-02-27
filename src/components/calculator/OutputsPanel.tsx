@@ -1,10 +1,12 @@
 /**
  * OutputsPanel - Right panel showing calculation results with visualizations
- * @requirement P3-PG-CALC-011 to P3-PG-CALC-015
+ * Updated for VISION Intelligence v2.0
+ * Removed: Production Timeline, Time Per Piece
+ * Added: Capacity info for embroidery/fusing
  */
 
 import { forwardRef } from 'react';
-import { Clock, Activity } from 'lucide-react';
+import { Activity } from 'lucide-react';
 
 // UI Components
 import { GaugeChart } from '@components/ui/display/GaugeChart';
@@ -14,45 +16,40 @@ import { Progress } from '@components/ui/display/Progress';
 import {
   OutputCard,
   MachinesRequiredCard,
-  ProductionTimelineCard,
   CostBreakdownCard,
 } from './OutputCard';
 
 // Mock Data
-import { type CalculatorOutputs, mockCostBreakdown } from '@mocks/calculator';
+import { type CalculatorOutputs, type CalculationTab, mockCostBreakdown } from '@mocks/calculator';
 
 export interface OutputsPanelProps {
   outputs: CalculatorOutputs;
-  deadline: string;
+  activeTab: CalculationTab;
   className?: string;
 }
 
 export const OutputsPanel = forwardRef<HTMLDivElement, OutputsPanelProps>(
-  ({ outputs, deadline, className = '' }, ref) => {
+  ({ outputs, activeTab, className = '' }, ref) => {
     return (
       <div ref={ref} className={`flex flex-col gap-4 ${className}`}>
-        {/* Top Row: Machines Required + Timeline */}
+        {/* Top Row: Machines Required + Daily Output */}
         <div className="grid grid-cols-2 gap-4">
-          {/* P3-PG-CALC-011: Machines Required */}
+          {/* Machines Required */}
           <MachinesRequiredCard count={outputs.machinesRequired} />
 
-          {/* P3-PG-CALC-012: Production Timeline */}
-          <ProductionTimelineCard totalDays={outputs.totalProductionDays} deadline={deadline} />
-        </div>
-
-        {/* Middle Row: Daily Output + Utilization */}
-        <div className="grid grid-cols-2 gap-4">
-          {/* P3-PG-CALC-013: Daily Output Rate (progress arc) */}
+          {/* Daily Output */}
           <OutputCard title="Daily Output" icon={<Activity size={14} />}>
             <div className="flex items-end gap-4">
               <span className="text-3xl font-bold text-[var(--color-text-primary)]">
                 {outputs.dailyOutput.toLocaleString()}
               </span>
-              <span className="text-sm text-[var(--color-text-muted)] mb-1">pieces/day</span>
+              <span className="text-sm text-[var(--color-text-muted)] mb-1">
+                {activeTab === 'fusing' ? 'pcs/day capacity' : 'pieces/day'}
+              </span>
             </div>
             <div className="mt-3">
               <Progress
-                value={Math.min(100, outputs.dailyOutput / 15)}
+                value={Math.min(100, outputs.dailyOutput / 50)}
                 variant="bar"
                 color="secondary"
                 showValue={false}
@@ -60,8 +57,11 @@ export const OutputsPanel = forwardRef<HTMLDivElement, OutputsPanelProps>(
               />
             </div>
           </OutputCard>
+        </div>
 
-          {/* P3-PG-CALC-014: Utilization Rate (gauge chart) */}
+        {/* Middle Row: Utilization Rate + Extra Info */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Utilization Rate (gauge chart) */}
           <OutputCard title="Utilization Rate">
             <div className="flex justify-center -mt-2">
               <GaugeChart
@@ -75,37 +75,75 @@ export const OutputsPanel = forwardRef<HTMLDivElement, OutputsPanelProps>(
               />
             </div>
           </OutputCard>
+
+          {/* Tab-specific extra info */}
+          {activeTab === 'embroidery' && outputs.stitchingTimePerPiece !== undefined ? (
+            <OutputCard title="Embroidery Details">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-[var(--color-text-muted)]">Stitch Time</span>
+                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">
+                    {outputs.stitchingTimePerPiece.toFixed(2)} min
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-[var(--color-text-muted)]">Output / Head</span>
+                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">
+                    {outputs.outputPerHead?.toLocaleString()} pcs
+                  </span>
+                </div>
+                <div className="pt-2 border-t border-[var(--color-glass-border)] flex justify-between items-center">
+                  <span className="text-sm font-medium text-[var(--color-text-secondary)]">
+                    Output / Machine
+                  </span>
+                  <span className="text-lg font-bold text-[var(--color-primary)]">
+                    {outputs.outputPerMachine?.toLocaleString()} pcs
+                  </span>
+                </div>
+              </div>
+            </OutputCard>
+          ) : activeTab === 'fusing' && outputs.capacityPerMachine !== undefined ? (
+            <OutputCard title="Fusing Details">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-[var(--color-text-muted)]">Capacity / Machine</span>
+                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">
+                    {outputs.capacityPerMachine.toLocaleString()} pcs/day
+                  </span>
+                </div>
+              </div>
+            </OutputCard>
+          ) : (
+            <OutputCard title="Production Summary">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-[var(--color-text-muted)]">Machines</span>
+                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">
+                    {outputs.machinesRequired}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-[var(--color-text-muted)]">Daily Output</span>
+                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">
+                    {outputs.dailyOutput.toLocaleString()}
+                  </span>
+                </div>
+                <div className="pt-2 border-t border-[var(--color-glass-border)] flex justify-between items-center">
+                  <span className="text-sm font-medium text-[var(--color-text-secondary)]">
+                    Efficiency
+                  </span>
+                  <span className="text-lg font-bold text-[var(--color-primary)]">
+                    {Math.round(outputs.utilizationRate * 100)}%
+                  </span>
+                </div>
+              </div>
+            </OutputCard>
+          )}
         </div>
 
-        {/* Bottom Row: Time per Piece + Cost Breakdown */}
-        <div className="grid grid-cols-2 gap-4">
-          {/* Time per Piece breakdown */}
-          <OutputCard title="Time per Piece" icon={<Clock size={14} />}>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[var(--color-text-muted)]">Stitching</span>
-                <span className="text-sm font-semibold text-[var(--color-text-primary)]">
-                  {outputs.timePerPiece.stitching.toFixed(2)} min
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[var(--color-text-muted)]">Color Changes</span>
-                <span className="text-sm font-semibold text-[var(--color-text-primary)]">
-                  {outputs.timePerPiece.colorChanges.toFixed(2)} min
-                </span>
-              </div>
-              <div className="pt-2 border-t border-[var(--color-glass-border)] flex justify-between items-center">
-                <span className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Total
-                </span>
-                <span className="text-lg font-bold text-[var(--color-primary)]">
-                  {outputs.timePerPiece.total.toFixed(2)} min
-                </span>
-              </div>
-            </div>
-          </OutputCard>
-
-          {/* P3-PG-CALC-015: Cost Estimate */}
+        {/* Bottom Row: Cost Breakdown */}
+        <div className="grid grid-cols-1 gap-4">
+          {/* Cost Estimate */}
           <CostBreakdownCard total={outputs.costEstimate} categories={mockCostBreakdown} />
         </div>
       </div>

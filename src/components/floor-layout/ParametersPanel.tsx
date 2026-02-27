@@ -3,13 +3,12 @@
  * Left sidebar with all floor layout input parameters
  * @requirement P3-PG-FLOOR-002 Total Operators slider + input
  * @requirement P3-PG-FLOOR-003 Product Type visual card select
- * @requirement P3-PG-FLOOR-004 Working Hours time picker
  * @requirement P3-PG-FLOOR-005 Building Floors stack visual
- * @requirement P3-PG-FLOOR-006 Floor Dimensions input
+ * @requirement P3-PG-FLOOR-006 Floor Dimensions input (Width × Length)
  */
 
 import { motion } from 'framer-motion';
-import { Layers, Ruler, Users, Clock, Package } from 'lucide-react';
+import { Layers, Ruler, Users, Package } from 'lucide-react';
 import { NumberInput } from '@components/ui/inputs/NumberInput';
 import { Slider } from '@components/ui/inputs/Slider';
 import { productTypes, type FloorLayoutInputs } from '@mocks/floor-layout';
@@ -87,11 +86,10 @@ export function ParametersPanel({
               onClick={() => onInputChange('productTypeId', pt.id)}
               className={`
                                 p-2 rounded-lg text-left transition-all border
-                                ${
-                                  inputs.productTypeId === pt.id
-                                    ? 'bg-primary/5 border-primary/50 shadow-sm'
-                                    : 'bg-surface border-transparent hover:border-glass-border hover:bg-white'
-                                }
+                                ${inputs.productTypeId === pt.id
+                  ? 'bg-primary/5 border-primary/50 shadow-sm'
+                  : 'bg-surface border-transparent hover:border-glass-border hover:bg-white'
+                }
                             `}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
@@ -145,44 +143,6 @@ export function ParametersPanel({
         />
       </div>
 
-      {/* Working Hours - P3-PG-FLOOR-004 */}
-      <div className="card-float p-3">
-        <label className="flex items-center gap-2 text-xs font-semibold text-text-primary mb-2">
-          <Clock size={14} className="text-accent" />
-          Work Hours
-        </label>
-
-        <div className="flex flex-col gap-2">
-          <NumberInput
-            label=""
-            value={inputs.workingHours}
-            onChange={v => onInputChange('workingHours', v)}
-            min={1}
-            max={24}
-            step={0.5}
-            size="sm"
-            className="w-full"
-          />
-          <div className="grid grid-cols-4 gap-1">
-            {[8, 10, 12, 16].map(hours => (
-              <button
-                key={hours}
-                onClick={() => onInputChange('workingHours', hours)}
-                className={`
-                                    py-1 rounded-md text-[10px] font-medium transition-all border border-transparent
-                                    ${
-                                      inputs.workingHours === hours
-                                        ? 'bg-accent text-white shadow-sm'
-                                        : 'bg-surface text-text-secondary hover:bg-glass-heavy border-glass-border'
-                                    }
-                                `}
-              >
-                {hours}h
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Building Floors - P3-PG-FLOOR-005 */}
       <div className="card-float p-3">
@@ -253,7 +213,7 @@ export function ParametersPanel({
               className="w-full"
             />
             <NumberInput
-              label="height"
+              label="length"
               value={inputs.floorHeight}
               onChange={v => onInputChange('floorHeight', v)}
               min={20}

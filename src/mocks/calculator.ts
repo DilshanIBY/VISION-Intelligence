@@ -1,19 +1,21 @@
 /**
  * Machinery Calculator Mock Data
  * Mock data for Phase 3 UI prototype - no real API calls
+ * Updated for VISION Intelligence v2.0 requirements
  * @requirement P3-PG-CALC-001 to P3-PG-CALC-019
  */
 
 // =====================================================
-// Machine Types for Dropdown
+// Machine Types for Dropdown (CRUD-capable)
 // =====================================================
 
 export interface MockMachineType {
   id: string;
   name: string;
-  category: 'sewing' | 'embroidery' | 'cutting' | 'finishing';
-  defaultSpeed: number;
+  category: 'sewing' | 'embroidery' | 'cutting' | 'finishing' | 'fusing';
+  defaultSMV: number;
   defaultEfficiency: number;
+  isCustom?: boolean;
 }
 
 export const mockMachineTypes: MockMachineType[] = [
@@ -22,51 +24,51 @@ export const mockMachineTypes: MockMachineType[] = [
     id: 'mt-001',
     name: 'Single Needle Lockstitch',
     category: 'sewing',
-    defaultSpeed: 5000,
-    defaultEfficiency: 0.85,
+    defaultSMV: 24.5,
+    defaultEfficiency: 0.80,
   },
   {
     id: 'mt-002',
     name: 'Double Needle Lockstitch',
     category: 'sewing',
-    defaultSpeed: 4500,
-    defaultEfficiency: 0.82,
+    defaultSMV: 18.0,
+    defaultEfficiency: 0.80,
   },
   {
     id: 'mt-003',
     name: 'Overlock 3-Thread',
     category: 'sewing',
-    defaultSpeed: 7000,
-    defaultEfficiency: 0.88,
+    defaultSMV: 12.0,
+    defaultEfficiency: 0.85,
   },
   {
     id: 'mt-004',
     name: 'Overlock 5-Thread',
     category: 'sewing',
-    defaultSpeed: 6500,
-    defaultEfficiency: 0.85,
+    defaultSMV: 14.0,
+    defaultEfficiency: 0.82,
   },
   {
     id: 'mt-005',
     name: 'Flatlock/Coverstitch',
     category: 'sewing',
-    defaultSpeed: 5500,
-    defaultEfficiency: 0.8,
+    defaultSMV: 16.0,
+    defaultEfficiency: 0.80,
   },
-  { id: 'mt-006', name: 'Bartack', category: 'sewing', defaultSpeed: 3000, defaultEfficiency: 0.9 },
+  { id: 'mt-006', name: 'Bartack', category: 'sewing', defaultSMV: 5.0, defaultEfficiency: 0.90 },
   {
     id: 'mt-007',
     name: 'Button Attach',
     category: 'sewing',
-    defaultSpeed: 1500,
-    defaultEfficiency: 0.92,
+    defaultSMV: 8.0,
+    defaultEfficiency: 0.88,
   },
   {
     id: 'mt-008',
     name: 'Buttonhole',
     category: 'sewing',
-    defaultSpeed: 1200,
-    defaultEfficiency: 0.9,
+    defaultSMV: 6.0,
+    defaultEfficiency: 0.85,
   },
 
   // Embroidery Machines
@@ -74,36 +76,36 @@ export const mockMachineTypes: MockMachineType[] = [
     id: 'mt-101',
     name: 'Barudan BEXT-S1501C',
     category: 'embroidery',
-    defaultSpeed: 1000,
-    defaultEfficiency: 0.85,
+    defaultSMV: 0,
+    defaultEfficiency: 0.80,
   },
   {
     id: 'mt-102',
     name: 'Barudan BEXT-S1506C',
     category: 'embroidery',
-    defaultSpeed: 950,
-    defaultEfficiency: 0.83,
+    defaultSMV: 0,
+    defaultEfficiency: 0.80,
   },
   {
     id: 'mt-103',
     name: 'SWF MA-6',
     category: 'embroidery',
-    defaultSpeed: 1100,
-    defaultEfficiency: 0.82,
+    defaultSMV: 0,
+    defaultEfficiency: 0.80,
   },
   {
     id: 'mt-104',
     name: 'Brother PR1050X',
     category: 'embroidery',
-    defaultSpeed: 1000,
-    defaultEfficiency: 0.85,
+    defaultSMV: 0,
+    defaultEfficiency: 0.80,
   },
   {
     id: 'mt-105',
     name: 'Tajima TFMX-IIC',
     category: 'embroidery',
-    defaultSpeed: 1200,
-    defaultEfficiency: 0.88,
+    defaultSMV: 0,
+    defaultEfficiency: 0.85,
   },
 
   // Cutting Machines
@@ -111,21 +113,21 @@ export const mockMachineTypes: MockMachineType[] = [
     id: 'mt-201',
     name: 'Auto Cutter - Single Ply',
     category: 'cutting',
-    defaultSpeed: 0,
-    defaultEfficiency: 0.95,
+    defaultSMV: 30.0,
+    defaultEfficiency: 0.90,
   },
   {
     id: 'mt-202',
     name: 'Auto Cutter - Multi Ply',
     category: 'cutting',
-    defaultSpeed: 0,
-    defaultEfficiency: 0.92,
+    defaultSMV: 22.0,
+    defaultEfficiency: 0.88,
   },
   {
     id: 'mt-203',
     name: 'Band Knife',
     category: 'cutting',
-    defaultSpeed: 0,
+    defaultSMV: 15.0,
     defaultEfficiency: 0.85,
   },
 
@@ -134,22 +136,31 @@ export const mockMachineTypes: MockMachineType[] = [
     id: 'mt-301',
     name: 'Steam Press',
     category: 'finishing',
-    defaultSpeed: 0,
-    defaultEfficiency: 0.9,
+    defaultSMV: 4.0,
+    defaultEfficiency: 0.90,
   },
   {
     id: 'mt-302',
-    name: 'Fusing Machine',
-    category: 'finishing',
-    defaultSpeed: 0,
-    defaultEfficiency: 0.92,
-  },
-  {
-    id: 'mt-303',
     name: 'Thread Trimmer',
     category: 'finishing',
-    defaultSpeed: 0,
-    defaultEfficiency: 0.95,
+    defaultSMV: 2.0,
+    defaultEfficiency: 0.92,
+  },
+
+  // Fusing Machines
+  {
+    id: 'mt-401',
+    name: 'Collar Fusing Machine',
+    category: 'fusing',
+    defaultSMV: 0,
+    defaultEfficiency: 0.90,
+  },
+  {
+    id: 'mt-402',
+    name: 'Interlining Fusing Machine',
+    category: 'fusing',
+    defaultSMV: 0,
+    defaultEfficiency: 0.88,
   },
 ];
 
@@ -171,66 +182,85 @@ export const embroiderySpeedPresets: SpeedPreset[] = [
 ];
 
 // =====================================================
-// Thread Color Palette
+// Duration Options
 // =====================================================
 
-export interface ThreadColor {
-  id: string;
-  name: string;
-  hex: string;
-}
+export type DurationType = 'daily' | 'weekly' | 'monthly';
 
-export const mockThreadColors: ThreadColor[] = [
-  { id: 'tc-01', name: 'Black', hex: '#1a1a1a' },
-  { id: 'tc-02', name: 'White', hex: '#ffffff' },
-  { id: 'tc-03', name: 'Red', hex: '#dc2626' },
-  { id: 'tc-04', name: 'Navy', hex: '#1e3a8a' },
-  { id: 'tc-05', name: 'Royal Blue', hex: '#2563eb' },
-  { id: 'tc-06', name: 'Forest Green', hex: '#166534' },
-  { id: 'tc-07', name: 'Gold', hex: '#ca8a04' },
-  { id: 'tc-08', name: 'Orange', hex: '#ea580c' },
-  { id: 'tc-09', name: 'Purple', hex: '#7c3aed' },
-  { id: 'tc-10', name: 'Pink', hex: '#ec4899' },
-  { id: 'tc-11', name: 'Gray', hex: '#6b7280' },
-  { id: 'tc-12', name: 'Brown', hex: '#78350f' },
-  { id: 'tc-13', name: 'Teal', hex: '#0d9488' },
-  { id: 'tc-14', name: 'Maroon', hex: '#881337' },
-  { id: 'tc-15', name: 'Silver', hex: '#94a3b8' },
+export const durationOptions: { value: DurationType; label: string; defaultDays: number }[] = [
+  { value: 'daily', label: 'Daily', defaultDays: 1 },
+  { value: 'weekly', label: 'Weekly', defaultDays: 6 },
+  { value: 'monthly', label: 'Monthly', defaultDays: 26 },
+];
+
+// =====================================================
+// Product Categories for Fusing
+// =====================================================
+
+export const fusingProductCategories = [
+  { value: 'trouser', label: 'Trouser' },
+  { value: 'shirt', label: 'Shirt' },
+  { value: 'tshirt', label: 'T-Shirt' },
+  { value: 'apron', label: 'Apron' },
+  { value: 'cap', label: 'Cap' },
 ];
 
 // =====================================================
 // Default Input Values
 // =====================================================
 
+export type CalculationTab = 'basic' | 'embroidery' | 'fusing';
+
 export interface CalculatorInputs {
-  // Basic
+  // Basic (Sewing)
   machineTypeId: string;
-  targetQuantity: number;
+  smv: number;
+  numberOfOperators: number;
   workingHoursPerDay: number;
-  deadline: string; // ISO date string
+  duration: DurationType;
+  workingDays: number;
+  saturdayWork: boolean;
+  sundayWork: boolean;
   efficiencyFactor: number;
+  targetQuantity: number;
   // Embroidery
   punchCount: number;
   threadColors: number;
-  selectedThreadColors: string[];
   headCount: number;
   machineSpeed: number;
+  handlingTimePerPiece: number;
+  // Fusing
+  fusingProductCategory: string;
+  fusingTimePerPiece: number;
+  fusingDailyQuantity: number;
   // Mode
-  isEmbroidery: boolean;
+  activeTab: CalculationTab;
 }
 
 export const defaultCalculatorInputs: CalculatorInputs = {
-  machineTypeId: 'mt-101',
-  targetQuantity: 10000,
-  workingHoursPerDay: 8,
-  deadline: '2026-03-15',
-  efficiencyFactor: 0.85,
+  // Basic (Sewing) defaults
+  machineTypeId: 'mt-001',
+  smv: 24.5,
+  numberOfOperators: 90,
+  workingHoursPerDay: 9,
+  duration: 'monthly',
+  workingDays: 26,
+  saturdayWork: true,
+  sundayWork: false,
+  efficiencyFactor: 0.80,
+  targetQuantity: 40000,
+  // Embroidery defaults
   punchCount: 5000,
   threadColors: 3,
-  selectedThreadColors: ['#ffffff', '#000000', '#dc2626'], // White, Black, Red
   headCount: 12,
   machineSpeed: 800,
-  isEmbroidery: true,
+  handlingTimePerPiece: 1.5,
+  // Fusing defaults
+  fusingProductCategory: 'shirt',
+  fusingTimePerPiece: 15,
+  fusingDailyQuantity: 2000,
+  // Mode
+  activeTab: 'basic',
 };
 
 // =====================================================
@@ -239,28 +269,22 @@ export const defaultCalculatorInputs: CalculatorInputs = {
 
 export interface CalculatorOutputs {
   machinesRequired: number;
-  totalProductionDays: number;
   dailyOutput: number;
   utilizationRate: number;
   costEstimate: number;
-  timePerPiece: {
-    stitching: number;
-    colorChanges: number;
-    total: number;
-  };
+  // Embroidery-specific
+  outputPerHead?: number;
+  outputPerMachine?: number;
+  stitchingTimePerPiece?: number;
+  // Fusing-specific
+  capacityPerMachine?: number;
 }
 
 export const mockCalculatorOutputs: CalculatorOutputs = {
-  machinesRequired: 4,
-  totalProductionDays: 12,
-  dailyOutput: 834,
-  utilizationRate: 0.92,
+  machinesRequired: 90,
+  dailyOutput: 1585,
+  utilizationRate: 0.80,
   costEstimate: 48500,
-  timePerPiece: {
-    stitching: 6.25,
-    colorChanges: 1.5,
-    total: 7.75,
-  },
 };
 
 // =====================================================
@@ -280,47 +304,39 @@ export const mockScenarios: Scenario[] = [
     id: 'baseline',
     name: 'Baseline',
     isBaseline: true,
-    // Clone defaults to include selectedThreadColors
     inputs: { ...defaultCalculatorInputs },
     outputs: {
-      machinesRequired: 4,
-      totalProductionDays: 12,
-      dailyOutput: 834,
-      utilizationRate: 0.92,
+      machinesRequired: 90,
+      dailyOutput: 1585,
+      utilizationRate: 0.80,
       costEstimate: 48500,
-      timePerPiece: { stitching: 6.25, colorChanges: 1.5, total: 7.75 },
     },
   },
   {
     id: 'scenario-a',
-    name: 'High Capacity',
+    name: 'High Efficiency',
     isBaseline: false,
     inputs: {
-      headCount: 21,
-      machineSpeed: 1000,
-      // Keep existing colors if undefined, but partial inputs handling might need attention in UI
+      efficiencyFactor: 0.90,
+      numberOfOperators: 120,
     },
     outputs: {
-      machinesRequired: 2,
-      totalProductionDays: 8,
-      dailyOutput: 1250,
-      utilizationRate: 0.88,
+      machinesRequired: 120,
+      dailyOutput: 2376,
+      utilizationRate: 0.90,
       costEstimate: 62000,
-      timePerPiece: { stitching: 5.0, colorChanges: 1.5, total: 6.5 },
     },
   },
   {
     id: 'scenario-b',
     name: 'Cost Optimized',
     isBaseline: false,
-    inputs: { headCount: 6, machineSpeed: 600 },
+    inputs: { numberOfOperators: 60, efficiencyFactor: 0.75 },
     outputs: {
-      machinesRequired: 6,
-      totalProductionDays: 18,
-      dailyOutput: 556,
-      utilizationRate: 0.78,
+      machinesRequired: 60,
+      dailyOutput: 991,
+      utilizationRate: 0.75,
       costEstimate: 35000,
-      timePerPiece: { stitching: 8.33, colorChanges: 1.5, total: 9.83 },
     },
   },
 ];
@@ -339,9 +355,9 @@ export interface ValidationWarning {
 export const mockValidationWarnings: ValidationWarning[] = [
   {
     id: 'warn-1',
-    severity: 'warning',
-    message: 'High color count (>8) significantly impacts production time',
-    field: 'threadColors',
+    severity: 'info',
+    message: 'Efficiency above 85% is excellent and may be optimistic for new setups',
+    field: 'efficiencyFactor',
   },
 ];
 
@@ -366,61 +382,135 @@ export const mockCostBreakdown: CostCategory[] = [
 
 // =====================================================
 // Mock Calculation Engine (for real-time updates)
+// Uses VISION Excel formulas
 // =====================================================
 
 export function calculateMockResults(inputs: CalculatorInputs): CalculatorOutputs {
-  // Guard against invalid inputs
-  const machineSpeed = Math.max(1, inputs.machineSpeed);
-  const headCount = Math.max(1, inputs.headCount);
-  const efficiencyFactor = Math.max(0.01, Math.min(1, inputs.efficiencyFactor));
-  const workingHours = Math.max(0.5, Math.min(24, inputs.workingHoursPerDay));
+  if (inputs.activeTab === 'embroidery') {
+    return calculateEmbroideryResults(inputs);
+  }
+  if (inputs.activeTab === 'fusing') {
+    return calculateFusingResults(inputs);
+  }
+  return calculateSewingResults(inputs);
+}
+
+/**
+ * Sewing Machine Calculation (VISION Formula):
+ * Daily_Output = (No_of_Operators × Working_Minutes / SMV) × Efficiency
+ * Machines_Required = ceil(Target_Quantity / (Daily_Output × Working_Days))
+ */
+function calculateSewingResults(inputs: CalculatorInputs): CalculatorOutputs {
+  const smv = Math.max(0.1, inputs.smv);
+  const operators = Math.max(1, inputs.numberOfOperators);
+  const efficiency = Math.max(0.01, Math.min(1, inputs.efficiencyFactor));
+  const workingMinutes = Math.max(1, inputs.workingHoursPerDay * 60);
+  const workingDays = Math.max(1, inputs.workingDays);
   const targetQuantity = Math.max(1, inputs.targetQuantity);
 
-  // Time per piece (minutes) — each head embroiders one piece at a time
-  // punchCount / machineSpeed = minutes of stitching per piece per head
-  const baseTime = inputs.punchCount / machineSpeed;
-  // ~30 seconds per color change
-  const colorChangeTime = (inputs.threadColors - 1) * 0.5;
-  const totalTimePerPiece = baseTime + colorChangeTime;
+  // Core formula: Daily output per operator line
+  const dailyOutput = Math.round((operators * workingMinutes * efficiency) / smv);
+  const totalOutput = dailyOutput * workingDays;
 
-  // Guard against zero/negative time per piece
-  const safeTimePerPiece = Math.max(0.01, totalTimePerPiece);
+  // Machines required (1 operator : 1 machine for sewing)
+  const machinesRequired = operators;
 
-  // Throughput: each machine has `headCount` heads working in parallel
-  // So pieces per hour = (60 / timePerPiece) × headCount × efficiency
-  const piecesPerHourPerMachine = (60 / safeTimePerPiece) * headCount * efficiencyFactor;
-  const piecesPerDayPerMachine = piecesPerHourPerMachine * workingHours;
+  // Utilization = actual demand vs capacity
+  const utilizationRate = Math.min(1, targetQuantity / Math.max(1, totalOutput));
 
-  // Calculate days until deadline
-  const today = new Date();
-  const deadline = new Date(inputs.deadline);
-  const availableDays = Math.max(
-    1,
-    Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-  );
-
-  const requiredDailyOutput = targetQuantity / availableDays;
-  const safeDailyPerMachine = Math.max(1, piecesPerDayPerMachine);
-  const machinesRequired = Math.max(1, Math.ceil(requiredDailyOutput / safeDailyPerMachine));
-
-  const actualDailyOutput = Math.round(machinesRequired * piecesPerDayPerMachine);
-  const safeActualDaily = Math.max(1, actualDailyOutput);
-  const actualDays = Math.ceil(targetQuantity / safeActualDaily);
-  const utilizationRate = requiredDailyOutput / (machinesRequired * safeDailyPerMachine);
-
-  const costPerMachineDay = 450; // Mock cost
-  const costEstimate = machinesRequired * actualDays * costPerMachineDay;
+  // Mock cost estimate
+  const costPerMachineDay = 200;
+  const costEstimate = machinesRequired * workingDays * costPerMachineDay;
 
   return {
     machinesRequired,
-    totalProductionDays: actualDays,
-    dailyOutput: actualDailyOutput,
-    utilizationRate: Math.min(1, Math.max(0, utilizationRate)),
+    dailyOutput,
+    utilizationRate: Math.round(utilizationRate * 100) / 100,
     costEstimate,
-    timePerPiece: {
-      stitching: Math.round(baseTime * 100) / 100,
-      colorChanges: Math.round(colorChangeTime * 100) / 100,
-      total: Math.round(safeTimePerPiece * 100) / 100,
-    },
+  };
+}
+
+/**
+ * Embroidery Capacity Calculation (VISION Formula):
+ * Stitching_Time = Punch_Count / Machine_Speed (minutes)
+ * Total_Time = Stitching_Time + Handling_Time
+ * Available_Minutes = Shift_Hours × 60 × Efficiency
+ * Output_Per_Head = Available_Minutes / Total_Time
+ * Output_Per_Machine = Output_Per_Head × Head_Count
+ * Machines_Required = ceil(Order_Quantity / Output_Per_Machine)
+ */
+function calculateEmbroideryResults(inputs: CalculatorInputs): CalculatorOutputs {
+  const machineSpeed = Math.max(1, inputs.machineSpeed);
+  const headCount = Math.max(1, inputs.headCount);
+  const efficiency = Math.max(0.01, Math.min(1, inputs.efficiencyFactor));
+  const workingHours = Math.max(0.5, inputs.workingHoursPerDay);
+  const targetQuantity = Math.max(1, inputs.targetQuantity);
+  const handlingTime = Math.max(0, inputs.handlingTimePerPiece);
+
+  // Time per piece (minutes)
+  const stitchingTime = inputs.punchCount / machineSpeed;
+  const totalTimePerPiece = stitchingTime + handlingTime;
+  const safeTime = Math.max(0.01, totalTimePerPiece);
+
+  // Available minutes per shift
+  const availableMinutes = workingHours * 60 * efficiency;
+
+  // Output calculations
+  const outputPerHead = availableMinutes / safeTime;
+  const outputPerMachine = outputPerHead * headCount;
+
+  // Machines required
+  const machinesRequired = Math.max(1, Math.ceil(targetQuantity / Math.max(1, outputPerMachine)));
+
+  const actualDailyOutput = Math.round(machinesRequired * outputPerMachine);
+  const utilizationRate = targetQuantity / (machinesRequired * Math.max(1, outputPerMachine));
+
+  const costPerMachineDay = 450;
+  const costEstimate = machinesRequired * costPerMachineDay;
+
+  return {
+    machinesRequired,
+    dailyOutput: actualDailyOutput,
+    utilizationRate: Math.min(1, Math.max(0, Math.round(utilizationRate * 100) / 100)),
+    costEstimate,
+    outputPerHead: Math.round(outputPerHead),
+    outputPerMachine: Math.round(outputPerMachine),
+    stitchingTimePerPiece: Math.round(stitchingTime * 100) / 100,
+  };
+}
+
+/**
+ * Fusing Machine Calculation (VISION Formula):
+ * Available_Seconds = Working_Hours × 3600 × (Efficiency / 100)
+ * Capacity_Per_Machine = Available_Seconds / Seconds_Per_Piece
+ * Machines_Required = ceil(Daily_Quantity / Capacity_Per_Machine)
+ */
+function calculateFusingResults(inputs: CalculatorInputs): CalculatorOutputs {
+  const efficiency = Math.max(0.01, Math.min(1, inputs.efficiencyFactor));
+  const workingHours = Math.max(0.5, inputs.workingHoursPerDay);
+  const secondsPerPiece = Math.max(1, inputs.fusingTimePerPiece);
+  const dailyQuantity = Math.max(1, inputs.fusingDailyQuantity);
+
+  // Available seconds per shift
+  const availableSeconds = workingHours * 3600 * efficiency;
+
+  // Capacity per machine
+  const capacityPerMachine = Math.floor(availableSeconds / secondsPerPiece);
+
+  // Machines required
+  const machinesRequired = Math.max(1, Math.ceil(dailyQuantity / Math.max(1, capacityPerMachine)));
+
+  const actualCapacity = machinesRequired * capacityPerMachine;
+  const utilizationRate = dailyQuantity / Math.max(1, actualCapacity);
+
+  const costPerMachine = 800;
+  const costEstimate = machinesRequired * costPerMachine;
+
+  return {
+    machinesRequired,
+    dailyOutput: actualCapacity,
+    utilizationRate: Math.min(1, Math.max(0, Math.round(utilizationRate * 100) / 100)),
+    costEstimate,
+    capacityPerMachine,
   };
 }

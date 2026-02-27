@@ -19,7 +19,6 @@ import {
   type Scenario,
   type ValidationWarning,
 } from '@mocks/calculator';
-import { validateThreadColorImpact } from '@/types/validation/calculation-schemas';
 
 export function MachineryCalculatorPage() {
   // Global UI State
@@ -45,15 +44,22 @@ export function MachineryCalculatorPage() {
     const newOutputs = calculateMockResults(inputs);
     setOutputs(newOutputs);
 
-    // Check validation rules
+    // Validation rules for new inputs
     const newWarnings: ValidationWarning[] = [];
-    const threadWarning = validateThreadColorImpact(inputs.threadColors);
-    if (threadWarning.warning) {
+    if (inputs.efficiencyFactor > 0.95) {
       newWarnings.push({
-        id: 'thread-colors',
-        severity: 'warning',
-        message: threadWarning.message!,
-        field: 'threadColors',
+        id: 'high-efficiency',
+        severity: 'info',
+        message: 'Efficiency above 95% is rarely achievable in practice',
+        field: 'efficiencyFactor',
+      });
+    }
+    if (inputs.activeTab === 'basic' && inputs.smv <= 0) {
+      newWarnings.push({
+        id: 'zero-smv',
+        severity: 'error',
+        message: 'SMV must be greater than 0',
+        field: 'smv',
       });
     }
     setWarnings(newWarnings);
@@ -147,7 +153,7 @@ export function MachineryCalculatorPage() {
                   <div className="w-10 h-10 rounded-[var(--radius-xl)] bg-gradient-to-br from-[var(--color-secondary)] to-[var(--color-secondary-dark)] flex items-center justify-center text-white shadow-md">
                     <Calculator size={20} />
                   </div>
-                  Machinery Calculator
+                  Machine Requirement Calculator
                 </h2>
                 <span className="text-xs text-text-muted mt-1 font-medium pl-14">
                   Calculate machine requirements • {isEditing ? 'Editing Layout' : 'View Mode'}
@@ -251,7 +257,7 @@ export function MachineryCalculatorPage() {
 
             {/* Right: Outputs Panel (60%) - Dictates the height */}
             <div className="ml-[40%] flex flex-col gap-4">
-              <OutputsPanel outputs={outputs} deadline={inputs.deadline} className="w-full" />
+              <OutputsPanel outputs={outputs} activeTab={inputs.activeTab} className="w-full" />
             </div>
           </div>
 

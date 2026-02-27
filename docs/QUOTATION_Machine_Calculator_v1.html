@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotation — UNIQUE Software Solutions</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --navy: #1a2744;
+      --blue-deep: #1e3a6e;
+      --blue-royal: #2952a3;
+      --blue-mid: #3b6dd6;
+      --blue-light: #5a8fee;
+      --blue-powder: #e8eef8;
+      --blue-tint: #f4f7fc;
+      --text-dark: #1a1a2e;
+      --text-body: #333344;
+      --text-muted: #6b7a8d;
+      --white: #ffffff;
+      --line: #d5dce8;
+      --line-light: #e8ecf2;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12.5px;
+      color: var(--text-body);
+      background: var(--white);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ═══════════════════════════════════════════
+       CORNER DECORATIONS
+       ═══════════════════════════════════════════ */
+    .corner-decor {
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Top Left: arc + circle cluster ── */
+    .corner-tl {
+      top: 0;
+      left: 0;
+      width: 160px;
+      height: 160px;
+    }
+
+    .corner-tl .arc {
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 22px solid rgba(41, 82, 163, 0.07);
+    }
+
+    .corner-tl .arc-inner {
+      position: absolute;
+      top: -30px;
+      left: -30px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 14px solid rgba(26, 58, 110, 0.05);
+    }
+
+    .corner-tl .dot-1 {
+      position: absolute;
+      top: 95px;
+      left: 28px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(41, 82, 163, 0.12);
+    }
+
+    .corner-tl .dot-2 {
+      position: absolute;
+      top: 75px;
+      left: 75px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(59, 109, 214, 0.10);
+    }
+
+    /* ── Top Right: diagonal lines + circle ── */
+    .corner-tr {
+      top: 0;
+      right: 0;
+      width: 140px;
+      height: 130px;
+    }
+
+    .corner-tr .stripe-1 {
+      position: absolute;
+      top: 12px;
+      right: 10px;
+      width: 90px;
+      height: 3px;
+      background: rgba(41, 82, 163, 0.08);
+      transform: rotate(-35deg);
+      transform-origin: right center;
+    }
+
+    .corner-tr .stripe-2 {
+      position: absolute;
+      top: 28px;
+      right: 6px;
+      width: 70px;
+      height: 3px;
+      background: rgba(41, 82, 163, 0.06);
+      transform: rotate(-35deg);
+      transform-origin: right center;
+    }
+
+    .corner-tr .stripe-3 {
+      position: absolute;
+      top: 44px;
+      right: 2px;
+      width: 50px;
+      height: 3px;
+      background: rgba(41, 82, 163, 0.04);
+      transform: rotate(-35deg);
+      transform-origin: right center;
+    }
+
+    .corner-tr .circle {
+      position: absolute;
+      top: 50px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 3px solid rgba(26, 58, 110, 0.07);
+    }
+
+    .corner-tr .dot {
+      position: absolute;
+      top: 86px;
+      right: 36px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(59, 109, 214, 0.08);
+    }
+
+    /* ── Bottom Left: arcs + dots ── */
+    .corner-bl {
+      bottom: 0;
+      left: 0;
+      width: 180px;
+      height: 180px;
+    }
+
+    .corner-bl .arc {
+      position: absolute;
+      bottom: -50px;
+      left: -50px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 20px solid rgba(41, 82, 163, 0.06);
+    }
+
+    .corner-bl .arc-inner {
+      position: absolute;
+      bottom: -25px;
+      left: -25px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 12px solid rgba(26, 58, 110, 0.04);
+    }
+
+    .corner-bl .stripe {
+      position: absolute;
+      bottom: 56px;
+      left: 20px;
+      width: 60px;
+      height: 2.5px;
+      background: rgba(41, 82, 163, 0.06);
+      transform: rotate(40deg);
+      transform-origin: left center;
+    }
+
+    .corner-bl .dot-1 {
+      position: absolute;
+      bottom: 85px;
+      left: 60px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(41, 82, 163, 0.10);
+    }
+
+    .corner-bl .dot-2 {
+      position: absolute;
+      bottom: 105px;
+      left: 35px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(59, 109, 214, 0.08);
+    }
+
+    /* ═══════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════ */
+    .header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 36px 44px 20px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--blue-royal);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .header-line {
+      width: 100%;
+      height: 2.5px;
+      background: linear-gradient(90deg, var(--blue-royal), var(--blue-light));
+      margin: 0 44px;
+      border: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-right {
+      text-align: right;
+    }
+
+    .quotation-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .header-meta {
+      margin-top: 10px;
+      font-size: 11px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .header-meta strong {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════
+       CLIENT INFO + PROJECT
+       ═══════════════════════════════════════════ */
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 20px 44px 0;
+      flex: 1;
+    }
+
+    .client-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+
+    .client-block {}
+
+    .label-to {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue-royal);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+
+    .client-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .client-detail {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .project-box {
+      padding: 10px 18px;
+      background: var(--blue-powder);
+      border-left: 3px solid var(--blue-royal);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .project-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--blue-royal);
+      margin-bottom: 2px;
+    }
+
+    .project-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* ═══════════════════════════════════════════
+       SECTION TITLES
+       ═══════════════════════════════════════════ */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--blue-royal);
+      margin: 18px 0 8px;
+    }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 4px;
+      font-size: 11.5px;
+    }
+
+    table thead th {
+      background: var(--blue-powder);
+      color: var(--navy);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 9px 14px;
+      text-align: left;
+      border-bottom: 2px solid var(--line);
+    }
+
+    table thead th:last-child {
+      text-align: right;
+    }
+
+    table thead th:first-child {
+      width: 36px;
+      text-align: center;
+    }
+
+    table tbody td {
+      padding: 7px 14px;
+      border-bottom: 1px solid var(--line-light);
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    table tbody td:last-child {
+      text-align: right;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    table tbody td:first-child {
+      text-align: center;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .row-module td {
+      font-weight: 700;
+      color: var(--navy);
+      background: var(--blue-tint);
+      padding-top: 6px;
+      padding-bottom: 4px;
+      border-bottom: none;
+      font-size: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .row-support td {
+      font-weight: 600;
+      color: var(--blue-deep);
+      background: var(--blue-tint);
+      padding-top: 6px;
+      padding-bottom: 4px;
+      border-bottom: none;
+      font-size: 10px;
+    }
+
+    .row-free td {
+      color: #1a8c4e;
+      font-weight: 600;
+    }
+
+    /* ── Summary Row (Subtotal / Total) ──── */
+    .summary-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .summary-box {
+      width: 260px;
+      border-top: 2px solid var(--line);
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 12px;
+      font-size: 11px;
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .summary-line.total {
+      background: var(--blue-powder);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      color: var(--navy);
+      border-bottom: none;
+      padding: 7px 12px;
+    }
+
+    .summary-line .s-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .summary-line .s-value {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .summary-line.total .s-label,
+    .summary-line.total .s-value {
+      color: var(--navy);
+    }
+
+    /* ═══════════════════════════════════════════
+       PAYMENT & TERMS  — side by side
+       ═══════════════════════════════════════════ */
+    .two-col {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 6px;
+    }
+
+    .col-left {
+      flex: 1;
+    }
+
+    .col-right {
+      flex: 1;
+    }
+
+    .payment-option {
+      margin-bottom: 8px;
+      padding: 7px 12px;
+      border: 1.5px solid var(--line);
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .payment-option.highlight {
+      border-color: var(--blue-mid);
+      background: var(--blue-tint);
+    }
+
+    .payment-option .po-tag {
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--blue-royal);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+
+    .po-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      color: var(--navy);
+      margin-bottom: 1px;
+    }
+
+    .po-desc {
+      font-size: 9px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .po-amount {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-top: 2px;
+    }
+
+    .po-amount span {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .save-badge {
+      display: inline-block;
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #1a8c4e;
+      background: #ddf5e7;
+      padding: 1px 7px;
+      border-radius: 8px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* Milestone micro-table */
+    .milestone-table {
+      margin-top: 8px;
+    }
+
+    .milestone-table thead th {
+      font-size: 8px;
+      padding: 4px 8px;
+    }
+
+    .milestone-table tbody td {
+      font-size: 9.5px;
+      padding: 4px 8px;
+    }
+
+    /* Timeline strip */
+    .timeline-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: var(--blue-tint);
+      border-left: 3px solid var(--blue-royal);
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 8px;
+    }
+
+    .ts-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .ts-unit {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--blue-royal);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .ts-text {
+      font-size: 9.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Terms list */
+    .terms-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .terms-list li {
+      font-size: 7.8px;
+      color: var(--text-muted);
+      padding: 1.5px 0 1.5px 12px;
+      position: relative;
+      line-height: 1.45;
+    }
+
+    .terms-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--blue-mid);
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════
+       SIGNATURE + THANK YOU
+       ═══════════════════════════════════════════ */
+    .footer {
+      position: relative;
+      z-index: 1;
+      padding: 6px 44px 14px;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4px;
+    }
+
+    .footer-left {
+      flex: 1;
+    }
+
+    .thank-you {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-contact {
+      font-size: 9px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .footer-tagline {
+      font-style: italic;
+      font-size: 8px;
+      color: var(--blue-mid);
+      margin-top: 2px;
+      letter-spacing: 0.5px;
+    }
+
+    .signature-block {
+      text-align: center;
+      width: 180px;
+    }
+
+    .sign-line {
+      border-bottom: 1.5px solid var(--navy);
+      height: 3px;
+      margin-bottom: 4px;
+    }
+
+    .sign-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.3px;
+    }
+
+    .sign-title {
+      font-size: 8px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    /* ═══════════════════════════════════════════
+       PAYMENT METHODS
+       ═══════════════════════════════════════════ */
+    .payment-methods {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .pay-method {
+      flex: 1;
+      padding: 5px 8px;
+      background: var(--blue-tint);
+      border-radius: 5px;
+      border-left: 2.5px solid var(--blue-royal);
+    }
+
+    .pay-method-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7.5px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .pay-method-name i {
+      margin-right: 3px;
+    }
+
+    .pay-method-detail {
+      font-size: 7.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .pay-method-detail strong {
+      color: var(--text-body);
+    }
+
+    /* ═══════════════════════════════════════════
+       PLATFORM ICONS
+       ═══════════════════════════════════════════ */
+    .platform-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      margin: 0 0 0 36px;
+    }
+
+    .platform-bar .plat-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-right: 4px;
+    }
+
+    .plat-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      position: relative;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: var(--blue-tint);
+      border: 1px solid var(--line-light);
+      margin-right: 2px;
+      margin-top: 4px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .plat-icon i {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .plat-icon.active {
+      background: var(--blue-powder);
+      border-color: var(--blue-mid);
+      border-width: 1.5px;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .plat-icon.active i {
+      color: var(--navy);
+    }
+
+    .plat-icon .check-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 11px;
+      height: 11px;
+      background: #16a34a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .plat-icon .check-badge i {
+      font-size: 6px;
+      color: white;
+    }
+
+    /* ═══════════════════════════════════════════
+       PRINT + SCREEN
+       ═══════════════════════════════════════════ */
+    @media print {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .page {
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+      }
+    }
+
+    @media screen {
+      body {
+        background: #dde3ed;
+        padding: 20px 0;
+      }
+
+      .page {
+        box-shadow: 0 6px 50px rgba(0, 0, 0, 0.10);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- ── Corner Decoration: Top Left ── -->
+    <div class="corner-decor corner-tl">
+      <div class="arc"></div>
+      <div class="arc-inner"></div>
+      <div class="dot-1"></div>
+      <div class="dot-2"></div>
+    </div>
+
+    <!-- ── Corner Decoration: Top Right ── -->
+    <div class="corner-decor corner-tr">
+      <div class="stripe-1"></div>
+      <div class="stripe-2"></div>
+      <div class="stripe-3"></div>
+      <div class="circle"></div>
+      <div class="dot"></div>
+    </div>
+
+    <!-- ── Corner Decoration: Bottom Left ── -->
+    <div class="corner-decor corner-bl">
+      <div class="arc"></div>
+      <div class="arc-inner"></div>
+      <div class="stripe"></div>
+      <div class="dot-1"></div>
+      <div class="dot-2"></div>
+    </div>
+
+    <!-- ══════ HEADER ══════ -->
+    <header class="header">
+      <div class="header-left">
+        <img src="UNIQUE/logo_transparent.png" alt="UNIQUE" class="logo">
+        <div class="brand">
+          <div class="brand-name">UNIQUE</div>
+          <div class="brand-sub">International</div>
+          <div class="brand-sub">Software Solutions</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="quotation-title">Quotation</div>
+        <div class="header-meta">
+          <strong>No.</strong> UNIQUE/2026/Q-021<br>
+          <strong>Date:</strong> February 27, 2026<br>
+          <strong>Valid Until:</strong> March 27, 2026
+        </div>
+      </div>
+    </header>
+
+    <hr class="header-line">
+
+    <!-- ══════ CLIENT + PROJECT ══════ -->
+    <div class="content">
+
+      <div class="client-row">
+        <div class="client-block">
+          <div class="label-to">To</div>
+          <div class="client-name">VISION International Consultancy (Pvt) Ltd</div>
+          <div class="client-detail">Managing Director<br>Mr. Wansapriya Gunaseela</div>
+        </div>
+        <div class="project-box">
+          <div class="project-label">Project</div>
+          <div class="project-name">VISION Intelligence — Windows Desktop Application</div>
+        </div>
+      </div>
+
+      <!-- ── Deliverables Table ── -->
+      <div class="section-label">Deliverables &amp; Investment</div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item Description</th>
+            <th style="width:120px">Amount (LKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-module">
+            <td></td>
+            <td>Module 1 — Machine Requirement Calculator</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>1.1</td>
+            <td>Calculation Engine — Sewing machine requirements, embroidery capacity &amp; fusing/supplementary
+              calculations with bi-directional solving</td>
+            <td>100,000</td>
+          </tr>
+          <tr>
+            <td>1.2</td>
+            <td>Machine Type Management — Custom machine types per project (add/edit/remove) with What-If scenario
+              comparison (up to 4 scenarios)</td>
+            <td>60,000</td>
+          </tr>
+          <tr>
+            <td>1.3</td>
+            <td>Data Export &amp; Reporting — Export results as PNG, PDF, or Excel with project-wise data management
+            </td>
+            <td>50,000</td>
+          </tr>
+          <tr class="row-module">
+            <td></td>
+            <td>Application Delivery</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>2.1</td>
+            <td>Windows Desktop Application — Professional installer (.exe / .msi)<br />
+              <span class="plat-icon active" title="Windows (Quoted)">
+                <i class="fa-brands fa-windows"></i> Windows
+                <span class="check-badge"><i class="fa-solid fa-check"></i></span>
+              </span>
+              <span class="plat-icon" title="macOS">
+                <i class="fa-brands fa-apple"></i> macOS
+              </span>
+              <span class="plat-icon" title="Linux">
+                <i class="fa-brands fa-linux"></i> Linux
+              </span>
+              <span class="plat-icon" title="Web">
+                <i class="fa-solid fa-globe"></i> Web
+              </span>
+              <span class="plat-icon" title="Android">
+                <i class="fa-brands fa-android"></i> Android
+              </span>
+              <span class="plat-icon" title="iOS">
+                <i class="fa-solid fa-mobile-screen"></i> iOS
+              </span>
+            </td>
+            <td>40,000</td>
+          </tr>
+          <tr class="row-support">
+            <td></td>
+            <td>Support &amp; Maintenance</td>
+            <td></td>
+          </tr>
+          <tr class="row-free">
+            <td>3.1</td>
+            <td>3 Months of Support &amp; Maintenance after final deployment</td>
+            <td>FREE</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ── Total Summary ── -->
+      <div class="summary-row">
+        <div class="summary-box">
+          <div class="summary-line">
+            <span class="s-label">Subtotal</span>
+            <span class="s-value">250,000</span>
+          </div>
+          <div class="summary-line">
+            <span class="s-label">Tax</span>
+            <span class="s-value">—</span>
+          </div>
+          <div class="summary-line total">
+            <span class="s-label">Total</span>
+            <span class="s-value">LKR 250,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Payment + Terms (two columns) ── -->
+      <div class="two-col">
+
+        <div class="col-left">
+          <div class="section-label">Payment Options</div>
+
+          <div class="payment-option highlight">
+            <div class="po-name">Option A — One-Time Payment</div>
+            <div class="po-desc">Full payment at project kickoff</div>
+            <div class="po-amount"><span>LKR </span>237,500 <span class="save-badge">SAVE 5%</span></div>
+          </div>
+
+          <div class="payment-option highlight">
+            <div class="po-name">Option B — Payment Schedule</div>
+            <div class="po-desc">40% Kickoff · 40% Delivery · 20% Acceptance</div>
+            <div class="po-amount"><span>LKR </span>250,000</div>
+
+
+            <table class="milestone-table">
+              <thead>
+                <tr>
+                  <th>Milestone</th>
+                  <th style="width:100px">At</th>
+                  <th style="width:40px;text-align:center">%</th>
+                  <th style="width:100px">LKR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Project Kickoff</td>
+                  <td>Project Start</td>
+                  <td style="text-align:center">40%</td>
+                  <td>100,000</td>
+                </tr>
+                <tr>
+                  <td>Functional Delivery</td>
+                  <td>End of Week 4</td>
+                  <td style="text-align:center">40%</td>
+                  <td>100,000</td>
+                </tr>
+                <tr>
+                  <td>Final Deployment</td>
+                  <td>End of Week 6</td>
+                  <td style="text-align:center">20%</td>
+                  <td>50,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-right">
+          <div class="section-label">Timeline</div>
+          <div class="timeline-strip">
+            <div>
+              <div class="ts-number">6</div>
+              <div class="ts-unit">Weeks</div>
+            </div>
+            <div class="ts-text">From project kickoff — delivered in <strong>2-week agile sprints</strong> with client
+              review &amp; approval at each stage.</div>
+          </div>
+
+          <div class="section-label">Payment Methods</div>
+          <div class="payment-methods">
+            <div class="pay-method">
+              <div class="pay-method-name"><i class="fa-solid fa-building-columns"></i> Bank Transfer</div>
+              <div class="pay-method-detail">
+                Bank: <strong>BOC</strong><br>
+                A/C No: <strong>92067999</strong>
+              </div>
+            </div>
+            <div class="pay-method">
+              <div class="pay-method-name"><i class="fa-brands fa-paypal"></i> PayPal</div>
+              <div class="pay-method-detail">
+                <strong>unique.finance.dep@gmail.com</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-label">Terms &amp; Conditions</div>
+          <ul class="terms-list">
+            <li>Development follows Agile sprints — nothing proceeds without your feedback &amp; approval</li>
+            <li>Post-deployment support pricing — available upon request after the complimentary 3 month period</li>
+            <li>Additional modules (Floor Layout, Dashboard, Analytics) — separate quotations upon request</li>
+            <li>Platform extensions (macOS, Linux, Web, Android, iOS) — on request</li>
+            <li>Source code retained by UNIQUE — transfer terms available upon discussion</li>
+            <li>Prices in LKR — exclusive of applicable taxes</li>
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div class="thank-you">Thank you for your business with us!</div>
+          <div class="footer-contact">
+            📧 unique.contact.hotline@gmail.com &nbsp;·&nbsp; 📱 +94 77 768 2814
+          </div>
+          <div class="footer-tagline">"Precision Software for Industry Leaders"</div>
+        </div>
+        <div class="signature-block">
+          <div class="sign-line"></div>
+          <div class="sign-name">Hashan Irugalbandara</div>
+          <div class="sign-title">Finance Administrator</div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+
+</html>

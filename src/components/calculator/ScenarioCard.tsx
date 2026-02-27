@@ -56,7 +56,7 @@ export const ScenarioCard = forwardRef<HTMLDivElement, ScenarioCardProps>(
       : null;
     const costDelta = baseline ? calculateDelta(outputs.costEstimate, baseline.costEstimate) : null;
     const daysDelta = baseline
-      ? calculateDelta(outputs.totalProductionDays, baseline.totalProductionDays)
+      ? calculateDelta(outputs.dailyOutput, baseline.dailyOutput)
       : null;
 
     const [isEditing, setIsEditing] = useState(false);
@@ -115,12 +115,11 @@ export const ScenarioCard = forwardRef<HTMLDivElement, ScenarioCardProps>(
         className={`
           relative p-4 rounded-[var(--radius-xl)] cursor-pointer
           transition-all duration-200
-          ${
-            isBaseline
-              ? 'bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] text-white'
-              : isSelected
-                ? 'bg-[var(--color-surface)] border-2 border-[var(--color-primary)] shadow-lg'
-                : 'bg-[var(--color-glass)] border border-[var(--color-glass-border)] hover:border-[var(--color-primary)] hover:shadow-md'
+          ${isBaseline
+            ? 'bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] text-white'
+            : isSelected
+              ? 'bg-[var(--color-surface)] border-2 border-[var(--color-primary)] shadow-lg'
+              : 'bg-[var(--color-glass)] border border-[var(--color-glass-border)] hover:border-[var(--color-primary)] hover:shadow-md'
           }
           ${className}
         `}
@@ -225,20 +224,20 @@ export const ScenarioCard = forwardRef<HTMLDivElement, ScenarioCardProps>(
             </div>
           </div>
 
-          {/* Days */}
+          {/* Daily Output */}
           <div className="flex items-center justify-between">
             <span
               className={`text-xs ${isBaseline ? 'text-white/70' : 'text-[var(--color-text-muted)]'}`}
             >
-              Days
+              Output/Day
             </span>
             <div className="flex items-center gap-2">
               <span
                 className={`text-sm font-semibold ${isBaseline ? 'text-white' : 'text-[var(--color-text-primary)]'}`}
               >
-                {outputs.totalProductionDays}
+                {outputs.dailyOutput.toLocaleString()}
               </span>
-              {daysDelta && !isBaseline && <DeltaIndicator delta={daysDelta} />}
+              {daysDelta && !isBaseline && <DeltaIndicator delta={daysDelta} inverseColor />}
             </div>
           </div>
 
