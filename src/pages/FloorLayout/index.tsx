@@ -20,10 +20,7 @@ import {
   Save,
   RotateCcw,
   Download,
-  LayoutTemplate,
   Presentation,
-  Check,
-  Edit3,
   AlertTriangle,
   X,
 } from 'lucide-react';
@@ -80,8 +77,6 @@ const OPERATOR_DENSITY: Record<string, number> = {
 export function FloorLayoutPage() {
   // Global UI State
   const {
-    isDashboardEditing: isEditing,
-    setDashboardEditing: setIsEditing,
     isPresentationMode,
     setPresentationMode,
   } = useUI();
@@ -778,10 +773,10 @@ export function FloorLayoutPage() {
                   <div className="w-10 h-10 rounded-[var(--radius-xl)] bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-accent-dark,#d97706)] flex items-center justify-center text-white shadow-md">
                     <Grid3X3 size={20} />
                   </div>
-                  Floor Layout Planner
+                  Floor Layout Calculator
                 </h2>
                 <span className="text-xs text-text-muted mt-1 font-medium pl-14">
-                  Visual layout editor • {isEditing ? 'Editing' : 'View Mode'}
+                  Section sizing calculator • Real-time
                 </span>
               </div>
 
@@ -798,35 +793,7 @@ export function FloorLayoutPage() {
                   Reset
                 </motion.button>
 
-                <motion.button
-                  onClick={() => setShowTemplates(true)}
-                  className="h-10 px-4 rounded-full flex items-center justify-center gap-2 bg-surface hover:bg-white text-text-secondary hover:text-primary border border-transparent hover:border-glass-border hover:shadow-float transition-all text-sm font-medium"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  title="Use template"
-                >
-                  <LayoutTemplate size={16} />
-                  Templates
-                </motion.button>
-
                 <div className="w-px h-6 bg-glass-border mx-1" />
-
-                {/* Edit Mode Toggle */}
-                <motion.button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className={`
-                    w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                    ${isEditing
-                      ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                    }
-                  `}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  title={isEditing ? 'Done Editing' : 'Edit Layout'}
-                >
-                  {isEditing ? <Check size={18} /> : <Edit3 size={18} />}
-                </motion.button>
 
                 <motion.button
                   onClick={() => setActiveSidebar('export')}

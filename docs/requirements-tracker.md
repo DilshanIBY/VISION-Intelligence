@@ -242,29 +242,35 @@
 | **P3-PG-CALC-025** | Handling Time Per Piece (embroidery) | §3.1.2 | UI | ✅ Done (v2.0) |
 | **P3-PG-CALC-026** | Data Export (PNG/PDF/Excel) | §3.1.6 | UI | ✅ Done |
 
-### 3.2.3 Floor Layout Calculator
+### 3.2.3 Floor Layout Calculator (Section Sizing)
+
+> **Note (v2.1)**: Per consultant meeting — this is a **real-time section sizing calculator**, NOT a design tool. Consultants have AutoCAD people for design. Focus = instant calculation of section sizes during meetings.
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
-| **P3-PG-FLOOR-001** | Floor layout calculator page layout | §3.2 | UI | ✅ Done |
-| **P3-PG-FLOOR-002** | Total Operators slider + input | §3.2.3 | UI | ✅ Done |
-| **P3-PG-FLOOR-003** | Product Type visual card select | §3.2.3 | UI | ✅ Done |
-| **P3-PG-FLOOR-004** | ~~Working Hours time picker~~ | §3.2 | UI | ❌ Removed (v2.0) |
-| **P3-PG-FLOOR-005** | Building Floors stack visual | §3.2.3 | UI | ✅ Done |
-| **P3-PG-FLOOR-006** | Floor Dimensions input (Width × Length) | §3.2.3 | UI | ✅ Done |
-| **P3-PG-FLOOR-007** | Static canvas (fit-to-container, no scroll) | §3.2.5 | UI | ✅ Done (v2.0) |
-| **P3-PG-FLOOR-008** | Section blocks (proportional rendering) | §3.2.5 | UI | ✅ Done |
-| **P3-PG-FLOOR-009** | Section blocks with colors | §3.2.5 | UI | ✅ Done |
-| **P3-PG-FLOOR-010** | Auto-snap to grid | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-001** | Floor layout calculator page layout (section sizing focus) | §3.2 | UI | ✅ Done |
+| **P3-PG-FLOOR-002** | Total Operators input | §3.2.4 | UI | ✅ Done |
+| **P3-PG-FLOOR-003** | Product Type visual card select | §3.2.4 | UI | ✅ Done |
+| **P3-PG-FLOOR-004** | ~~Working Hours time picker~~ | §3.2 | UI | ❌ Removed (v2.0) — not relevant for space calculation |
+| **P3-PG-FLOOR-005** | Building Floors stack visual | §3.2.4 | UI | ✅ Done |
+| **P3-PG-FLOOR-006** | Floor Dimensions input (Width × Length) | §3.2.4 | UI | ✅ Done |
+| **P3-PG-FLOOR-007** | Static canvas (fit-to-container, calculation feel, not designer) | §3.2.6 | UI | ✅ Done (v2.0) |
+| **P3-PG-FLOOR-008** | Section blocks (proportional rendering with calculated sizes) | §3.2.6 | UI | ✅ Done |
+| **P3-PG-FLOOR-009** | Section blocks with colors (consistent department palette) | §3.2.6 | UI | ✅ Done |
+| **P3-PG-FLOOR-010** | Section repositioning within floor boundary | §3.2.6 | UI | ✅ Done |
 | **P3-PG-FLOOR-011** | ~~Flow arrows (material flow)~~ | §3.2 | UI | ⏸️ Deferred |
 | **P3-PG-FLOOR-012** | ~~Collision detection~~ | §3.2 | UI | ⏸️ Deferred |
-| **P3-PG-FLOOR-013** | Multi-floor view (tabs) | §3.2.5 | UI | ✅ Done |
-| **P3-PG-FLOOR-014** | ~~Zoom & pan canvas~~ (now static fit-to-container) | §3.2.5 | UI | ❌ Removed (v2.0) |
-| **P3-PG-FLOOR-015** | Export layout (PNG/PDF) | §3.2.5 | UI | ✅ Done |
+| **P3-PG-FLOOR-013** | Multi-floor view (tabs) | §3.2.6 | UI | ✅ Done |
+| **P3-PG-FLOOR-014** | ~~Zoom & pan canvas~~ (now static fit-to-container) | §3.2.6 | UI | ❌ Removed (v2.0) |
+| **P3-PG-FLOOR-015** | Export layout (PNG/PDF/Excel) | §3.2.8 | UI | ✅ Done |
 | **P3-PG-FLOOR-016** | ~~Templates (pre-built layouts)~~ | §3.2 | UI | ⏸️ Deferred |
 | **P3-PG-FLOOR-017** | ~~Measurement tool~~ | §3.2 | UI | ⏸️ Deferred |
 | **P3-PG-FLOOR-018** | ~~Bottleneck detection overlay~~ | §3.2 | UI | ⏸️ Deferred |
-| **P3-PG-FLOOR-019** | Percentage labels (section share of total area) | §3.2.5 | UI | ✅ Done (v2.0) |
+| **P3-PG-FLOOR-019** | Percentage labels (section share of total area) | §3.2.6 | UI | ✅ Done (v2.0) |
+| **P3-PG-FLOOR-020** | Width/Length adjustment (maintaining calculated area) | §3.2.6 | UI | ✅ Done (v2.0) |
+| **P3-PG-FLOOR-021** | Land Size input (Width × Length) | §3.2.4 | UI | ✅ Done |
+| **P3-PG-FLOOR-022** | Machine Size input (Width × Length) | §3.2.4 | UI | ✅ Done |
+| **P3-PG-FLOOR-023** | Operator Working Space input (Width × Length) | §3.2.4 | UI | ✅ Done |
 
 ### 3.2.4 Client Dashboard (⏳ Requirements TBD)
 
@@ -519,6 +525,7 @@
 | 2026-02-27 | 2.0 | **v2.0 Pivot**: Renamed to VISION Intelligence. Marked removed items (Deadline, Color Picker, SPM basic, Production Timeline, Working Hours floor). Added new items (SMV, Operators, Duration, Working Days, Fusing tab, Machine CRUD). Updated Floor Layout to Calculator. Updated progress. | Agent |
 | 2026-02-27 | 2.1 | **v2.1 Post-Consultant Meeting**: Machine Speed SPM removed from sewing tab (P3-PG-CALC-010). Dashboard & Analytics marked as "Requirements TBD — Future Sprint". Sprint ordering updated (Dashboard=Sprint 3, Analytics=Sprint 4, Auth=Sprint 5). Accuracy prioritized over UI aesthetics. Machine Calculator marked as ✅ QUOTED active module. | Agent |
 | 2026-02-27 | 2.2 | **UI Refinements**: Added Excel export option to ExportPanel (P3-PG-CALC-026 ✅). Fixed TopBar logo styling — replaced blue bg-primary/shadow-glow-primary with red-harmonious white bg + red ring/glow. | Agent |
+| 2026-02-27 | 2.3 | **Post-Consultant Floor Layout Update**: Rewrote §3.2 Floor Layout Calculator as section sizing calculator (not design tool). Updated PRD refs. Added P3-PG-FLOOR-020 to P3-PG-FLOOR-023. Changed homepage to Calculator. Reordered sidebar nav (Calculator first). | Agent |
 
 
 ---

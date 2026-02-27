@@ -203,48 +203,78 @@ THEN show_info("Efficiency above 95% is rarely achievable in practice")
 ## 3.2 Module 2: Floor Layout Calculator
 
 ### 3.2.1 Overview
-Calculates production section sizes and arrangements based on available floor space, product type, and machinery requirements. Unlike a design tool, this is a **visual calculator** — it computes the optimal section sizes and renders them proportionally for the consultant to discuss with the investor.
+A **real-time production section sizing calculator** that computes optimal production section sizes based on available floor space, product type, and machinery/operator requirements. This is NOT a design tool — consultants have qualified AutoCAD professionals for detailed layout design. This module focuses on **instant, accurate calculation of section sizes** during live client meetings.
 
-> **Note**: Consultants have qualified AutoCAD professionals for detailed layout design. This module focuses on **instant calculations** during meetings — "Given this much space, how many machines can fit? What sections do I need?"
+The calculator renders sections **proportionally** within a static floor view so consultants can visually compare section sizes and answer client questions like *"How much of the floor does the Cutting area take?"* or *"Can we fit both Cutting and Packing on the same floor?"*
+
+> **Important Context**: This module is for consultants helping clients (investors) **start new factories**. It is NOT for managing existing production operations.
 
 ### 3.2.2 Real-World Scenarios
-1. *"I have 500 sqm per floor — what sections do I need for shirts, and how big should each be?"*
-2. *"Using this land, what is the maximum production floor I can build?"*
-3. *"I have 3 floors of 400 sqm each — can I fit cutting + sewing + packing on one floor?"*
+1. *"I have this much of square feet/meters per floor, and I need to make double pocket shirts — how many machines can I accommodate here? How many operators will be there?"*
+2. *"Using this 500 square meters of land, what is the size of the factory I can build? What should be the size of the production floor? What should be the size of each section — Cutting, Finishing & Packing, Stores?"*
+3. *"I have this much of space per floor, and I can go vertically up to this many floors. I have this investment plan. I want to create these types of products."*
 
-### 3.2.3 Input Parameters
-| Parameter | Type | Validation | UI Component | Category |
-|-----------|------|------------|--------------|----------|
-| Product Type | Select | Required | Visual Card Select | Product |
-| Land Size (W × L) | Number pair | > 0 | Dimension Input (meters) | Area |
-| Production Floor Size (W × L) | Number pair | > 0 | Dimension Input (meters) | Area |
-| Number of Floors Available | Number | 1-10 | Floor Stack Visual | Area |
-| Machine Size (W × L) | Number pair | > 0 | Dimension Input (meters) | Machines |
-| Number of Machines | Number | ≥ 1 | Numeric Input | Machines |
-| Operator Working Space (W × L) | Number pair | > 0 | Dimension Input (meters) | Operators |
-| Number of Operators | Number | ≥ 1 | Numeric Input | Operators |
+### 3.2.3 Data & Information Sources
+- **From VISION Consultancy**:
+  - Methods they use to decide which production sections are needed based on the product type (e.g., If it's Innerwear → what sections do we need?)
+  - Equations they use to decide section sizes based on floor area (e.g., Based on available floor area → What should be the size of Cutting, Finishing & Packing, Finished Goods Store?)
+- Most of this data will be provided in **Excel format** for implementation.
 
-> **Changed from v1.0**: All dimensions use **Width × Length** (not Height). Removed Working_Hours (not relevant for space calculation).
+### 3.2.4 Input Parameters
 
-### 3.2.4 Output Results
+#### Product
+| Parameter | Type | Validation | UI Component |
+|-----------|------|------------|--------------|
+| Product Type | Select | Required | Visual Card Select |
+
+#### Area
+| Parameter | Type | Validation | UI Component |
+|-----------|------|------------|--------------|
+| Land Size (Width × Length) | Number pair | > 0 | Dimension Input (meters) |
+| Production Floor Size (Width × Length) | Number pair | > 0 | Dimension Input (meters) |
+| Number of Floors Available | Number | 1-10 | Floor Stack Visual |
+
+#### Machines
+| Parameter | Type | Validation | UI Component |
+|-----------|------|------------|--------------|
+| Machine Size (Width × Length) | Number pair | > 0 | Dimension Input (meters) |
+| Number of Machines | Number | ≥ 1 | Numeric Input |
+
+#### Operators
+| Parameter | Type | Validation | UI Component |
+|-----------|------|------------|--------------|
+| Operator Working Space (Width × Length) | Number pair | > 0 | Dimension Input (meters) |
+| Number of Operators | Number | ≥ 1 | Numeric Input |
+
+> **Changed from v1.0**: All dimensions use **Width × Length** (not Height). Removed Working_Hours (not relevant for space calculation). This is for new factory planning, not existing factory maintenance.
+
+### 3.2.5 Output Results
 | Output | Description |
 |--------|-------------|
-| Required Sections | List of production sections based on Product_Type |
+| Sections | List of required production sections based on Product_Type |
 | Section Sizes | Calculated area for each section (m²) |
-| Section Proportions | Visual rendering showing relative sizes |
-| Floor Assignments | Which sections fit on which floors |
+| Section Proportions | Percentage of total floor area each section occupies |
+| Floor Assignments | Which sections can fit on which floors |
+| Number of Machines (per section) | How many machines can be accommodated |
+| Number of Operators (per section) | How many operators will be needed |
 
-### 3.2.5 Visual Calculator Canvas
-The canvas is a **static, contained view** (not an infinite scrollable canvas):
-- Fit-to-container rendering (no scroll, no zoom required)
-- Proportional section blocks showing calculated sizes
-- Width × Length labels on each section
-- Sections can be repositioned within the floor boundary
-- Sections can have width/length adjusted (while maintaining calculated area)
-- Percentage indicators: "Cutting takes 25% of floor area"
-- Color-coded by section type (consistent with department palette)
+### 3.2.6 Visual Calculator Canvas
+The canvas is a **static, contained view** — not an infinite scrollable design canvas. It has a **calculation feel**, not a designer feel:
 
-### 3.2.6 Product Type → Section Mapping
+- **Fit-to-container** rendering (no scroll, no zoom required)
+- Proportional section blocks showing **calculated sizes** relative to the floor
+- **Width × Length labels** on each section
+- **Percentage indicators**: *"Cutting takes 25% of floor area"*
+- Color-coded by section type (consistent department palette)
+
+#### Interactive Features (for consultation, not design):
+- **Reposition sections** within the floor boundary — so consultants can visually show *"Can we fit both Cutting and Packing on this floor?"*
+- **Adjust width/length** of each section — **while maintaining the calculated area** (changing aspect ratio without changing total area)
+- **Multi-floor tabs** — view each floor level separately
+
+> **Note**: Consultants don't need a full layout designer here. They have qualified AutoCAD people for detailed design. What they need is a **clean, real-time calculator** that shows section sizes proportionally so they can answer client questions visually during meetings.
+
+### 3.2.7 Product Type → Section Mapping
 | Product Type | Required Sections |
 |-------------|-------------------|
 | Innerwear | Cutting, Sewing, Finishing & Packing, Stores |
@@ -252,7 +282,14 @@ The canvas is a **static, contained view** (not an infinite scrollable canvas):
 | Casual | Cutting, Sewing, Finishing & Packing, Stores |
 | Sportswear | Cutting, Sewing, Sublimation, Finishing & Packing, Stores |
 
-> **Note**: Exact section formulas will be provided by VISION consultancy team in Excel format.
+> **Note**: Exact section formulas and product type → section mapping methods will be provided by VISION consultancy team in Excel format.
+
+### 3.2.8 Data Export
+| Format | Contents |
+|--------|----------|
+| PNG | Screenshot of section layout with proportions and branding |
+| PDF | Full report with inputs, section sizes, and floor assignments |
+| Excel | Raw section data in spreadsheet format |
 
 ---
 
@@ -474,16 +511,18 @@ VISION's interface draws inspiration from **Apple Vision Pro's visionOS** design
 └──────────────────────────────────────────────────────────┘
 ```
 
-## 5.2 Visual Floor Calculator
+## 5.2 Visual Floor Calculator (Section Sizing)
+
+> **Purpose**: A static, proportional view that helps consultants visually communicate section sizes to clients during meetings. This is NOT a design tool.
 
 ### Features
-- **Static Canvas**: Contained view, no infinite scroll/zoom required
+- **Static Canvas**: Fit-to-container rendering, no scroll/zoom required
 - **Section Blocks**: Proportionally sized based on calculated areas
-- **Repositioning**: Drag sections within floor boundary
-- **Dimension Adjustment**: Adjust width/length while maintaining calculated area
+- **Repositioning**: Move sections within floor boundary (to answer "Can we fit these together?")
+- **Dimension Adjustment**: Adjust width/length while maintaining calculated area (aspect ratio only)
 - **Percentage Labels**: Shows each section's share of total floor area
-- **Multi-Floor**: Tab view for each floor level
-- **Export**: PNG/PDF for presentations
+- **Multi-Floor Tabs**: View each floor level separately
+- **Export**: PNG/PDF/Excel for client handoff
 
 ### Section Blocks
 | Section | Color | Shape |
@@ -497,13 +536,13 @@ VISION's interface draws inspiration from **Apple Vision Pro's visionOS** design
 
 ### Interaction Flow
 ```
-1. Set Parameters (product type, floor dimensions, operators, machines)
-2. System calculates required section areas
+1. Set Parameters (product type, floor dimensions, machines, operators)
+2. System calculates required sections and their areas based on VISION formulas
 3. Section blocks render proportionally within floor boundary
-4. Consultant can reposition blocks within the floor
-5. Consultant can adjust width/length (maintaining area)
-6. Percentage labels update in real-time
-7. Export or save calculation
+4. Consultant can reposition blocks to answer "Can these fit on the same floor?"
+5. Consultant can adjust width/length (maintaining calculated area)
+6. Percentage labels and section sizes update in real-time
+7. Export results for client (PNG/PDF/Excel)
 ```
 
 ---

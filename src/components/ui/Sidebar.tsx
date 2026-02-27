@@ -10,9 +10,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={22} /> },
   { path: '/calculator', label: 'Calculator', icon: <Calculator size={22} /> },
   { path: '/floor-layout', label: 'Floor Layout', icon: <Grid3X3 size={22} /> },
+  { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={22} /> },
   { path: '/analytics', label: 'Analytics', icon: <BarChart3 size={22} /> },
   { path: '/settings', label: 'Settings', icon: <Settings size={22} /> },
 ];
@@ -28,10 +28,9 @@ export function Sidebar() {
         glass-heavy py-6 px-4
         flex flex-col gap-2 items-center
         z-50 shadow-float hover:shadow-float-hover
-        ${
-          isSidebarExpanded
-            ? 'w-[240px] h-full items-start px-6 rounded-3xl'
-            : 'w-[88px] h-auto rounded-[44px]' // 44px is geometric match for 88px width
+        ${isSidebarExpanded
+          ? 'w-[240px] h-full items-start px-6 rounded-3xl'
+          : 'w-[88px] h-auto rounded-[44px]' // 44px is geometric match for 88px width
         }
       `}
     >
@@ -45,10 +44,9 @@ export function Sidebar() {
               className={({ isActive }) => `
                 relative flex items-center h-12 rounded-full px-3.5
                 transition-colors duration-300 overflow-hidden w-full
-                ${
-                  isActive
-                    ? 'bg-primary text-white shadow-glow-primary'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
+                ${isActive
+                  ? 'bg-primary text-white shadow-glow-primary'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-surface/50'
                 }
                 ${!isSidebarExpanded && 'justify-center'}
               `}

@@ -1,5 +1,5 @@
 /**
- * Floor Layout Planner Mock Data
+ * Floor Layout Calculator Mock Data
  * Mock data for Phase 3 UI prototype - no real API calls
  * @requirement P3-PG-FLOOR-001 to P3-PG-FLOOR-019
  */

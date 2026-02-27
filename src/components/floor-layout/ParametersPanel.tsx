@@ -42,7 +42,7 @@ export function ParametersPanel({
           <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
             <Layers size={16} />
           </div>
-          <h3 className="text-sm font-bold text-text-primary">Floor Layout</h3>
+          <h3 className="text-sm font-bold text-text-primary">Floor Variables</h3>
         </div>
 
         <div className="grid grid-cols-1 gap-3">

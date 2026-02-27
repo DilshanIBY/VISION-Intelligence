@@ -20,14 +20,14 @@ import {
 
 interface ToolsPanelProps {
   activeTool:
-    | 'select'
-    | 'pan'
-    | 'shape-rect'
-    | 'shape-circle'
-    | 'text'
-    | 'note'
-    | 'arrow'
-    | 'curved-arrow';
+  | 'select'
+  | 'pan'
+  | 'shape-rect'
+  | 'shape-circle'
+  | 'text'
+  | 'note'
+  | 'arrow'
+  | 'curved-arrow';
   onToolChange: (
     tool:
       | 'select'
@@ -182,13 +182,13 @@ export function ToolsPanel({
           {/* History Controls (Moved Inside) */}
           <ToolButton
             icon={<Undo2 size={18} />}
-            onClick={onUndo || (() => {})}
+            onClick={onUndo || (() => { })}
             title="Undo (Ctrl+Z)"
             disabled={!onUndo}
           />
           <ToolButton
             icon={<Redo2 size={18} />}
-            onClick={onRedo || (() => {})}
+            onClick={onRedo || (() => { })}
             title="Redo (Ctrl+Y)"
             disabled={!onRedo}
           />
@@ -214,11 +214,10 @@ function ToolButton({ icon, onClick, isActive, disabled, title }: ToolButtonProp
       title={title}
       className={`
                 w-9 h-9 flex items-center justify-center rounded-xl transition-all border border-transparent
-                ${
-                  isActive
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-text-secondary hover:bg-black/5 hover:text-primary'
-                }
+                ${isActive
+          ? 'bg-primary/10 text-primary'
+          : 'text-text-secondary hover:bg-black/5 hover:text-primary'
+        }
                 ${disabled ? 'opacity-30 cursor-not-allowed' : 'active:scale-95'}
             `}
     >
