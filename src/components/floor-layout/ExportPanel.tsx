@@ -6,10 +6,10 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Download, FileImage, FileText, Settings, Check, Loader2 } from 'lucide-react';
+import { Download, FileImage, FileText, FileSpreadsheet, Settings, Check, Loader2 } from 'lucide-react';
 
 interface ExportPanelProps {
-  onExport: (format: 'png' | 'pdf', options: ExportOptions) => void;
+  onExport: (format: 'png' | 'pdf' | 'excel', options: ExportOptions) => void;
   className?: string;
 }
 
@@ -27,7 +27,7 @@ const qualitySettings = {
 };
 
 export function ExportPanel({ onExport, className = '' }: ExportPanelProps) {
-  const [selectedFormat, setSelectedFormat] = useState<'png' | 'pdf'>('png');
+  const [selectedFormat, setSelectedFormat] = useState<'png' | 'pdf' | 'excel'>('png');
   const [options, setOptions] = useState<ExportOptions>({
     quality: 'high',
     includeGrid: true,
@@ -52,7 +52,7 @@ export function ExportPanel({ onExport, className = '' }: ExportPanelProps) {
         <label className="block text-xs font-semibold text-text-muted uppercase tracking-wide mb-3">
           Format
         </label>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <FormatButton
             icon={<FileImage size={24} />}
             label="PNG"
@@ -66,6 +66,13 @@ export function ExportPanel({ onExport, className = '' }: ExportPanelProps) {
             description="Document"
             isSelected={selectedFormat === 'pdf'}
             onClick={() => setSelectedFormat('pdf')}
+          />
+          <FormatButton
+            icon={<FileSpreadsheet size={24} />}
+            label="Excel"
+            description="Spreadsheet"
+            isSelected={selectedFormat === 'excel'}
+            onClick={() => setSelectedFormat('excel')}
           />
         </div>
       </div>
@@ -82,11 +89,10 @@ export function ExportPanel({ onExport, className = '' }: ExportPanelProps) {
               onClick={() => setOptions({ ...options, quality: key })}
               className={`
                           w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all
-                          ${
-                            options.quality === key
-                              ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
-                              : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
-                          }
+                          ${options.quality === key
+                  ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
+                  : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
+                }
                         `}
             >
               <div className="text-left">
@@ -171,10 +177,9 @@ function FormatButton({ icon, label, description, isSelected, onClick }: FormatB
       onClick={onClick}
       className={`
         flex flex-col items-center gap-1 p-4 rounded-xl transition-all
-        ${
-          isSelected
-            ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
-            : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
+        ${isSelected
+          ? 'bg-primary/10 border-2 border-primary dark:bg-primary/20 dark:border-primary-light'
+          : 'bg-white border-2 border-transparent hover:border-glass-border hover:bg-glass dark:bg-slate-800/50 dark:hover:bg-slate-800'
         }
       `}
       whileHover={{ scale: 1.02 }}

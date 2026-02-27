@@ -30,7 +30,7 @@ const MOCK_NOTIFICATIONS: Notification[] = [
   {
     id: '3',
     title: 'System Update',
-    message: 'APPAREL Intelligence has been updated to v0.1.42.',
+    message: 'VISION Intelligence has been updated to v0.1.42.',
     time: '2 hours ago',
     read: true,
     type: 'info',
@@ -102,10 +102,9 @@ export function NotificationPopover({ isOpen, onClose, onMarkAllRead }: Notifica
                       key={notification.id}
                       className={`
                         p-3 rounded-xl transition-all cursor-pointer group relative flex gap-3
-                        ${
-                          notification.read
-                            ? 'bg-transparent hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100'
-                            : 'bg-primary/5 hover:bg-primary/10 dark:bg-primary/10 dark:hover:bg-primary/20'
+                        ${notification.read
+                          ? 'bg-transparent hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100'
+                          : 'bg-primary/5 hover:bg-primary/10 dark:bg-primary/10 dark:hover:bg-primary/20'
                         }
                       `}
                     >

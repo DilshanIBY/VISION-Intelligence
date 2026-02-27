@@ -596,7 +596,7 @@ export function FloorLayoutPage() {
   );
 
   // Export handler
-  const handleExport = useCallback((format: 'png' | 'pdf', options: ExportOptions) => {
+  const handleExport = useCallback((format: 'png' | 'pdf' | 'excel', options: ExportOptions) => {
     console.log('Export:', format, options);
     // Mock export - in production would generate actual file
   }, []);

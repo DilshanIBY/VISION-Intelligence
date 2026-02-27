@@ -127,7 +127,7 @@ export function MachineryCalculatorPage() {
     setScenarios(prev => prev.map(s => (s.id === id ? { ...s, name: newName } : s)));
   }, []);
 
-  const handleExport = useCallback((format: 'png' | 'pdf', options: ExportOptions) => {
+  const handleExport = useCallback((format: 'png' | 'pdf' | 'excel', options: ExportOptions) => {
     console.log('Exporting Machinery Calculator:', format, options);
     // Mock export logic
     setActiveSidebar('none');

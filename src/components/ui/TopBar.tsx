@@ -62,20 +62,21 @@ export function TopBar() {
         <div
           className={`
           flex items-center justify-center w-12 h-12 rounded-2xl 
-          bg-primary text-white shadow-glow-primary 
+          bg-white ring-2 ring-red-500/20 shadow-[0_0_15px_rgba(220,38,38,0.15)]
           transition-all duration-300 group-hover:scale-105 group-active:scale-95
+          dark:bg-slate-800 dark:ring-red-400/25 dark:shadow-[0_0_20px_rgba(248,113,113,0.2)]
           ${isSidebarExpanded ? 'rotate-360' : 'rotate-0'}
         `}
         >
           <img
             src={appLogo}
-            alt="APPAREL Logo"
+            alt="VISION Logo"
             className="w-full h-full object-cover scale-95 rounded-2xl"
           />
         </div>
         <div className="flex flex-col justify-center">
           <h1 className="text-xl font-black text-text-primary tracking-[0.35em] leading-none ml-1">
-            APPAREL
+            VISION
           </h1>
           <span className="text-[10px] text-text-muted font-bold tracking-[0.2em] self-start ml-1.5 mt-1.5 text-opacity-80">
             INTELLIGENCE
@@ -134,7 +135,7 @@ export function TopBar() {
           <NotificationPopover
             isOpen={isNotificationsOpen}
             onClose={() => setIsNotificationsOpen(false)}
-            onMarkAllRead={() => {}}
+            onMarkAllRead={() => { }}
           />
         </div>
 

@@ -133,7 +133,7 @@ export function AnalyticsPage() {
     setCycleProgress(0);
   }, []);
 
-  const handleExport = useCallback((format: 'png' | 'pdf', options: ExportOptions) => {
+  const handleExport = useCallback((format: 'png' | 'pdf' | 'excel', options: ExportOptions) => {
     console.log('Exporting Analytics:', format, options);
     // Mock export logic
     setActiveSidebar('none');
@@ -172,13 +172,12 @@ export function AnalyticsPage() {
                     </span>
                     {kpi.trend && (
                       <div
-                        className={`text-sm mt-2 flex items-center gap-1 ${
-                          kpi.trend.direction === 'up'
+                        className={`text-sm mt-2 flex items-center gap-1 ${kpi.trend.direction === 'up'
                             ? 'text-success'
                             : kpi.trend.direction === 'down'
                               ? 'text-error'
                               : 'text-text-muted'
-                        }`}
+                          }`}
                       >
                         <TrendingUp
                           size={14}
@@ -258,13 +257,12 @@ export function AnalyticsPage() {
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-medium text-text-primary">{activity.title}</span>
                       <span
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          activity.status === 'completed'
+                        className={`text-xs px-2 py-1 rounded-full ${activity.status === 'completed'
                             ? 'bg-success/20 text-success'
                             : activity.status === 'in-progress'
                               ? 'bg-primary/20 text-primary'
                               : 'bg-glass text-text-muted'
-                        }`}
+                          }`}
                       >
                         {activity.status}
                       </span>
@@ -305,13 +303,12 @@ export function AnalyticsPage() {
                 animate={{ opacity: 1, scale: 1 }}
               >
                 <div
-                  className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${
-                    insight.type === 'success'
+                  className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${insight.type === 'success'
                       ? 'bg-success/20 text-success'
                       : insight.type === 'info'
                         ? 'bg-primary/20 text-primary'
                         : 'bg-warning/20 text-warning'
-                  }`}
+                    }`}
                 >
                   <Sparkles size={24} />
                 </div>
@@ -355,11 +352,10 @@ export function AnalyticsPage() {
                   <button
                     key={range}
                     onClick={() => setTimeRange(range)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                      timeRange === range
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${timeRange === range
                         ? 'bg-primary text-white shadow-sm'
                         : 'text-text-secondary hover:text-text-primary hover:bg-white/50'
-                    }`}
+                      }`}
                   >
                     {range.charAt(0).toUpperCase() + range.slice(1)}
                   </button>
@@ -373,10 +369,9 @@ export function AnalyticsPage() {
                 onClick={() => setIsEditing(!isEditing)}
                 className={`
                   w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                  ${
-                    isEditing
-                      ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  ${isEditing
+                    ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                   }
                 `}
                 whileHover={{ scale: 1.05 }}
@@ -391,10 +386,9 @@ export function AnalyticsPage() {
                 onClick={() => setActiveSidebar('export')}
                 className={`
                   w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                  ${
-                    activeSidebar === 'export'
-                      ? 'bg-primary text-white shadow-lg'
-                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  ${activeSidebar === 'export'
+                    ? 'bg-primary text-white shadow-lg'
+                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                   }
                 `}
                 whileHover={{ scale: 1.05 }}
@@ -439,13 +433,12 @@ export function AnalyticsPage() {
                     </div>
                     {kpi.trend && (
                       <div
-                        className={`text-xs font-medium flex items-center gap-1 ${
-                          kpi.trend.direction === 'up'
+                        className={`text-xs font-medium flex items-center gap-1 ${kpi.trend.direction === 'up'
                             ? 'text-success'
                             : kpi.trend.direction === 'down'
                               ? 'text-error'
                               : 'text-text-muted'
-                        }`}
+                          }`}
                       >
                         <TrendingUp
                           size={12}
@@ -501,13 +494,12 @@ export function AnalyticsPage() {
                   transition={{ delay: 0.2 + index * 0.05 }}
                 >
                   <div
-                    className={`w-8 h-8 rounded-lg mb-3 flex items-center justify-center ${
-                      insight.type === 'success'
+                    className={`w-8 h-8 rounded-lg mb-3 flex items-center justify-center ${insight.type === 'success'
                         ? 'bg-success/20 text-success'
                         : insight.type === 'info'
                           ? 'bg-primary/20 text-primary'
                           : 'bg-warning/20 text-warning'
-                    }`}
+                      }`}
                   >
                     <Sparkles size={16} />
                   </div>
@@ -574,11 +566,10 @@ export function AnalyticsPage() {
                 <button
                   key={speed.value}
                   onClick={() => setCycleSpeed(speed.value)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                    cycleSpeed === speed.value
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${cycleSpeed === speed.value
                       ? 'bg-primary text-white'
                       : 'text-text-secondary hover:text-text-primary'
-                  }`}
+                    }`}
                 >
                   {speed.label}
                 </button>
@@ -588,11 +579,10 @@ export function AnalyticsPage() {
             {/* Play/Pause */}
             <button
               onClick={() => setIsAutoCycling(!isAutoCycling)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                isAutoCycling
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isAutoCycling
                   ? 'bg-primary text-white shadow-glow-primary'
                   : 'bg-glass text-text-secondary hover:text-primary border border-glass-border'
-              }`}
+                }`}
             >
               {isAutoCycling ? <Pause size={18} /> : <Play size={18} />}
             </button>
@@ -657,9 +647,8 @@ export function AnalyticsPage() {
                   setCurrentSlideIndex(index);
                   setCycleProgress(0);
                 }}
-                className={`w-2.5 h-2.5 rounded-full transition-all ${
-                  index === currentSlideIndex ? 'bg-primary w-6' : 'bg-glass hover:bg-text-muted'
-                }`}
+                className={`w-2.5 h-2.5 rounded-full transition-all ${index === currentSlideIndex ? 'bg-primary w-6' : 'bg-glass hover:bg-text-muted'
+                  }`}
               />
             ))}
           </div>

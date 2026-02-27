@@ -1,7 +1,7 @@
 // Application constants and configuration
-export const APP_NAME = 'APPAREL';
+export const APP_NAME = 'VISION';
 export const APP_VERSION = '0.1.0';
-export const APP_DESCRIPTION = 'Where Apparel Intelligence Meets Elegant Design';
+export const APP_DESCRIPTION = 'Where Vision Intelligence Meets Elegant Design';
 
 // API configuration (will be populated in Phase 5)
 export const API_CONFIG = {

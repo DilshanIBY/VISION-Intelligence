@@ -152,18 +152,18 @@ export const mockTeamMembers: TeamMember[] = [
 // =====================================================
 
 export const appInfo = {
-  name: 'APPAREL',
-  tagline: 'Where Apparel Intelligence Meets Elegant Design',
+  name: 'VISION',
+  tagline: 'Where Vision Intelligence Meets Elegant Design',
   version: '1.0.0-beta',
   buildNumber: '2026.02.06',
   releaseDate: '2026-02-03',
   environment: 'development',
   links: {
-    documentation: 'https://docs.apparel.app',
-    support: 'https://support.apparel.app',
-    changelog: 'https://apparel.app/changelog',
-    privacy: 'https://apparel.app/privacy',
-    terms: 'https://apparel.app/terms',
+    documentation: 'https://docs.vision.app',
+    support: 'https://support.vision.app',
+    changelog: 'https://vision.app/changelog',
+    privacy: 'https://vision.app/privacy',
+    terms: 'https://vision.app/terms',
   },
 };
 

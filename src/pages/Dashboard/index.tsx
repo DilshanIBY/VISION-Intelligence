@@ -14,7 +14,7 @@ import { DashboardWidget, WidgetType, widgetLibrary } from '../../types/dashboar
 import { RightSidebar, ExportPanel, ExportOptions } from '../../components/floor-layout';
 
 // Local storage key for saving dashboard layout
-const STORAGE_KEY = 'apparel-dashboard-layout';
+const STORAGE_KEY = 'vision-dashboard-layout';
 
 export function DashboardPage() {
   // Global UI State
@@ -102,7 +102,7 @@ export function DashboardPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isPresentationMode, setIsPresentationMode]);
 
-  const handleExport = useCallback((format: 'png' | 'pdf', options: ExportOptions) => {
+  const handleExport = useCallback((format: 'png' | 'pdf' | 'excel', options: ExportOptions) => {
     console.log('Exporting Dashboard:', format, options);
     // Mock export logic
     setActiveSidebar('none');
@@ -165,11 +165,10 @@ export function DashboardPage() {
                 onClick={() => setIsEditing(!isEditing)}
                 className={`
                       w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                      ${
-                        isEditing
-                          ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
-                          : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
-                      }
+                      ${isEditing
+                    ? 'bg-text-primary text-bg shadow-lg hover:scale-105'
+                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  }
                     `}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -182,10 +181,9 @@ export function DashboardPage() {
                 onClick={() => setActiveSidebar('export')}
                 className={`
                   w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent
-                  ${
-                    activeSidebar === 'export'
-                      ? 'bg-primary text-white shadow-lg'
-                      : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
+                  ${activeSidebar === 'export'
+                    ? 'bg-primary text-white shadow-lg'
+                    : 'bg-surface hover:bg-white text-text-secondary hover:text-primary hover:border-glass-border hover:shadow-float'
                   }
                 `}
                 whileHover={{ scale: 1.05 }}

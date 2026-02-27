@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    apparel_temp_lib::run()
+    vision_temp_lib::run()
 }

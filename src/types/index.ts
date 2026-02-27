@@ -1,5 +1,5 @@
 /**
- * APPAREL Type Definitions
+ * VISION Type Definitions
  * @module types
  *
  * Central export for all TypeScript types used across the application.

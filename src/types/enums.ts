@@ -1,5 +1,5 @@
 /**
- * Common enumerations used across APPAREL entities
+ * Common enumerations used across VISION entities
  * @module types/enums
  */
 

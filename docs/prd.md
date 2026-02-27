@@ -309,7 +309,7 @@ Centralized storage for all calculations, projects, and historical data. Replace
 
 ## 4.1 Design Philosophy: Apple Vision Pro Inspired
 
-APPAREL's interface draws inspiration from **Apple Vision Pro's visionOS** design language, creating a clean, professional experience on desktop — while keeping **calculation accuracy and speed** as the primary focus.
+VISION's interface draws inspiration from **Apple Vision Pro's visionOS** design language, creating a clean, professional experience on desktop — while keeping **calculation accuracy and speed** as the primary focus.
 
 ### Core Vision Pro Design Principles
 | Principle | Implementation |
@@ -403,7 +403,7 @@ APPAREL's interface draws inspiration from **Apple Vision Pro's visionOS** desig
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │  ╭─────────────────────────────────────────────────────────╮   │
-│  │  � APPAREL              🔍          ☀️  👤  ⚙️         │   │ ← Floating Top Bar
+│  │  � VISION              🔍          ☀️  👤  ⚙️         │   │ ← Floating Top Bar
 │  ╰─────────────────────────────────────────────────────────╯   │
 │                                                                 │
 │  ╭──────╮                                                      │
@@ -793,7 +793,7 @@ services:
 ```bash
 # setup.sh
 #!/bin/bash
-echo "� APPAREL Development Setup"
+echo "� VISION Development Setup"
 docker-compose up -d
 npm install
 npm run dev
@@ -852,7 +852,7 @@ LOG_LEVEL=debug
 
 ### Plugin System (Future)
 ```typescript
-interface ApparelPlugin {
+interface VisionPlugin {
   id: string;
   name: string;
   version: string;

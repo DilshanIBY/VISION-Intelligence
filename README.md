@@ -1,6 +1,6 @@
-# APPAREL
+# VISION Intelligence
 
-> *Where Apparel Intelligence Meets Elegant Design*
+> *Where Vision Intelligence Meets Elegant Design*
 
 A premium desktop application providing real-time machinery calculation, interactive floor layout planning, and presentation-ready dashboards for apparel industry consultants.
 
@@ -35,8 +35,8 @@ Get the latest release for your platform from the [Releases](../../releases) pag
 
 ```bash
 # Clone and install
-git clone https://github.com/DilshanIBY/APPAREL.git
-cd APPAREL
+git clone https://github.com/DilshanIBY/VISION.git
+cd VISION
 npm install
 
 # Start development

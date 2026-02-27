@@ -220,18 +220,16 @@ export function SettingsPage() {
                   <button
                     key={option.value}
                     onClick={() => handleThemeChange(option.value as typeof theme)}
-                    className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${
-                      theme === option.value
+                    className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${theme === option.value
                         ? 'border-primary bg-primary/5'
                         : 'border-glass-border hover:border-primary/50 bg-glass'
-                    }`}
+                      }`}
                   >
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        theme === option.value
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${theme === option.value
                           ? 'bg-primary text-white'
                           : 'bg-surface text-text-secondary'
-                      }`}
+                        }`}
                     >
                       {themeIcons[option.value]}
                     </div>
@@ -253,11 +251,10 @@ export function SettingsPage() {
                       setAccentColor(color.value);
                       setHasChanges(true);
                     }}
-                    className={`w-10 h-10 rounded-xl transition-all ${
-                      accentColor === color.value
+                    className={`w-10 h-10 rounded-xl transition-all ${accentColor === color.value
                         ? 'ring-2 ring-offset-2 ring-primary scale-110'
                         : 'hover:scale-105'
-                    }`}
+                      }`}
                     style={{ backgroundColor: color.value }}
                     title={color.label}
                   >
@@ -280,11 +277,10 @@ export function SettingsPage() {
                       setDensity(option.value as typeof density);
                       setHasChanges(true);
                     }}
-                    className={`w-full p-4 rounded-xl border-2 transition-all text-left flex items-center justify-between ${
-                      density === option.value
+                    className={`w-full p-4 rounded-xl border-2 transition-all text-left flex items-center justify-between ${density === option.value
                         ? 'border-primary bg-primary/5'
                         : 'border-glass-border hover:border-primary/50 bg-glass'
-                    }`}
+                      }`}
                   >
                     <div>
                       <span className="text-sm font-medium text-text-primary">{option.label}</span>
@@ -343,9 +339,8 @@ export function SettingsPage() {
                 {mockTeamMembers.map(member => (
                   <div
                     key={member.id}
-                    className={`p-3 rounded-xl bg-glass border border-glass-border flex items-center justify-between ${
-                      member.status === 'inactive' ? 'opacity-50' : ''
-                    }`}
+                    className={`p-3 rounded-xl bg-glass border border-glass-border flex items-center justify-between ${member.status === 'inactive' ? 'opacity-50' : ''
+                      }`}
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-sm font-medium text-primary">
@@ -365,13 +360,12 @@ export function SettingsPage() {
                         <span className="capitalize">{member.role}</span>
                       </span>
                       <span
-                        className={`w-2 h-2 rounded-full ${
-                          member.status === 'active'
+                        className={`w-2 h-2 rounded-full ${member.status === 'active'
                             ? 'bg-success'
                             : member.status === 'invited'
                               ? 'bg-warning'
                               : 'bg-text-muted'
-                        }`}
+                          }`}
                       />
                     </div>
                   </div>
@@ -457,7 +451,7 @@ export function SettingsPage() {
 
             {/* Made with love */}
             <div className="text-center text-xs text-text-muted flex items-center justify-center gap-1">
-              Made with <Heart size={12} className="text-error" /> for the apparel industry
+              Made with <Heart size={12} className="text-error" /> for the apparel & textile industry
             </div>
           </motion.div>
         );
@@ -504,11 +498,10 @@ export function SettingsPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                  activeTab === tab.id
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === tab.id
                     ? 'bg-primary text-white shadow-sm'
                     : 'text-text-secondary hover:text-text-primary hover:bg-glass'
-                }`}
+                  }`}
               >
                 <tab.icon size={18} />
                 {tab.label}

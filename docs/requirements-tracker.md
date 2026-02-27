@@ -240,7 +240,7 @@
 | **P3-PG-CALC-023** | Working Days input + Sat/Sun toggle | §3.1.2 | UI | ✅ Done (v2.0) |
 | **P3-PG-CALC-024** | Fusing tab (Product Category, Time/Piece, Daily Qty) | §3.1.2 | UI | ✅ Done (v2.0) |
 | **P3-PG-CALC-025** | Handling Time Per Piece (embroidery) | §3.1.2 | UI | ✅ Done (v2.0) |
-| **P3-PG-CALC-026** | Data Export (PNG/PDF/Excel) | §3.1.6 | UI | ⬜ To Do |
+| **P3-PG-CALC-026** | Data Export (PNG/PDF/Excel) | §3.1.6 | UI | ✅ Done |
 
 ### 3.2.3 Floor Layout Calculator
 
@@ -499,10 +499,10 @@
 |-------|-------|---------|----------------|-----------|-------------|--------|------------|
 | Phase 1: Skeleton | 8 | 0 | 0 | 0 | 0 | 8 | 100% |
 | Phase 2: Domain | 22 | 0 | 0 | 0 | 0 | 22 | 100% |
-| Phase 3: UI/UX | 84 | 2 | 0 | 7 | 4 | 71 | 85% |
+| Phase 3: UI/UX | 84 | 1 | 0 | 7 | 4 | 72 | 86% |
 | Phase 4: Database | 15 | 15 | 0 | 0 | 0 | 0 | 0% |
 | Phase 5: Backend | 48 | 48 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **177** | **65** | **0** | **7** | **4** | **101** | **57%** |
+| **TOTAL** | **177** | **64** | **0** | **7** | **4** | **102** | **58%** |
 
 ---
 
@@ -518,6 +518,7 @@
 | 2026-02-03 | 1.5 | Phase 2.3: Events & Triggers completed (P2-EVT-001 to P2-EVT-003) | Agent |
 | 2026-02-27 | 2.0 | **v2.0 Pivot**: Renamed to VISION Intelligence. Marked removed items (Deadline, Color Picker, SPM basic, Production Timeline, Working Hours floor). Added new items (SMV, Operators, Duration, Working Days, Fusing tab, Machine CRUD). Updated Floor Layout to Calculator. Updated progress. | Agent |
 | 2026-02-27 | 2.1 | **v2.1 Post-Consultant Meeting**: Machine Speed SPM removed from sewing tab (P3-PG-CALC-010). Dashboard & Analytics marked as "Requirements TBD — Future Sprint". Sprint ordering updated (Dashboard=Sprint 3, Analytics=Sprint 4, Auth=Sprint 5). Accuracy prioritized over UI aesthetics. Machine Calculator marked as ✅ QUOTED active module. | Agent |
+| 2026-02-27 | 2.2 | **UI Refinements**: Added Excel export option to ExportPanel (P3-PG-CALC-026 ✅). Fixed TopBar logo styling — replaced blue bg-primary/shadow-glow-primary with red-harmonious white bg + red ring/glow. | Agent |
 
 
 ---
