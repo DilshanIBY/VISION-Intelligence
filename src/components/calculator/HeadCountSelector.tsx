@@ -16,7 +16,7 @@ export interface HeadCountSelectorProps {
 }
 
 export const HeadCountSelector = forwardRef<HTMLDivElement, HeadCountSelectorProps>(
-  ({ value, onChange, min = 1, max = 21, label = 'Head Count', className = '' }, ref) => {
+  ({ value, onChange, min = 1, max = 21, label = 'Machine Head Count', className = '' }, ref) => {
     // Create array of available head counts
     const headCounts = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
@@ -46,12 +46,11 @@ export const HeadCountSelector = forwardRef<HTMLDivElement, HeadCountSelectorPro
                 className={`
                   relative h-9 rounded-[var(--radius-md)] font-medium text-sm
                   transition-colors duration-150
-                  ${
-                    isSelected
-                      ? 'bg-[var(--color-primary)] text-white shadow-md'
-                      : isCommon
-                        ? 'bg-[var(--color-glass)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-light)] hover:text-[var(--color-primary)]'
-                        : 'bg-transparent text-[var(--color-text-muted)] hover:bg-[var(--color-glass)] hover:text-[var(--color-text-primary)]'
+                  ${isSelected
+                    ? 'bg-[var(--color-primary)] text-white shadow-md'
+                    : isCommon
+                      ? 'bg-[var(--color-glass)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-light)] hover:text-[var(--color-primary)]'
+                      : 'bg-transparent text-[var(--color-text-muted)] hover:bg-[var(--color-glass)] hover:text-[var(--color-text-primary)]'
                   }
                   border ${isSelected ? 'border-[var(--color-primary)]' : 'border-transparent'}
                 `}

@@ -3,6 +3,7 @@
  */
 
 export { HeadCountSelector, type HeadCountSelectorProps } from './HeadCountSelector';
+export { MachineTypeManager, type MachineTypeManagerProps } from './MachineTypeManager';
 export { SpeedPresets, type SpeedPresetsProps } from './SpeedPresets';
 export { ScenarioCard, type ScenarioCardProps } from './ScenarioCard';
 export { ValidationWarnings, type ValidationWarningsProps } from './ValidationWarnings';

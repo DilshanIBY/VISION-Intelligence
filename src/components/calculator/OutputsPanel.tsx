@@ -1,6 +1,6 @@
 /**
  * OutputsPanel - Right panel showing calculation results with visualizations
- * Updated for VISION Intelligence v2.0
+ * Updated for VISION Intelligence v2.1
  * Removed: Production Timeline, Time Per Piece
  * Added: Capacity info for embroidery/fusing
  */

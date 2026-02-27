@@ -1,7 +1,8 @@
 /**
  * InputsPanel - Left panel containing all calculator input controls
- * Updated for VISION Intelligence v2.0
+ * Updated for VISION Intelligence v2.1
  * Supports 3 tabs: Basic (Sewing), Embroidery, Fusing
+ * v2.1: No SPM in sewing tab. Stitches field added to embroidery.
  */
 
 import { forwardRef, useState } from 'react';
@@ -15,12 +16,12 @@ import { Slider } from '@components/ui/inputs/Slider';
 
 // Calculator Components
 import { HeadCountSelector } from './HeadCountSelector';
+import { MachineTypeManager } from './MachineTypeManager';
 import { SpeedPresets } from './SpeedPresets';
 import { ValidationWarnings } from './ValidationWarnings';
 
 // Mock Data
 import {
-  mockMachineTypes,
   durationOptions,
   fusingProductCategories,
   type CalculatorInputs,
@@ -45,20 +46,6 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
       setActiveTab(tab);
       onInputChange('activeTab', tab);
     };
-
-    // Filter machine types by active tab category
-    const filteredMachineTypes = mockMachineTypes.filter(mt => {
-      if (activeTab === 'basic') return mt.category === 'sewing' || mt.category === 'cutting' || mt.category === 'finishing';
-      if (activeTab === 'embroidery') return mt.category === 'embroidery';
-      if (activeTab === 'fusing') return mt.category === 'fusing';
-      return true;
-    });
-
-    const machineOptions = filteredMachineTypes.map(mt => ({
-      value: mt.id,
-      label: mt.name,
-      group: mt.category.charAt(0).toUpperCase() + mt.category.slice(1),
-    }));
 
     // Duration options for Select
     const durationSelectOptions = durationOptions.map(d => ({
@@ -138,15 +125,12 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
             // BASIC (SEWING) PARAMETERS
             // =====================================================
             <div className="space-y-5">
-              {/* Machine Type */}
+              {/* Machine Type — Add/Remove per project */}
               <div className="relative z-50">
-                <Select
-                  label="Machine Type"
-                  placeholder="Search machine..."
-                  options={machineOptions}
+                <MachineTypeManager
                   value={inputs.machineTypeId}
                   onChange={value => onInputChange('machineTypeId', value)}
-                  searchable
+                  categoryFilter="sewing"
                 />
               </div>
 
@@ -400,7 +384,7 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                 ]}
               />
 
-              {/* Heads Per Machine */}
+              {/* Machine Head Count */}
               <HeadCountSelector
                 value={inputs.headCount}
                 onChange={count => onInputChange('headCount', count)}
@@ -417,6 +401,34 @@ export const InputsPanel = forwardRef<HTMLDivElement, InputsPanelProps>(
                   min={1}
                   max={VALIDATION_LIMITS.THREAD_COLORS_MAX}
                   step={1}
+                />
+                <p className="text-xs text-[var(--color-text-muted)] italic">No color selection needed — count only</p>
+              </div>
+
+              {/* Stitches */}
+              <div className="space-y-2">
+                <NumberInput
+                  label="Stitches"
+                  value={inputs.stitches}
+                  onChange={value => onInputChange('stitches', value)}
+                  min={1}
+                  max={100000}
+                  step={100}
+                />
+                <Slider
+                  value={inputs.stitches}
+                  onChange={value => onInputChange('stitches', value)}
+                  min={100}
+                  max={50000}
+                  step={100}
+                  showTooltip
+                  showValue={false}
+                  formatValue={v => v.toLocaleString()}
+                  marks={[
+                    { value: 5000, label: '5K' },
+                    { value: 25000, label: '25K' },
+                    { value: 50000, label: '50K' },
+                  ]}
                 />
               </div>
             </div>

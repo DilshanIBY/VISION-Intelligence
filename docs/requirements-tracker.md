@@ -2,8 +2,9 @@
 > **Single Source of Truth** for all project requirements
 
 **Last Updated**: 2026-02-27  
-**Current Phase**: Phase 3 - UI/UX Prototype (Mostly Complete)  
-**Overall Progress**: 48%
+**Current Phase**: Phase 3 - UI/UX Prototype (Mostly Complete) → Phase 5 Sprint 1 (Machine Calculator) next  
+**Overall Progress**: 48%  
+**PRD Version**: v2.1 (Post-consultant meeting update)
 
 ---
 
@@ -223,7 +224,7 @@
 | **P3-PG-CALC-007** | Punch Count input + visual scale (embroidery) | §3.1.2 | UI | ✅ Done |
 | **P3-PG-CALC-008** | ~~Thread Colors picker grid (embroidery)~~ — now number counter | §3.1.2 | UI | ✅ Done (v2.0) |
 | **P3-PG-CALC-009** | Head Count visual selector (embroidery) | §3.1.2 | UI | ✅ Done |
-| **P3-PG-CALC-010** | Machine Speed SPM preset + custom (embroidery only) | §3.1.2 | UI | ✅ Done |
+| **P3-PG-CALC-010** | ~~Machine Speed SPM preset + custom~~ (sewing: removed — consultants feed SMV directly; embroidery: retained in embroidery tab) | §3.1.2 | UI | ❌ Removed (v2.1) |
 | **P3-PG-CALC-011** | Machines Required output (large number + icons) | §3.1.4 | UI | ✅ Done |
 | **P3-PG-CALC-012** | ~~Production Timeline output (Gantt bar)~~ | §3.1.4 | UI | ❌ Removed (v2.0) |
 | **P3-PG-CALC-013** | Daily Output Rate output (progress bar) | §3.1.4 | UI | ✅ Done |
@@ -265,7 +266,9 @@
 | **P3-PG-FLOOR-018** | ~~Bottleneck detection overlay~~ | §3.2 | UI | ⏸️ Deferred |
 | **P3-PG-FLOOR-019** | Percentage labels (section share of total area) | §3.2.5 | UI | ✅ Done (v2.0) |
 
-### 3.2.4 Analytics Dashboard
+### 3.2.4 Client Dashboard (⏳ Requirements TBD)
+
+> **Note (v2.1)**: Exact requirements will be provided by VISION consultancy team in a future sprint. UI prototype exists but backend implementation is **blocked** until requirements are received.
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
@@ -386,7 +389,11 @@
 | **P5-AUTH-003** | Organization context | §11, Phase 5 | BE | ⬜ To Do |
 | **P5-AUTH-004** | Role-based access control | §7.1, §11 | BE | ⬜ To Do |
 
-## 5.2 Machinery Calculator
+## 5.2 Machinery Calculator (✅ QUOTED — Sprint 1)
+
+> **Timeline**: 6 weeks (3 × 2-week sprints) as per quotation `UNIQUE/2026/Q-021`  
+> **Budget**: LKR 250,000  
+> **Priority**: This is the quoted and actively developed deliverable
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
@@ -400,7 +407,9 @@
 | **P5-CALC-008** | GET /api/calculations/:id endpoint | §8.1 | BE | ⬜ To Do |
 | **P5-CALC-009** | GET /api/calculations/project/:projectId endpoint | §8.1 | BE | ⬜ To Do |
 
-## 5.3 Floor Layout Planner
+## 5.3 Floor Layout Calculator (Separate Quotation)
+
+> **Note (v2.1)**: Will be quoted separately after Sprint 1 (Machine Calculator) completion.
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
@@ -418,7 +427,9 @@
 | **P5-FLOOR-012** | POST /api/layouts/:id/export endpoint | §8.1 | BE | ⬜ To Do |
 | **P5-FLOOR-013** | POST /api/calculations/layout endpoint | §8.1 | BE | ⬜ To Do |
 
-## 5.4 Analytics Dashboard
+## 5.4 Client Dashboard (⏳ Requirements TBD)
+
+> **Note (v2.1)**: Exact requirements to be provided by VISION consultancy team. Implementation blocked until received.
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
@@ -445,6 +456,8 @@
 | **P5-SCEN-005** | POST /api/scenarios/compare endpoint | §8.1 | BE | ⬜ To Do |
 
 ## 5.6 Projects & Data Management
+
+> **Note (v2.1)**: Analytics sprint separated from Dashboard sprint. Exact analytics requirements TBD.
 
 | ID | Requirement | PRD Ref | Traceability | Status |
 |----|-------------|---------|--------------|--------|
@@ -486,10 +499,10 @@
 |-------|-------|---------|----------------|-----------|-------------|--------|------------|
 | Phase 1: Skeleton | 8 | 0 | 0 | 0 | 0 | 8 | 100% |
 | Phase 2: Domain | 22 | 0 | 0 | 0 | 0 | 22 | 100% |
-| Phase 3: UI/UX | 84 | 2 | 0 | 6 | 4 | 72 | 86% |
+| Phase 3: UI/UX | 84 | 2 | 0 | 7 | 4 | 71 | 85% |
 | Phase 4: Database | 15 | 15 | 0 | 0 | 0 | 0 | 0% |
 | Phase 5: Backend | 48 | 48 | 0 | 0 | 0 | 0 | 0% |
-| **TOTAL** | **177** | **65** | **0** | **6** | **4** | **102** | **58%** |
+| **TOTAL** | **177** | **65** | **0** | **7** | **4** | **101** | **57%** |
 
 ---
 
@@ -504,6 +517,7 @@
 | 2026-02-03 | 1.4 | Phase 2.2: State Machines completed (P2-STA-001 to P2-STA-003) | Agent |
 | 2026-02-03 | 1.5 | Phase 2.3: Events & Triggers completed (P2-EVT-001 to P2-EVT-003) | Agent |
 | 2026-02-27 | 2.0 | **v2.0 Pivot**: Renamed to VISION Intelligence. Marked removed items (Deadline, Color Picker, SPM basic, Production Timeline, Working Hours floor). Added new items (SMV, Operators, Duration, Working Days, Fusing tab, Machine CRUD). Updated Floor Layout to Calculator. Updated progress. | Agent |
+| 2026-02-27 | 2.1 | **v2.1 Post-Consultant Meeting**: Machine Speed SPM removed from sewing tab (P3-PG-CALC-010). Dashboard & Analytics marked as "Requirements TBD — Future Sprint". Sprint ordering updated (Dashboard=Sprint 3, Analytics=Sprint 4, Auth=Sprint 5). Accuracy prioritized over UI aesthetics. Machine Calculator marked as ✅ QUOTED active module. | Agent |
 
 
 ---

@@ -1,8 +1,8 @@
 /**
  * Machinery Calculator Mock Data
  * Mock data for Phase 3 UI prototype - no real API calls
- * Updated for VISION Intelligence v2.0 requirements
- * @requirement P3-PG-CALC-001 to P3-PG-CALC-019
+ * Updated for VISION Intelligence v2.1 requirements
+ * @requirement P3-PG-CALC-001 to P3-PG-CALC-026
  */
 
 // =====================================================
@@ -12,38 +12,48 @@
 export interface MockMachineType {
   id: string;
   name: string;
+  make?: string;
+  modelNo?: string;
   category: 'sewing' | 'embroidery' | 'cutting' | 'finishing' | 'fusing';
   defaultSMV: number;
   defaultEfficiency: number;
+  unitCost?: number;
   isCustom?: boolean;
 }
 
 export const mockMachineTypes: MockMachineType[] = [
-  // Sewing Machines
+  // Sewing Machines (from VISION Excel)
   {
     id: 'mt-001',
-    name: 'Single Needle Lockstitch',
+    name: 'Single Needle Lockstitch UBT',
+    make: 'Brother',
+    modelNo: 'S7300A403',
     category: 'sewing',
     defaultSMV: 24.5,
     defaultEfficiency: 0.80,
+    unitCost: 750,
   },
   {
     id: 'mt-002',
-    name: 'Double Needle Lockstitch',
+    name: 'Double Needle Lockstitch UBT',
+    make: 'Brother',
     category: 'sewing',
     defaultSMV: 18.0,
     defaultEfficiency: 0.80,
+    unitCost: 2465,
   },
   {
     id: 'mt-003',
     name: 'Overlock 3-Thread',
+    make: 'Pegasus',
     category: 'sewing',
     defaultSMV: 12.0,
     defaultEfficiency: 0.85,
   },
   {
     id: 'mt-004',
-    name: 'Overlock 5-Thread',
+    name: 'Overlock 5-Thread Auto BL',
+    make: 'Pegasus',
     category: 'sewing',
     defaultSMV: 14.0,
     defaultEfficiency: 0.82,
@@ -51,30 +61,69 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-005',
     name: 'Flatlock/Coverstitch',
+    make: 'Pegasus',
     category: 'sewing',
     defaultSMV: 16.0,
     defaultEfficiency: 0.80,
   },
-  { id: 'mt-006', name: 'Bartack', category: 'sewing', defaultSMV: 5.0, defaultEfficiency: 0.90 },
+  {
+    id: 'mt-006',
+    name: 'Bar Tack',
+    make: 'Brother',
+    category: 'sewing',
+    defaultSMV: 5.0,
+    defaultEfficiency: 0.90,
+    unitCost: 2350,
+  },
   {
     id: 'mt-007',
     name: 'Button Attach',
+    make: 'Brother',
     category: 'sewing',
     defaultSMV: 8.0,
     defaultEfficiency: 0.88,
+    unitCost: 5700,
   },
   {
     id: 'mt-008',
     name: 'Buttonhole',
+    make: 'Brother',
     category: 'sewing',
     defaultSMV: 6.0,
     defaultEfficiency: 0.85,
+    unitCost: 2350,
+  },
+  {
+    id: 'mt-009',
+    name: 'Feed of the Arm',
+    make: 'Pegasus',
+    category: 'sewing',
+    defaultSMV: 10.0,
+    defaultEfficiency: 0.82,
+  },
+  {
+    id: 'mt-010',
+    name: 'Kansai Machine',
+    make: 'KANSAI',
+    category: 'sewing',
+    defaultSMV: 12.0,
+    defaultEfficiency: 0.80,
+  },
+  {
+    id: 'mt-011',
+    name: 'Snap Button Attach',
+    make: 'Brother',
+    category: 'sewing',
+    defaultSMV: 6.0,
+    defaultEfficiency: 0.88,
   },
 
   // Embroidery Machines
   {
     id: 'mt-101',
     name: 'Barudan BEXT-S1501C',
+    make: 'Barudan',
+    modelNo: 'BEXT-S1501C',
     category: 'embroidery',
     defaultSMV: 0,
     defaultEfficiency: 0.80,
@@ -82,6 +131,8 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-102',
     name: 'Barudan BEXT-S1506C',
+    make: 'Barudan',
+    modelNo: 'BEXT-S1506C',
     category: 'embroidery',
     defaultSMV: 0,
     defaultEfficiency: 0.80,
@@ -89,6 +140,8 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-103',
     name: 'SWF MA-6',
+    make: 'SWF',
+    modelNo: 'MA-6',
     category: 'embroidery',
     defaultSMV: 0,
     defaultEfficiency: 0.80,
@@ -96,6 +149,8 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-104',
     name: 'Brother PR1050X',
+    make: 'Brother',
+    modelNo: 'PR1050X',
     category: 'embroidery',
     defaultSMV: 0,
     defaultEfficiency: 0.80,
@@ -103,6 +158,8 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-105',
     name: 'Tajima TFMX-IIC',
+    make: 'Tajima',
+    modelNo: 'TFMX-IIC',
     category: 'embroidery',
     defaultSMV: 0,
     defaultEfficiency: 0.85,
@@ -126,9 +183,11 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-203',
     name: 'Band Knife',
+    make: 'KM',
     category: 'cutting',
     defaultSMV: 15.0,
     defaultEfficiency: 0.85,
+    unitCost: 3300,
   },
 
   // Finishing Machines
@@ -151,6 +210,7 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-401',
     name: 'Collar Fusing Machine',
+    make: 'Hasima',
     category: 'fusing',
     defaultSMV: 0,
     defaultEfficiency: 0.90,
@@ -158,11 +218,51 @@ export const mockMachineTypes: MockMachineType[] = [
   {
     id: 'mt-402',
     name: 'Interlining Fusing Machine',
+    make: 'Hasima',
     category: 'fusing',
     defaultSMV: 0,
     defaultEfficiency: 0.88,
   },
 ];
+
+// =====================================================
+// Machine Type CRUD (project-scoped, mock in-memory)
+// =====================================================
+
+let _projectMachineTypes: MockMachineType[] = [...mockMachineTypes];
+
+export function getProjectMachineTypes(): MockMachineType[] {
+  return _projectMachineTypes;
+}
+
+export function addMachineType(entry: Omit<MockMachineType, 'id'>): MockMachineType {
+  const newEntry: MockMachineType = {
+    ...entry,
+    id: `mt-custom-${Date.now()}`,
+    isCustom: true,
+  };
+  _projectMachineTypes = [..._projectMachineTypes, newEntry];
+  return newEntry;
+}
+
+export function removeMachineType(id: string): boolean {
+  const entry = _projectMachineTypes.find(mt => mt.id === id);
+  if (!entry) return false;
+  _projectMachineTypes = _projectMachineTypes.filter(mt => mt.id !== id);
+  return true;
+}
+
+export function updateMachineType(id: string, updates: Partial<MockMachineType>): MockMachineType | null {
+  const idx = _projectMachineTypes.findIndex(mt => mt.id === id);
+  if (idx === -1) return null;
+  _projectMachineTypes[idx] = { ..._projectMachineTypes[idx], ...updates };
+  _projectMachineTypes = [..._projectMachineTypes]; // trigger re-render
+  return _projectMachineTypes[idx];
+}
+
+export function resetProjectMachineTypes(): void {
+  _projectMachineTypes = [...mockMachineTypes];
+}
 
 // =====================================================
 // Speed Presets for Embroidery
@@ -229,6 +329,7 @@ export interface CalculatorInputs {
   headCount: number;
   machineSpeed: number;
   handlingTimePerPiece: number;
+  stitches: number;
   // Fusing
   fusingProductCategory: string;
   fusingTimePerPiece: number;
@@ -255,6 +356,7 @@ export const defaultCalculatorInputs: CalculatorInputs = {
   headCount: 12,
   machineSpeed: 800,
   handlingTimePerPiece: 1.5,
+  stitches: 5000,
   // Fusing defaults
   fusingProductCategory: 'shirt',
   fusingTimePerPiece: 15,

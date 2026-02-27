@@ -1,7 +1,9 @@
 # VISION Intelligence
-## Product Requirements Document v2.0
+## Product Requirements Document v2.1
 
 > *Precision Calculations for Apparel Industry Consultants*
+> 
+> **v2.1 Update**: Post-consultant meeting pivot — **accuracy and exact results** take priority over UI aesthetics. Sprint-by-sprint delivery confirmed.
 
 ---
 
@@ -10,7 +12,9 @@
 ## 1.1 Problem Statement
 Apparel industry consultants at firms like VISION International Consultancy advise investors on setting up new garment factories. During live client meetings, investors ask rapid-fire questions: *"How many machines do I need for 100,000 shirts per month?"*, *"What if I go with innerwear instead?"*, *"How much factory floor space do I need?"*
 
-Currently, consultants answer these questions using **Excel spreadsheets and physical calculators** — a slow, error-prone, and stressful process that undermines their professional credibility. They need a system that provides **instant, accurate answers** to any configuration question a client can ask.
+Currently, consultants answer these questions using **Excel spreadsheets and physical calculators** — keeping their laptop and calculator in front of them, which is a slow, stressful, and error-prone experience. They cannot tell the client "I'll go home and let you know tomorrow" — they must calculate and answer **on the spot**.
+
+What they need is a comprehensive system that delivers **exact, accurate results instantly** for any type of calculation-related question a client can ask. The consultants are clear: **they don't care about fancy UI — they need EXACT RESULTS.**
 
 ## 1.2 Solution Overview
 **VISION Intelligence** is a premium desktop application that replaces manual Excel-based calculations with an intelligent, real-time computation engine for apparel industry consultants. The system focuses on **new factory planning** — helping consultants advise investors on machinery requirements, production capacity, and floor layout sizing.
@@ -18,13 +22,13 @@ Currently, consultants answer these questions using **Excel spreadsheets and phy
 > **Important Context**: This application is for consultants helping clients (investors) **start new factories**. It is NOT for managing or maintaining existing production operations.
 
 ## 1.3 Key Goals
-| Goal | Success Metric |
-|------|----------------|
-| Instant Calculations | < 2 seconds for any machinery/layout computation |
-| Live Meeting Ready | Consultant can answer any client question on-the-spot |
-| Accuracy | Results match VISION's proven Excel formulas exactly |
-| Bi-directional Solving | Solve for ANY variable in the formula |
-| Data Export | Export results as PNG, PDF, or Excel for client handoff |
+| Priority | Goal | Success Metric |
+|----------|------|----------------|
+| **#1** | **Exact Accuracy** | Results match VISION's proven Excel formulas **exactly** |
+| **#2** | **Bi-directional Solving** | Solve for ANY variable in the formula (like finding X) |
+| **#3** | **Instant Calculations** | < 2 seconds for any machinery/layout computation |
+| **#4** | **Live Meeting Ready** | Consultant can answer any client question on-the-spot |
+| **#5** | **Data Export** | Export results as PNG, PDF, or Excel for client handoff |
 
 ## 1.4 Technology Stack
 | Layer | Technology |
@@ -58,10 +62,17 @@ Currently, consultants answer these questions using **Excel spreadsheets and phy
 
 ## 3.1 Module 1: Machine Requirement Calculator
 
+> **🎯 CURRENT SPRINT**: This is the quoted and actively developed module.
+
 ### 3.1.1 Overview
-Comprehensive calculation engine for determining machinery requirements when planning new apparel factories. Supports three calculation types: **Sewing Machine Requirements**, **Embroidery Capacity**, and **Fusing/Supplementary Machine Capacity**. All calculations support **bi-directional solving** — the consultant can solve for any unknown variable.
+Comprehensive calculation engine for determining machinery requirements when planning new apparel factories. Supports three calculation types: **Sewing Machine Requirements**, **Embroidery Capacity**, and **Fusing/Supplementary Machine Capacity**. All calculations support **bi-directional solving** — the consultant can solve for any unknown variable (like finding X in a formula).
 
 > **Real-world context**: An investor says *"I need 100,000 shirts per month — how many machines do I need?"* The consultant enters the parameters and gets an instant answer. Or the investor says *"I have 50 machines — what's my monthly output?"* The system solves it either way.
+>
+> **Simple Example**: `(No_of_Operators × Working_Hours_in_minutes) / SMV = Target_Quantity`
+> — Any variable can be the unknown. The consultant fills in what they know and solves for what they don't.
+
+> **Important**: Consultants manually calculate and feed SMV into the system. The system does NOT need to calculate SMV from Machine Speed (SPM). SPM is only relevant for embroidery machines.
 
 ### 3.1.2 Calculation Types
 
@@ -102,6 +113,8 @@ Output_Per_Machine_Per_Day = Output_Per_Head × Head_Count
 Machines_Required = Order_Quantity / Output_Per_Machine
 ```
 
+> **Note**: Machine Speed (SPM) is **only relevant for embroidery machines** — it is NOT used in the basic sewing calculation where consultants feed SMV directly.
+
 | Parameter | Type | Validation | UI Component | Direction |
 |-----------|------|------------|--------------|-----------|
 | Order Quantity | Number | > 0 | Numeric Input | Input ↔ Output |
@@ -110,8 +123,9 @@ Machines_Required = Order_Quantity / Output_Per_Machine
 | Handling Time Per Piece (min) | Number | ≥ 0 | Numeric Input | Input |
 | Shift Hours | Number | 1-24 | Numeric (default 9) | Input |
 | Efficiency (%) | Number | 50-100 | Slider (default 80%) | Input |
-| Heads Per Machine | Number | 1-21 | Visual Head Selector | Input |
-| No. of Colors | Number | 1-15 | Numeric counter | Input |
+| Machine Head Count | Number | 1-21 | Visual Head Selector | Input |
+| No. of Colors | Number | 1-15 | Numeric counter (no color selection needed) | Input |
+| Stitches | Number | > 0 | Numeric Input | Input |
 | **Machines Required** | Number | Calculated | **Large number display** | **Output** |
 
 #### Tab 3: Fusing & Supplementary Machine Calculation
@@ -154,7 +168,7 @@ Consultants must be able to create custom machine types per project because:
 | Utilization Rate | Gauge chart (0-100%) |
 | Cost Estimate | Currency display with breakdown bar |
 
-> **Removed from v1.0**: Production Timeline (Gantt), Deadline picker — not relevant for new factory planning.
+> **Removed from v1.0/v2.0**: Production Timeline (Gantt), Deadline picker, Machine Speed (SPM) from sewing tab — not relevant for new factory planning. Consultants feed SMV directly.
 
 ### 3.1.5 What-If Playground
 - **Dynamic Parameters**: Adjust any input and see results update in real-time
@@ -244,10 +258,12 @@ The canvas is a **static, contained view** (not an infinite scrollable canvas):
 
 ## 3.3 Module 3: Client Dashboard
 
+> **⏳ FUTURE SPRINT**: Exact requirements will be provided by the VISION consultancy team. The below is a preliminary outline.
+
 ### 3.3.1 Overview
 A presentation-ready dashboard designed to be shown directly to the investor (client) during meetings. Displays all calculated data in a professional, easy-to-understand format.
 
-### 3.3.2 Core Dashboard Elements
+### 3.3.2 Core Dashboard Elements (Preliminary)
 | Element | Description |
 |---------|-------------|
 | Machine Summary | All machine types needed with quantities per category |
@@ -255,21 +271,23 @@ A presentation-ready dashboard designed to be shown directly to the investor (cl
 | Production Capacity | Expected output at different efficiency levels |
 | Floor Summary | Section overview with area utilization |
 
-### 3.3.3 Features
+### 3.3.3 Features (Preliminary)
 - **Project-scoped**: Each dashboard is tied to a specific client project
 - **Export**: PDF, PNG for client handoff
 - **Presentation Mode**: Full-screen, clean layout for projector/screen sharing
 
-> **Note**: Exact dashboard requirements will be provided by the VISION consultancy team in a future sprint.
+> **⚠️ Requirements TBD**: The VISION consultancy team will provide exact CLIENT DASHBOARD requirements in a future sprint. Implementation will not begin until those requirements are received.
 
 ---
 
 ## 3.4 Module 4: Analytics & History
 
-### 3.4.1 Overview
-Centralized storage for all calculations, projects, and historical data. Replaces the scattered Excel files consultants currently use.
+> **⏳ FUTURE SPRINT**: Exact requirements will be provided by the VISION consultancy team. The below is a preliminary outline.
 
-### 3.4.2 Core Capabilities
+### 3.4.1 Overview
+Centralized storage for all calculations, projects, and historical data. Replaces the scattered Excel files consultants currently use. This module serves as a secure, single database where consultants can store and retrieve all client project data.
+
+### 3.4.2 Core Capabilities (Preliminary)
 | Capability | Description |
 |-----------|-------------|
 | Project History | Search and retrieve calculations from past client projects |
@@ -281,15 +299,17 @@ Centralized storage for all calculations, projects, and historical data. Replace
 ### 3.4.3 Use Case
 *"A new client asks the same question a previous client asked 6 months ago. The consultant searches for the old project, finds the exact calculation, and shares it — with adjustments for the new client's parameters."*
 
-> **Note**: Exact analytics requirements and data structure will be provided by the VISION consultancy team in a future sprint.
+> **⚠️ Requirements TBD**: The VISION consultancy team will provide exact ANALYTICS & HISTORY requirements (historical data structure, database schema for lookups) in a future sprint. Implementation will not begin until those requirements are received.
 
 ---
 
 # 4. UI/UX Design System
 
+> **Priority Note (v2.1)**: Based on consultant feedback, **accuracy and functional correctness take absolute priority** over visual aesthetics. The design system should serve the calculations, not distract from them. Consultants need clean, readable interfaces that help them answer client questions quickly and confidently.
+
 ## 4.1 Design Philosophy: Apple Vision Pro Inspired
 
-APPAREL's interface draws heavy inspiration from **Apple Vision Pro's visionOS** design language, creating an immersive, spatial, and premium experience on desktop.
+APPAREL's interface draws inspiration from **Apple Vision Pro's visionOS** design language, creating a clean, professional experience on desktop — while keeping **calculation accuracy and speed** as the primary focus.
 
 ### Core Vision Pro Design Principles
 | Principle | Implementation |
@@ -990,33 +1010,46 @@ Layout: editing → validated → exported
 ## Phase 5: Backend Logic (Sprint-Based Delivery)
 **Focus**: Feature implementation with full integration, delivered in agile sprints
 
-### Sprint 1: Machine Requirement Calculator (Quotation Module)
-> **Timeline**: 6 weeks (3 × 2-week sprints) per quotation
-> **Priority**: This is the quoted deliverable
+> **Delivery Model (v2.1)**: Consultants prefer sprint-by-sprint (feature-by-feature) delivery with review at each stage. Each sprint must produce a **working, testable feature** before proceeding to the next.
+
+### Sprint 1: Machine Requirement Calculator (✅ QUOTED — Active Module)
+> **Timeline**: 6 weeks (3 × 2-week sprints) as per quotation `UNIQUE/2026/Q-021`
+> **Budget**: LKR 250,000 (see quotation for breakdown)
+> **Priority**: This is the quoted and actively developed deliverable
 
 | Sprint | Deliverable |
 |--------|-------------|
-| Sprint 1.1 | Sewing calculation engine + VISION formulas + database persistence |
-| Sprint 1.2 | Embroidery + Fusing calculation engines + validation rules |
+| Sprint 1.1 | Sewing calculation engine + VISION formulas + bi-directional solving + database persistence |
+| Sprint 1.2 | Embroidery + Fusing calculation engines + validation rules + bi-directional solving |
 | Sprint 1.3 | Machine type CRUD + What-If scenarios + data export (PNG/PDF/Excel) |
 
-### Sprint 2: Floor Layout Calculator
+### Sprint 2: Floor Layout Calculator (Separate Quotation)
+> **Status**: Will be quoted separately after Sprint 1 completion
+
 | Sprint | Deliverable |
 |--------|-------------|
 | Sprint 2.1 | Section sizing engine + product type → section mapping |
 | Sprint 2.2 | Visual rendering + repositioning + export |
 
-### Sprint 3: Client Dashboard & Analytics
+### Sprint 3: Client Dashboard (⏳ Requirements TBD)
+> **Status**: Exact requirements to be provided by VISION consultancy team
+
 | Sprint | Deliverable |
 |--------|-------------|
 | Sprint 3.1 | Client dashboard with project-scoped data |
-| Sprint 3.2 | Analytics & history — search, filter, data reuse |
 
-### Sprint 4: Authentication & Integration
+### Sprint 4: Analytics & History (⏳ Requirements TBD)
+> **Status**: Exact requirements to be provided by VISION consultancy team
+
 | Sprint | Deliverable |
 |--------|-------------|
-| Sprint 4.1 | Supabase Auth + user profiles + organization context |
-| Sprint 4.2 | Replace all mock data with real API calls |
+| Sprint 4.1 | Analytics & history — search, filter, data reuse |
+
+### Sprint 5: Authentication & Integration
+| Sprint | Deliverable |
+|--------|-------------|
+| Sprint 5.1 | Supabase Auth + user profiles + organization context |
+| Sprint 5.2 | Replace all mock data with real API calls |
 
 ### Agile Loop
 ```
@@ -1077,6 +1110,7 @@ Layout: editing → validated → exported
 
 ---
 
-**Document Version**: 2.0  
+**Document Version**: 2.1  
 **Last Updated**: 2026-02-27  
-**Status**: Active
+**Status**: Active  
+**Change Note (v2.1)**: Post-consultant meeting update — emphasis on accuracy over UI, sprint-by-sprint delivery, Machine Speed (SPM) removed from sewing tab, Dashboard & Analytics marked as future requirements TBD.

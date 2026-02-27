@@ -1,6 +1,7 @@
 /**
- * SpeedPresets - Quick-select buttons for machine speed with custom input
- * @requirement P3-PG-CALC-010
+ * SpeedPresets - Quick-select buttons for embroidery machine speed with custom input
+ * NOTE: SPM is ONLY relevant for embroidery machines (v2.1). Not used in sewing tab.
+ * @requirement P3-PG-CALC-010 (embroidery only — removed from sewing in v2.1)
  */
 
 import { forwardRef, useState } from 'react';
@@ -71,10 +72,9 @@ export const SpeedPresets = forwardRef<HTMLDivElement, SpeedPresetsProps>(
                 className={`
                   flex-1 py-2.5 px-3 rounded-[var(--radius-lg)] text-sm font-medium
                   transition-all duration-200
-                  ${
-                    isActive
-                      ? 'bg-[var(--color-primary)] text-white shadow-md'
-                      : 'bg-[var(--color-glass)] text-[var(--color-text-secondary)] hover:bg-[var(--color-glass-border)] hover:text-[var(--color-text-primary)]'
+                  ${isActive
+                    ? 'bg-[var(--color-primary)] text-white shadow-md'
+                    : 'bg-[var(--color-glass)] text-[var(--color-text-secondary)] hover:bg-[var(--color-glass-border)] hover:text-[var(--color-text-primary)]'
                   }
                 `}
                 whileHover={{ scale: 1.02 }}
@@ -94,10 +94,9 @@ export const SpeedPresets = forwardRef<HTMLDivElement, SpeedPresetsProps>(
             className={`
               px-3 py-2 rounded-[var(--radius-lg)] text-sm font-medium
               transition-all duration-200
-              ${
-                isCustom
-                  ? 'bg-[var(--color-secondary)] text-white shadow-md'
-                  : 'bg-[var(--color-glass)] text-[var(--color-text-muted)] hover:bg-[var(--color-glass-border)]'
+              ${isCustom
+                ? 'bg-[var(--color-secondary)] text-white shadow-md'
+                : 'bg-[var(--color-glass)] text-[var(--color-text-muted)] hover:bg-[var(--color-glass-border)]'
               }
             `}
             whileHover={{ scale: 1.02 }}
